@@ -1740,3 +1740,9 @@ export const deleteHrLeaveRequest = async (id: string) => {
   if (!supabase) return { error: new Error('Supabase chưa cấu hình') };
   return supabase.from('hr_leave_requests').delete().eq('id', id);
 };
+
+export const deleteInvoiceRequest = async (id: string) => {
+  if (!supabase) throw new Error('Supabase chưa cấu hình');
+  return await supabase.from('yeucauxhd').delete().eq('id', id);
+};
+

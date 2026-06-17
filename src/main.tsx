@@ -131,7 +131,9 @@ function App() {
     handleMarkInvoicePendingSignature,
     isFinalizingInvoice,
     handleFinalizeInvoice,
-    handleUploadIssuedInvoice
+    handleUploadIssuedInvoice,
+    isDeletingInvoice,
+    handleDeleteInvoiceRequest
   } = useOrderOperations({
     session,
     currentUsername,
@@ -497,12 +499,13 @@ function App() {
                 <InvoiceRequestsPanel
                   requests={invoiceRequests}
                   canApprove={canApproveInvoice(userRole)}
-                  isProcessing={isAdvancingInvoice}
+                  isProcessing={isAdvancingInvoice || isDeletingInvoice}
                   onApprove={(request) => handleApproveInvoiceRequest(request.id)}
                   onRequestSupplement={setRequestingSupplement}
                   onPendingSignature={(request) => handleMarkInvoicePendingSignature(request.id)}
                   onUploadInvoice={setFinalizingRequest}
                   onSupplement={setSupplementingRequest}
+                    onDelete={(request) => handleDeleteInvoiceRequest(request.id)}
                 />
               </div>
             )}
@@ -766,3 +769,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <App />
   </React.StrictMode>
 );
+

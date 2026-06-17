@@ -500,6 +500,7 @@ export function useOrderOperations({
   const [isFinalizingInvoice, setIsFinalizingInvoice] = useState(false);
   const [isSupplementingInvoice, setIsSupplementingInvoice] = useState(false);
   const [isAdvancingInvoice, setIsAdvancingInvoice] = useState(false);
+  const [isDeletingInvoice, setIsDeletingInvoice] = useState(false);
 
   async function handleRequestInvoice(input: {
     order: Order;
@@ -658,6 +659,22 @@ export function useOrderOperations({
     }
   }
 
+  async function handleDeleteInvoiceRequest(requestId: string) {
+    setIsDeletingInvoice(true);
+    try {
+      const { error } = await apiService.deleteInvoiceRequest(requestId);
+      if (error) {
+        setSyncState('error');
+        setSyncMessage(`Lỗi xóa yêu cầu: ${error.message}`);
+        return false;
+      }
+      await loadWorkspace({ showLoading: false });
+      return true;
+    } finally {
+      setIsDeletingInvoice(false);
+    }
+  }
+
   return {
     isCreating,
     createError,
@@ -701,6 +718,8 @@ export function useOrderOperations({
     handleMarkInvoicePendingSignature,
     isFinalizingInvoice,
     handleFinalizeInvoice,
-    handleUploadIssuedInvoice
+    handleUploadIssuedInvoice,
+    isDeletingInvoice,
+    handleDeleteInvoiceRequest
   };
 }

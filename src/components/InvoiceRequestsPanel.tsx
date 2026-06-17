@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Search, CheckCircle2, XCircle, Clock, ExternalLink, CheckSquare, FilePlus2, User, Car, CreditCard, FileText, HelpCircle, ArrowLeft, Eye, ShieldCheck, ClipboardCheck, Info, Mail, RefreshCw, X } from 'lucide-react';
+import { Search, CheckCircle2, XCircle, Clock, ExternalLink, CheckSquare, FilePlus2, User, Car, CreditCard, FileText, HelpCircle, ArrowLeft, Eye, ShieldCheck, ClipboardCheck, Info, Mail, RefreshCw, X, Trash2 } from 'lucide-react';
 import { YeucauxhdRow, Order } from '../types';
 import { copyToClipboard } from '../utils/clipboard';
 import * as apiService from '../services/apiService';
@@ -53,6 +53,7 @@ interface InvoiceRequestsPanelProps {
   onPendingSignature: (req: YeucauxhdRow) => void;
   onUploadInvoice: (req: YeucauxhdRow) => void;
   onSupplement: (req: YeucauxhdRow) => void;
+  onDelete?: (req: YeucauxhdRow) => void;
   onReload?: () => void;
 }
 
@@ -65,6 +66,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
   onPendingSignature,
   onUploadInvoice,
   onSupplement,
+  onDelete,
   onReload
 }) => {
   const [selectedFolder, setSelectedFolder] = useState('pending_approval');
@@ -428,6 +430,21 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
                     {getWorkflowStatus(selectedRequest) === 'Yêu cầu bổ sung' && (
                       <button onClick={() => onSupplement(selectedRequest)} disabled={isProcessing} className="primary-button" style={{ height: '26px', padding: '0 8px', fontSize: '11px', borderRadius: '4px', background: '#d97706', borderColor: '#d97706' }}>
                         {isProcessing ? <RefreshCw size={12} className="spin" style={{ marginRight: '4px' }} /> : <FilePlus2 size={12} style={{ marginRight: '4px' }} />} Bổ sung ngay
+                      </button>
+                    )}
+                    {canApprove && onDelete && (
+                      <button 
+                        onClick={() => {
+                          if (window.confirm('Bạn có chắc chắn muốn xóa yêu cầu xuất hóa đơn này không? Hành động này không thể hoàn tác.')) {
+                            onDelete(selectedRequest);
+                          }
+                        }} 
+                        disabled={isProcessing} 
+                        className="ghost-button" 
+                        style={{ height: '26px', padding: '0 8px', fontSize: '11px', borderRadius: '4px', color: '#ef4444', borderColor: '#fca5a5' }}
+                        title="Xóa yêu cầu HĐ"
+                      >
+                        {isProcessing ? <RefreshCw size={12} className="spin" /> : <Trash2 size={14} />}
                       </button>
                     )}
                 </div>
