@@ -1744,10 +1744,10 @@ export const deleteHrLeaveRequest = async (id: string) => {
 export const deleteInvoiceRequest = async (id: string) => {
   if (!supabase) throw new Error('Supabase chưa cấu hình');
   
-  // Lấy thông tin yêu cầu để biết số đơn hàng
+  // Lấy thông tin yêu cầu để biết số đơn hàng và thông tin xe
   const { data: request, error: fetchError } = await supabase
     .from('yeucauxhd')
-    .select('so_don_hang')
+    .select('*')
     .eq('id', id)
     .single();
 
@@ -1760,9 +1760,27 @@ export const deleteInvoiceRequest = async (id: string) => {
   if (deleteResult.error) return deleteResult;
 
   // Cập nhật trạng thái đơn hàng về lại 'Đã ghép'
-  return await supabase
+  const updateResult = await supabase
     .from('donhang')
     .update({ ket_qua: 'Đã ghép' })
     .eq('so_don_hang', request.so_don_hang);
+
+  // Phục hồi lại xe vào kho xe nếu xe đã bị xóa (do lúc yêu cầu xuất hóa đơn xe bị xóa khỏi kho)
+  if (request.vin) {
+    const { data: existingVehicle } = await supabase.from('khoxe').select('vin').eq('vin', request.vin).single();
+    if (!existingVehicle) {
+      await supabase.from('khoxe').insert({
+        vin: request.vin,
+        dong_xe: request.dong_xe,
+        phien_ban: request.phien_ban,
+        ngoai_that: request.ngoai_that,
+        noi_that: request.noi_that,
+        so_may: request.so_may,
+        trang_thai: 'Đã ghép'
+      });
+    }
+  }
+
+  return updateResult;
 };
 
