@@ -1743,6 +1743,26 @@ export const deleteHrLeaveRequest = async (id: string) => {
 
 export const deleteInvoiceRequest = async (id: string) => {
   if (!supabase) throw new Error('Supabase chưa cấu hình');
-  return await supabase.from('yeucauxhd').delete().eq('id', id);
+  
+  // Lấy thông tin yêu cầu để biết số đơn hàng
+  const { data: request, error: fetchError } = await supabase
+    .from('yeucauxhd')
+    .select('so_don_hang')
+    .eq('id', id)
+    .single();
+
+  if (fetchError || !request) {
+    return { error: fetchError || new Error('Không tìm thấy yêu cầu') };
+  }
+
+  // Xóa yêu cầu
+  const deleteResult = await supabase.from('yeucauxhd').delete().eq('id', id);
+  if (deleteResult.error) return deleteResult;
+
+  // Cập nhật trạng thái đơn hàng về lại 'Đã ghép'
+  return await supabase
+    .from('donhang')
+    .update({ ket_qua: 'Đã ghép' })
+    .eq('so_don_hang', request.so_don_hang);
 };
 
