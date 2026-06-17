@@ -237,12 +237,12 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
   }, [filtered, selectedFolder]);
 
   const statusColors: Record<string, string> = {
-    'Chờ phê duyệt': '#f59e0b',
-    'Đã phê duyệt': '#3b82f6',
-    'Yêu cầu bổ sung': '#ef4444',
-    'Đã bổ sung': '#8b5cf6',
-    'Chờ ký hóa đơn': '#10b981',
-    'Đã xuất hóa đơn': '#059669',
+    'Chờ phê duyệt': '#f59e0b',    // Amber
+    'Đã phê duyệt': '#3b82f6',     // Blue
+    'Yêu cầu bổ sung': '#ef4444',  // Red
+    'Đã bổ sung': '#8b5cf6',       // Violet
+    'Chờ ký hóa đơn': '#f97316',   // Orange
+    'Đã xuất hóa đơn': '#10b981',  // Emerald
   };
 
   const renderStatusBadge = (status: string) => {
