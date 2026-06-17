@@ -524,7 +524,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
                             return (
                               <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto', height: '100%' }}>
                                 {images.map((imgUrl, i) => (
-                                  <img key={i} src={imgUrl} alt={`Ảnh giao dịch ${i+1}`} style={{ width: '100%', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }} />
+                                  <img key={i} src={imgUrl} alt={`Ảnh giao dịch ${i+1}`} onClick={() => window.open(imgUrl, '_blank')} style={{ width: '100%', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', cursor: 'pointer' }} title="Bấm để xem ảnh lớn" />
                                 ))}
                               </div>
                             );
