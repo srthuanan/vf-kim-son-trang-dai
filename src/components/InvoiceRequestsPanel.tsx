@@ -25,6 +25,10 @@ const getRequestDocUrl = (request: YeucauxhdRow | null, docKey: 'url_hop_dong' |
     return request.url_de_nghi_xhd || request.link_de_nghi_xhd || '';
   }
 
+  if (docKey === 'ghi_chu_ai') {
+    return request.ghi_chu_ai || '';
+  }
+
   return request.url_hoa_don_da_xuat || request.link_hoa_don_da_xuat || '';
 };
 
