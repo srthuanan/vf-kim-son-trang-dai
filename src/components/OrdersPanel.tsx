@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Search, Filter, Eye, PackageCheck, X, FileCheck, Ban, Pencil, ScrollText, User, Car, CreditCard, ArrowLeft, Info, Copy, AlertTriangle } from 'lucide-react';
+import { Search, Filter, Eye, PackageCheck, X, FileCheck, Ban, Pencil, ScrollText, User, Car, CreditCard, ArrowLeft, Info, Copy, TriangleAlert } from 'lucide-react';
 import { Order, OrderStatus, InventoryItem, ProfileRow } from '../types';
 import { statusTone, staffNames } from '../constants';
 import { matchesVehicleConfig, canUseVehicleForPair } from '../utils/matching';
@@ -490,7 +490,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                             {order.id}
                             {order.isWarning && (
                               <div style={{ display: 'flex', alignItems: 'center', gap: '2px', color: '#e11d48', fontSize: '11px', fontWeight: 700, backgroundColor: '#ffe4e6', padding: '2px 4px', borderRadius: '4px' }} title={order.warningMessage}>
-                                <AlertTriangle size={12} />
+                                <TriangleAlert size={12} />
                                 <span>{order.pairedDays} ngày</span>
                               </div>
                             )}
