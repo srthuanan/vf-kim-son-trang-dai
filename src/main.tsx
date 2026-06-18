@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { X, Users, CalendarDays, UserRound, ShieldCheck } from 'lucide-react';
+import { X, Users, CalendarDays, UserRound, ShieldCheck, TriangleAlert } from 'lucide-react';
 
 // Lớp Dữ liệu & API
 import { supabase } from './services/supabaseClient';
@@ -284,7 +284,7 @@ function App() {
               {/* Cảnh báo SLA Global */}
         {slaWarningCount > 0 && canViewNotifications(userRole) && (
           <div style={{ position: 'fixed', bottom: 20, right: 20, background: '#ef4444', color: 'white', padding: '12px 20px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)', zIndex: 9999 }}>
-            <AlertTriangle size={20} />
+            <TriangleAlert size={20} />
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontWeight: 700, fontSize: '14px' }}>Cảnh báo tiến độ!</span>
               <span style={{ fontSize: '12.5px', opacity: 0.9 }}>Có {slaWarningCount} đơn hàng bị quá hạn XHĐ.</span>
@@ -570,8 +570,8 @@ function App() {
                       staff={profiles} 
                       currentProfile={profile} 
                       onReload={loadWorkspace} 
-                      onEditProfile={() => setIsEditProfileOpen(true)}
-                      onChangePassword={() => setIsChangePasswordOpen(true)}
+                      onEditProfile={() => setEditProfileOpen(true)}
+                      onChangePassword={() => setChangePasswordOpen(true)}
                     />
                   )}
                   {staffSubTab === 'hr' && (

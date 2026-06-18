@@ -76,8 +76,8 @@ function parseDetailDate(value?: string) {
   );
 }
 
-const formatDetailDate = (value?: string) => {
-  const parsed = parseDetailDate(value);
+const formatDetailDate = (value?: string | null) => {
+  const parsed = parseDetailDate(value || undefined);
   if (!parsed) return value || '—';
   return viDateTimeFormatter.format(parsed);
 };
@@ -151,8 +151,8 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
     if (!staffProfiles || staffProfiles.length === 0) return staffNames;
     const names = staffProfiles
       .map(p => p.full_name || p.email)
-      .filter(Boolean);
-    return Array.from(new Set(names));
+      .filter((n): n is string => Boolean(n));
+    return Array.from(new Set([...names, ...staffNames]));
   }, [staffProfiles]);
   const [isDetailPanelOpen, setIsDetailPanelOpen] = useState(false);
   const [isEditingInline, setIsEditingInline] = useState(false);

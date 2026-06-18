@@ -300,7 +300,7 @@ export function useAppData() {
     if (!supabase) return;
 
     // Đăng ký kênh realtime để đồng bộ ngay lập tức khi có bất kỳ ai cập nhật dữ liệu
-    let realtimeTimeout: NodeJS.Timeout;
+    let realtimeTimeout: ReturnType<typeof setTimeout>;
     const triggerReload = () => {
       clearTimeout(realtimeTimeout);
       realtimeTimeout = setTimeout(() => {

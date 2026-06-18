@@ -1614,7 +1614,7 @@ export const createVehicleConfig = async (config: Omit<import('../types').Vehicl
   if (!supabase) throw new Error('Supabase chưa được cấu hình');
   const result = await supabase.from('vehicle_configs').insert(config).select();
   if (!result.error) {
-    await logSystemActivity('update_config', null, `Đã tạo cấu hình xe: ${config.line} ${config.version}`);
+    await logSystemActivity('update_config', null, `Đã tạo cấu hình xe: ${config.type} ${config.value}`);
   }
   return result;
 };
