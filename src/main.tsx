@@ -666,6 +666,7 @@ function App() {
           <ImportInventoryModal
             error={importStockError}
             isSubmitting={isImportingStock}
+            vehicleConfigs={vehicleConfigs}
             onClose={() => {
               if (!isImportingStock) {
                 setImportOpen(false);

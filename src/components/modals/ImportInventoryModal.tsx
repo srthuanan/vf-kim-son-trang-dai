@@ -1,10 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { X, Upload, AlertTriangle, FileSpreadsheet, Download, Plus, List } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import { VehicleConfigRow } from '../../types';
+import { parseVehicleConfigs } from '../../utils/vehicleConfigUtils';
 
 interface ImportInventoryModalProps {
   isSubmitting: boolean;
   error: string;
+  vehicleConfigs: VehicleConfigRow[];
   onClose: () => void;
   onSubmit: (csvText: string) => Promise<boolean>;
 }
@@ -12,9 +15,15 @@ interface ImportInventoryModalProps {
 export const ImportInventoryModal: React.FC<ImportInventoryModalProps> = ({
   isSubmitting,
   error,
+  vehicleConfigs,
   onClose,
   onSubmit
 }) => {
+  const { vehicleLines, versionsMap, defaultExteriors, defaultInteriors } = React.useMemo(
+    () => parseVehicleConfigs(vehicleConfigs),
+    [vehicleConfigs]
+  );
+
   const [mode, setMode] = useState<'single' | 'excel'>('single');
 
   // Excel Mode States
@@ -179,41 +188,56 @@ export const ImportInventoryModal: React.FC<ImportInventoryModalProps> = ({
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <label>
                     <span>Dòng xe</span>
-                    <input
-                      type="text"
+                    <select
                       value={dongXe}
-                      onChange={(e) => setDongXe(e.target.value)}
-                      placeholder="VD: VF 8"
-                    />
+                      onChange={(e) => {
+                        setDongXe(e.target.value);
+                        setPhienBan('');
+                      }}
+                    >
+                      <option value="">Chọn dòng xe</option>
+                      {vehicleLines.map((line) => (
+                        <option key={line} value={line}>{line}</option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     <span>Phiên bản</span>
-                    <input
-                      type="text"
+                    <select
                       value={phienBan}
                       onChange={(e) => setPhienBan(e.target.value)}
-                      placeholder="VD: Eco"
-                    />
+                    >
+                      <option value="">Chọn phiên bản</option>
+                      {(dongXe && versionsMap[dongXe] ? versionsMap[dongXe] : []).map((v) => (
+                        <option key={v} value={v}>{v}</option>
+                      ))}
+                    </select>
                   </label>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <label>
                     <span>Màu Ngoại thất</span>
-                    <input
-                      type="text"
+                    <select
                       value={ngoaiThat}
                       onChange={(e) => setNgoaiThat(e.target.value)}
-                      placeholder="VD: Trắng"
-                    />
+                    >
+                      <option value="">Chọn màu ngoại thất</option>
+                      {defaultExteriors.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
                   </label>
                   <label>
                     <span>Màu Nội thất</span>
-                    <input
-                      type="text"
+                    <select
                       value={noiThat}
                       onChange={(e) => setNoiThat(e.target.value)}
-                      placeholder="VD: Đen"
-                    />
+                    >
+                      <option value="">Chọn màu nội thất</option>
+                      {defaultInteriors.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
                   </label>
                 </div>
                 <label className="full-span">
