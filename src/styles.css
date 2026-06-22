@@ -5369,9 +5369,19 @@ td small {
   width: 100%;
 }
 
-.inventory-data-side th,
+.inventory-data-side th {
+  padding: 8px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.02em;
+  background: #f8fafc;
+  border: none;
+  border-bottom: 1px solid #cbd5e1;
+}
+
 .inventory-data-side td {
-  padding: 12px 8px; /* Thu hẹp padding nhẹ để dành đất hiển thị text */
+  padding: 12px 8px;
   font-size: 12px;
 }
 
@@ -5631,7 +5641,17 @@ td small {
   width: 100%;
 }
 
-.orders-data-side th,
+.orders-data-side th {
+  padding: 8px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.02em;
+  background: #f8fafc;
+  border: none;
+  border-bottom: 1px solid #cbd5e1;
+}
+
 .orders-data-side td {
   padding: 12px 8px;
   font-size: 12px;
