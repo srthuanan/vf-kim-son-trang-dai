@@ -2698,12 +2698,13 @@ td small {
 .tag {
   display: inline-flex;
   align-items: center;
-  min-height: 28px;
-  padding: 0 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
+  min-height: 24px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
   white-space: nowrap;
+  letter-spacing: 0.01em;
 }
 
 .inventory-grid,
@@ -5493,84 +5494,77 @@ td small {
 .inventory-data-side .row-action-button {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 5px !important;
-  height: 28px !important;
-  padding: 0 10px !important;
-  border-radius: 999px !important;
+  gap: 4px !important;
+  height: 26px !important;
+  padding: 0 8px !important;
+  border-radius: 6px !important;
   font-size: 11px !important;
-  font-weight: 700 !important;
-  border: 1.2px solid transparent !important;
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-weight: 500 !important;
+  border: 1px solid transparent !important;
+  transition: all 0.2s ease !important;
   cursor: pointer !important;
-  letter-spacing: 0.01em !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+  background: transparent !important;
 }
 
-/* 1. Giữ xe - Bảng màu Emerald quý tộc */
+/* 1. Giữ xe */
 .inventory-data-side .action-btn-hold {
-  background: #ecfdf5 !important;
-  color: #047857 !important;
-  border-color: #a7f3d0 !important;
+  color: #059669 !important;
+  border-color: #d1fae5 !important;
 }
 .inventory-data-side .action-btn-hold:hover:not(:disabled) {
-  background: #047857 !important;
-  color: #ffffff !important;
-  border-color: #047857 !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 10px -2px rgba(4, 120, 87, 0.35) !important;
+  background: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
 }
 
-/* 2. Tạo đơn - Bảng màu Indigo hoàng gia */
+/* 2. Tạo đơn */
 .inventory-data-side .action-btn-create {
-  background: #f0fdfa !important;
-  color: #115e59 !important;
+  color: #0f766e !important;
   border-color: #ccfbf1 !important;
 }
 .inventory-data-side .action-btn-create:hover:not(:disabled) {
-  background: #115e59 !important;
-  color: #ffffff !important;
-  border-color: #115e59 !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 10px -2px rgba(29, 78, 216, 0.35) !important;
+  background: #f0fdfa !important;
+  border-color: #99f6e4 !important;
 }
 
-/* 3. Bỏ giữ / Hủy - Bảng màu Rose quyến rũ */
-.inventory-data-side .action-btn-release {
+/* 3. Bỏ giữ / Hủy */
+.inventory-data-side .action-btn-release,
+.inventory-data-side .action-btn-delete {
+  color: #e11d48 !important;
+  border-color: #ffe4e6 !important;
+}
+.inventory-data-side .action-btn-release:hover:not(:disabled),
+.inventory-data-side .action-btn-delete:hover:not(:disabled) {
   background: #fff1f2 !important;
-  color: #be123c !important;
   border-color: #fecdd3 !important;
 }
-.inventory-data-side .action-btn-release:hover:not(:disabled) {
-  background: #be123c !important;
-  color: #ffffff !important;
-  border-color: #be123c !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 10px -2px rgba(190, 18, 60, 0.35) !important;
+
+/* 4. Sửa */
+.inventory-data-side .action-btn-edit {
+  color: #2563eb !important;
+  border-color: #dbeafe !important;
+}
+.inventory-data-side .action-btn-edit:hover:not(:disabled) {
+  background: #eff6ff !important;
+  border-color: #bfdbfe !important;
 }
 
-/* 4. Chờ xe - Bảng màu Hổ phách quyền lực */
+/* 5. Chờ xe */
 .inventory-data-side .action-btn-queue {
-  background: #fffbeb !important;
-  color: #b45309 !important;
-  border-color: #fde68a !important;
+  color: #d97706 !important;
+  border-color: #fef3c7 !important;
 }
 .inventory-data-side .action-btn-queue:hover:not(:disabled) {
-  background: #b45309 !important;
-  color: #ffffff !important;
-  border-color: #b45309 !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 10px -2px rgba(180, 83, 9, 0.35) !important;
+  background: #fffbeb !important;
+  border-color: #fde68a !important;
 }
 
 /* Trạng thái Đang xử lý hoặc Bị khóa */
 .inventory-data-side .row-action-button:disabled {
   opacity: 0.5 !important;
   cursor: not-allowed !important;
-  background: #f1f5f9 !important;
+  background: transparent !important;
   color: #94a3b8 !important;
-  border-color: #e2e8f0 !important;
-  transform: none !important;
-  box-shadow: none !important;
+  border-color: #f1f5f9 !important;
 }
 
 /* ========================================== */

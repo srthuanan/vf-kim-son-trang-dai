@@ -421,7 +421,6 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
                                 className="row-action-button action-btn-edit"
                                 onClick={() => setEditingVehicle(item)}
                                 title="Sửa thông tin xe"
-                                style={{ background: '#f8fafc', color: '#0ea5e9', border: '1px solid #e0f2fe' }}
                               >
                                 <Edit size={14} />
                                 <span>Sửa</span>
@@ -431,7 +430,6 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
                                 onClick={() => handleDeleteVehicle(item)}
                                 disabled={isUpdatingVehicle}
                                 title="Xóa xe khỏi kho"
-                                style={{ background: '#fef2f2', color: '#ef4444', border: '1px solid #fee2e2' }}
                               >
                                 <Trash2 size={14} />
                                 <span>Xóa</span>
