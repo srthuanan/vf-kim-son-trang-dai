@@ -271,125 +271,134 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
               padding: '4px 0 8px 0', 
               background: '#ffffff', 
               display: 'flex', 
-              flexWrap: 'wrap', 
+              flexWrap: 'nowrap', 
               alignItems: 'center', 
-              gap: '8px' 
+              justifyContent: 'space-between',
+              gap: '12px',
+              overflowX: 'auto'
             }}>
-              <label className="search-box" style={{ flex: '2 1 240px', minHeight: '34px', height: '34px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', transition: 'all 0.2s' }}>
-                <Search size={14} style={{ color: '#64748b' }} />
-                <input
-                  type="text"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  placeholder="Tìm nhanh VIN, bãi xe, người giữ..."
-                  style={{ fontSize: '12.5px' }}
-                />
-              </label>
-              <label className="select-box" style={{ flex: '1 1 110px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px' }}>
-                <Filter size={12} style={{ color: '#64748b' }} />
-                <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155' }}>
-                  <option value="all">Tất cả TT</option>
-                  <option value="Chưa ghép">Chưa ghép</option>
-                  <option value="Đang giữ">Đang giữ</option>
-                  <option value="Đã ghép">Đã ghép</option>
-                </select>
-              </label>
-              <label className="select-box" style={{ flex: '1 1 110px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px' }}>
-                <Filter size={12} style={{ color: '#64748b' }} />
-                <select value={lineFilter} onChange={(e) => setLineFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155' }}>
-                  <option value="all">Mọi dòng xe</option>
-                  {lineOptions.map((line) => (
-                    <option key={line} value={line}>
-                      {line}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="select-box" style={{ flex: '1 1 110px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px' }}>
-                <Filter size={12} style={{ color: '#64748b' }} />
-                <select value={versionFilter} onChange={(e) => setVersionFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155' }}>
-                  <option value="all">Mọi phiên bản</option>
-                  {versionOptions.map((version) => (
-                    <option key={version} value={version}>
-                      {version}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="select-box" style={{ flex: '1 1 110px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px' }}>
-                <Filter size={12} style={{ color: '#64748b' }} />
-                <select value={exteriorFilter} onChange={(e) => setExteriorFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155' }}>
-                  <option value="all">Mọi màu sắc</option>
-                  {exteriorOptions.map((ext) => (
-                    <option key={ext} value={ext}>
-                      {ext}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              {/* Nhóm tìm kiếm và lọc */}
+              <div style={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '8px', flex: '1 1 auto' }}>
+                <label className="search-box" style={{ flex: '1 1 180px', minWidth: '160px', minHeight: '34px', height: '34px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Search size={14} style={{ color: '#64748b' }} />
+                  <input
+                    type="text"
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    placeholder="Tìm nhanh VIN, bãi xe, người giữ..."
+                    style={{ fontSize: '12.5px', border: 'none', outline: 'none', width: '100%', color: '#1e293b' }}
+                  />
+                </label>
+                <label className="select-box" style={{ flex: '1 1 90px', minWidth: '100px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
+                  <Filter size={12} style={{ color: '#64748b' }} />
+                  <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}>
+                    <option value="all">Tất cả TT</option>
+                    <option value="Chưa ghép">Chưa ghép</option>
+                    <option value="Đang giữ">Đang giữ</option>
+                    <option value="Đã ghép">Đã ghép</option>
+                  </select>
+                </label>
+                <label className="select-box" style={{ flex: '1 1 90px', minWidth: '110px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
+                  <Filter size={12} style={{ color: '#64748b' }} />
+                  <select value={lineFilter} onChange={(e) => setLineFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}>
+                    <option value="all">Mọi dòng xe</option>
+                    {lineOptions.map((line) => (
+                      <option key={line} value={line}>
+                        {line}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="select-box" style={{ flex: '1 1 90px', minWidth: '115px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
+                  <Filter size={12} style={{ color: '#64748b' }} />
+                  <select value={versionFilter} onChange={(e) => setVersionFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}>
+                    <option value="all">Mọi phiên bản</option>
+                    {versionOptions.map((version) => (
+                      <option key={version} value={version}>
+                        {version}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="select-box" style={{ flex: '1 1 90px', minWidth: '105px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
+                  <Filter size={12} style={{ color: '#64748b' }} />
+                  <select value={exteriorFilter} onChange={(e) => setExteriorFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}>
+                    <option value="all">Mọi màu sắc</option>
+                    {exteriorOptions.map((ext) => (
+                      <option key={ext} value={ext}>
+                        {ext}
+                      </option>
+                    ))}
+                  </select>
+                </label>
 
-              <div style={{ width: '1px', height: '20px', background: '#e2e8f0', margin: '0 4px' }} />
+                <div style={{ width: '1px', height: '20px', background: '#e2e8f0', margin: '0 4px', flexShrink: 0 }} />
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', fontSize: '12px', fontWeight: 600, color: '#475569', background: '#f1f5f9', padding: '4px 10px', borderRadius: '20px' }}>
-                <span style={{ color: '#2563eb' }}>{visibleItems.length}</span>
-                <span style={{ color: '#94a3b8' }}>/</span>
-                <span>{items.length} xe</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', fontSize: '12px', fontWeight: 600, color: '#475569', background: '#f1f5f9', padding: '4px 10px', borderRadius: '20px', flexShrink: 0 }}>
+                  <span style={{ color: '#2563eb' }}>{visibleItems.length}</span>
+                  <span style={{ color: '#94a3b8' }}>/</span>
+                  <span>{items.length} xe</span>
+                </div>
+                
+                {(searchText || statusFilter !== 'all' || lineFilter !== 'all' || versionFilter !== 'all' || exteriorFilter !== 'all') && (
+                  <button
+                    type="button"
+                    className="ghost-button"
+                    style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      gap: '4px', 
+                      color: '#dc2626', 
+                      borderColor: '#fca5a5', 
+                      padding: '4px 10px', 
+                      height: '28px',
+                      borderRadius: '8px', 
+                      fontSize: '11.5px', 
+                      fontWeight: 600,
+                      background: '#fef2f2',
+                      flexShrink: 0
+                    }}
+                    onClick={() => {
+                      setSearchText('');
+                      setStatusFilter('all');
+                      setLineFilter('all');
+                      setVersionFilter('all');
+                      setExteriorFilter('all');
+                    }}
+                    title="Hủy toàn bộ lọc"
+                  >
+                    <RotateCcw size={12} />
+                    Xóa
+                  </button>
+                )}
               </div>
-              
-              {(searchText || statusFilter !== 'all' || lineFilter !== 'all' || versionFilter !== 'all' || exteriorFilter !== 'all') && (
-                <button
-                  type="button"
-                  className="ghost-button"
-                  style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center',
-                    gap: '4px', 
-                    color: '#dc2626', 
-                    borderColor: '#fca5a5', 
-                    padding: '4px 10px', 
-                    height: '28px',
-                    borderRadius: '8px', 
-                    fontSize: '11.5px', 
-                    fontWeight: 600,
-                    background: '#fef2f2'
-                  }}
-                  onClick={() => {
-                    setSearchText('');
-                    setStatusFilter('all');
-                    setLineFilter('all');
-                    setVersionFilter('all');
-                    setExteriorFilter('all');
-                  }}
-                  title="Hủy toàn bộ lọc"
-                >
-                  <RotateCcw size={12} />
-                  Xóa
-                </button>
-              )}
 
-              {isAdmin && (
-                <button
-                  className="ghost-button"
-                  onClick={handleExportInventory}
-                  style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', marginLeft: canManageInventory ? 'auto' : '0', color: '#10b981', background: '#f8fafc', border: '1px solid #cbd5e1' }}
-                  title="Xuất danh sách kho xe ra file Excel"
-                >
-                  <Download size={14} />
-                  <span>Xuất Excel</span>
-                </button>
-              )}
+              {/* Nhóm thao tác */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: '0 0 auto' }}>
+                {isAdmin && (
+                  <button
+                    className="ghost-button"
+                    onClick={handleExportInventory}
+                    style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', color: '#10b981', background: '#f8fafc', border: '1px solid #cbd5e1', display: 'flex', alignItems: 'center' }}
+                    title="Xuất danh sách kho xe ra file Excel"
+                  >
+                    <Download size={14} />
+                    <span>Xuất Excel</span>
+                  </button>
+                )}
 
-              {canManageInventory ? (
-                <button
-                  className="primary-button"
-                  onClick={onOpenImport}
-                  style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', marginLeft: isAdmin ? '8px' : 'auto' }}
-                >
-                  <PackageCheck size={15} />
-                  <span>Nhập kho</span>
-                </button>
-              ) : null}
+                {canManageInventory ? (
+                  <button
+                    className="primary-button"
+                    onClick={onOpenImport}
+                    style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', display: 'flex', alignItems: 'center' }}
+                  >
+                    <PackageCheck size={15} />
+                    <span>Nhập kho</span>
+                  </button>
+                ) : null}
+              </div>
             </div>
           )}
 

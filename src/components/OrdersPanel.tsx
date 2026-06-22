@@ -359,35 +359,38 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
       <div className="orders-modular-workspace" style={{ display: 'flex', flexDirection: 'column' }}>
         {/* Cánh trái: Bảng dữ liệu đơn hàng & Bộ lọc */}
         <div className="orders-data-side">
-          {/* 1. Hàng Metrics rút gọn siêu gọn */}
-          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-            <button onClick={() => onStatusChange('Tất cả')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Tất cả' ? '#e2e8f0' : '#f1f5f9', color: '#334155', borderRadius: '6px', border: status === 'Tất cả' ? '1px solid #cbd5e1' : '1px solid #e2e8f0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
-              Tổng: <strong>{totalOrders}</strong>
-            </button>
-            <button onClick={() => onStatusChange('Chưa ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chưa ghép' ? '#d1fae5' : '#ecfdf5', color: '#047857', borderRadius: '6px', border: status === 'Chưa ghép' ? '1px solid #6ee7b7' : '1px solid #a7f3d0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
-              Chưa ghép: <strong>{unpairedOrders}</strong>
-            </button>
-            <button onClick={() => onStatusChange('Chờ xử lý')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chờ xử lý' ? '#fef3c7' : '#fffbeb', color: '#b45309', borderRadius: '6px', border: status === 'Chờ xử lý' ? '1px solid #fcd34d' : '1px solid #fde68a', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
-              Chờ xử lý: <strong>{reviewOrders}</strong>
-            </button>
-            <button onClick={() => onStatusChange('Đã xuất hóa đơn')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã xuất hóa đơn' ? '#dbeafe' : '#eff6ff', color: '#1d4ed8', borderRadius: '6px', border: status === 'Đã xuất hóa đơn' ? '1px solid #93c5fd' : '1px solid #bfdbfe', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
-              Đã xuất HĐ: <strong>{issuedOrders}</strong>
-            </button>
-            <button onClick={() => onStatusChange('Đã hủy')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã hủy' ? '#ffe4e6' : '#fff1f2', color: '#be123c', borderRadius: '6px', border: status === 'Đã hủy' ? '1px solid #fda4af' : '1px solid #fecdd3', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
-              Đã hủy: <strong>{canceledOrders}</strong>
-            </button>
-          </div>
-
-          {/* 2. Thanh bộ lọc Toolbar (mô phỏng hệt Kho xe) */}
+          {/* Header: Metrics và Controls ngang hàng */}
           <div style={{ 
-            padding: '4px 0 4px 0', 
+            padding: '4px 0 8px 0', 
             background: '#ffffff', 
             display: 'flex', 
             flexWrap: 'wrap', 
             alignItems: 'center', 
-            gap: '8px' 
+            justifyContent: 'space-between',
+            gap: '12px' 
           }}>
-            <label className="search-box" style={{ flex: '2 1 260px', minHeight: '34px', height: '34px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            {/* 1. Hàng Metrics */}
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', flex: '1 1 auto' }}>
+              <button onClick={() => onStatusChange('Tất cả')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Tất cả' ? '#e2e8f0' : '#f1f5f9', color: '#334155', borderRadius: '6px', border: status === 'Tất cả' ? '1px solid #cbd5e1' : '1px solid #e2e8f0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                Tổng: <strong>{totalOrders}</strong>
+              </button>
+              <button onClick={() => onStatusChange('Chưa ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chưa ghép' ? '#d1fae5' : '#ecfdf5', color: '#047857', borderRadius: '6px', border: status === 'Chưa ghép' ? '1px solid #6ee7b7' : '1px solid #a7f3d0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                Chưa ghép: <strong>{unpairedOrders}</strong>
+              </button>
+              <button onClick={() => onStatusChange('Chờ xử lý')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chờ xử lý' ? '#fef3c7' : '#fffbeb', color: '#b45309', borderRadius: '6px', border: status === 'Chờ xử lý' ? '1px solid #fcd34d' : '1px solid #fde68a', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                Chờ xử lý: <strong>{reviewOrders}</strong>
+              </button>
+              <button onClick={() => onStatusChange('Đã xuất hóa đơn')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã xuất hóa đơn' ? '#dbeafe' : '#eff6ff', color: '#1d4ed8', borderRadius: '6px', border: status === 'Đã xuất hóa đơn' ? '1px solid #93c5fd' : '1px solid #bfdbfe', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                Đã xuất HĐ: <strong>{issuedOrders}</strong>
+              </button>
+              <button onClick={() => onStatusChange('Đã hủy')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã hủy' ? '#ffe4e6' : '#fff1f2', color: '#be123c', borderRadius: '6px', border: status === 'Đã hủy' ? '1px solid #fda4af' : '1px solid #fecdd3', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                Đã hủy: <strong>{canceledOrders}</strong>
+              </button>
+            </div>
+
+            {/* 2. Thanh công cụ tìm kiếm & nút */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', flex: '1 1 auto', justifyContent: 'flex-end' }}>
+              <label className="search-box" style={{ flex: '1 1 200px', maxWidth: '300px', minHeight: '34px', height: '34px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Search size={14} style={{ color: '#64748b' }} />
               <input
                 type="text"
@@ -420,6 +423,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
               <Car size={14} />
               Xếp hạng chờ ghép xe
             </button>
+            </div>
           </div>
 
           {/* 3. Bảng dữ liệu DATA TABLE chuyên nghiệp */}
