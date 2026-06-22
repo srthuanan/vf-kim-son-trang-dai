@@ -294,6 +294,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
 
   const totalOrders = queryMatchedOrders.length;
   const unpairedOrders = queryMatchedOrders.filter((order) => order.status === 'Chưa ghép').length;
+  const pairedOrders = queryMatchedOrders.filter((order) => order.status === 'Đã ghép').length;
   const reviewOrders = queryMatchedOrders.filter((order) => reviewStatuses.includes(order.status)).length;
   const issuedOrders = queryMatchedOrders.filter((order) => order.status === 'Đã xuất hóa đơn').length;
   const canceledOrders = queryMatchedOrders.filter((order) => order.status === 'Đã hủy').length;
@@ -376,6 +377,9 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
               </button>
               <button onClick={() => onStatusChange('Chưa ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chưa ghép' ? '#d1fae5' : '#ecfdf5', color: '#047857', borderRadius: '6px', border: status === 'Chưa ghép' ? '1px solid #6ee7b7' : '1px solid #a7f3d0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
                 Chưa ghép: <strong>{unpairedOrders}</strong>
+              </button>
+              <button onClick={() => onStatusChange('Đã ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã ghép' ? '#e0e7ff' : '#eef2ff', color: '#4338ca', borderRadius: '6px', border: status === 'Đã ghép' ? '1px solid #818cf8' : '1px solid #c7d2fe', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                Đã ghép: <strong>{pairedOrders}</strong>
               </button>
               <button onClick={() => onStatusChange('Chờ xử lý')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chờ xử lý' ? '#fef3c7' : '#fffbeb', color: '#b45309', borderRadius: '6px', border: status === 'Chờ xử lý' ? '1px solid #fcd34d' : '1px solid #fde68a', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
                 Chờ xử lý: <strong>{reviewOrders}</strong>
