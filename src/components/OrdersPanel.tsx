@@ -332,20 +332,26 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   }, [isMobile]);
 
   const handleExportOrders = () => {
-    const data = orders.map(o => ({
-      'Mã Đơn': o.id,
-      'Ngày Cọc': o.depositDate || o.createdAt,
-      'Khách Hàng': o.customer,
-      'Sales': o.staff,
-      'Dòng Xe': o.line,
-      'Phiên Bản': o.version,
-      'Màu Ngoại': o.exterior,
-      'Màu Nội': o.interior,
-      'Trạng Thái': o.status,
-      'Số VIN': o.vin || '',
-      'Ngày Ghép': o.pairedAt || '',
-      'Ngày YC XHĐ': o.needDate || '',
-      'Ghi Chú': o.ghiChu || ''
+    const data = orders.map((o, index) => ({
+      'STT': index + 1,
+      'TVBH': o.staff || '',
+      'Tên Khách Hàng': o.customer || '',
+      'Số tiền khách đã đóng': o.soTienKhachDaDong ? o.soTienKhachDaDong.toLocaleString() : '',
+      'Địa chỉ': o.area || '',
+      'Số Hợp Đồng': o.contractCode || '',
+      'Ngày Ký Hợp Đồng': o.ngayKyHopDong || '',
+      'Hình thức TT': o.paymentMethod || '',
+      'Nguồn khách': o.nguonKhach || '',
+      'Mã VSO': o.id || '',
+      'Ngày XHĐ': o.needDate || '',
+      'Mua Bảo Hiểm': o.muaBaoHiem ? 'Có' : (o.muaBaoHiem === false ? 'Không' : ''),
+      'Đăng ký xe': o.dangKyXe ? 'Có' : (o.dangKyXe === false ? 'Không' : ''),
+      'Vin': o.vin || '',
+      'Model': o.version || o.line || '',
+      'Màu Xe': o.exterior || '',
+      'Giá công bố': o.giaCongBo ? o.giaCongBo.toLocaleString() : '',
+      'Ghi chú': o.ghiChu || '',
+      'CỌC': o.depositAmount ? o.depositAmount.toLocaleString() : ''
     }));
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
