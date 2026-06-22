@@ -398,27 +398,6 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
               />
             </label>
 
-            <label className="select-box" style={{ flex: '1 1 150px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
-              <Filter size={12} style={{ color: '#64748b' }} />
-              <select 
-                value={status} 
-                onChange={(e) => onStatusChange(e.target.value as OrderStatus | 'Tất cả')} 
-                style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}
-              >
-                <option value="Tất cả">Tất cả</option>
-                <option value="Chưa ghép">Chưa ghép</option>
-                <option value="Đã ghép">Đã ghép</option>
-                <option value="Chờ xử lý">Chờ xử lý</option>
-                <option value="Chờ phê duyệt">Chờ phê duyệt</option>
-                <option value="Đã phê duyệt">Đã phê duyệt</option>
-                <option value="Yêu cầu bổ sung">Yêu cầu bổ sung</option>
-                <option value="Đã bổ sung">Đã bổ sung</option>
-                <option value="Chờ ký hóa đơn">Chờ ký hóa đơn</option>
-                <option value="Đã xuất hóa đơn">Đã xuất hóa đơn</option>
-                <option value="Đã hủy">Đã hủy</option>
-              </select>
-            </label>
-
             {isAdmin && (
               <button
                 type="button"
