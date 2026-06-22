@@ -60,51 +60,34 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
   const [isUpdatingVehicle, setIsUpdatingVehicle] = React.useState(false);
   const [searchText, setSearchText] = React.useState('');
   const [statusFilter, setStatusFilter] = React.useState<'all' | InventoryItem['status']>('all');
-  const [lineFilter, setLineFilter] = React.useState('all');
-  const [versionFilter, setVersionFilter] = React.useState('all');
-  const [exteriorFilter, setExteriorFilter] = React.useState('all');
   const [mobileView, setMobileView] = React.useState<'list' | 'detail'>('list');
   const [isMobile, setIsMobile] = React.useState(false);
 
-  const lineOptions = React.useMemo(
-    () => Array.from(new Set(items.map((item) => item.line).filter(Boolean))).sort(),
-    [items]
-  );
-
-  const versionOptions = React.useMemo(
-    () => Array.from(new Set(items.map((item) => item.version).filter(Boolean))).sort(),
-    [items]
-  );
-
-  const exteriorOptions = React.useMemo(
-    () => Array.from(new Set(items.map((item) => item.exterior).filter(Boolean))).sort(),
-    [items]
-  );
-
   const isFilteringHeld = statusFilter.includes('Đang giữ');
 
-  const visibleItems = React.useMemo(() => {
+  const queryMatchedItems = React.useMemo(() => {
     const query = searchText.trim().toLowerCase();
-    return items.filter((item) => {
-      const matchesSearch =
-        !query ||
-        item.vin.toLowerCase().includes(query) ||
-        item.line.toLowerCase().includes(query) ||
-        item.version.toLowerCase().includes(query) ||
-        item.exterior.toLowerCase().includes(query) ||
-        item.interior.toLowerCase().includes(query) ||
-        item.location.toLowerCase().includes(query) ||
-        item.holder.toLowerCase().includes(query) ||
-        item.engineNo.toLowerCase().includes(query);
+    if (!query) return items;
+    return items.filter((item) =>
+      item.vin.toLowerCase().includes(query) ||
+      item.line.toLowerCase().includes(query) ||
+      item.version.toLowerCase().includes(query) ||
+      item.exterior.toLowerCase().includes(query) ||
+      item.interior.toLowerCase().includes(query) ||
+      item.location?.toLowerCase().includes(query) ||
+      item.holder?.toLowerCase().includes(query) ||
+      item.engineNo?.toLowerCase().includes(query)
+    );
+  }, [items, searchText]);
 
-      const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
-      const matchesLine = lineFilter === 'all' || item.line === lineFilter;
-      const matchesVersion = versionFilter === 'all' || item.version === versionFilter;
-      const matchesExterior = exteriorFilter === 'all' || item.exterior === exteriorFilter;
+  const unpairedCount = React.useMemo(() => queryMatchedItems.filter((i) => i.status === 'Chưa ghép').length, [queryMatchedItems]);
+  const heldCount = React.useMemo(() => queryMatchedItems.filter((i) => i.status === 'Đang giữ').length, [queryMatchedItems]);
+  const pairedCount = React.useMemo(() => queryMatchedItems.filter((i) => i.status === 'Đã ghép').length, [queryMatchedItems]);
 
-      return matchesSearch && matchesStatus && matchesLine && matchesVersion && matchesExterior;
-    });
-  }, [items, searchText, statusFilter, lineFilter, versionFilter, exteriorFilter]);
+  const visibleItems = React.useMemo(() => {
+    if (statusFilter === 'all') return queryMatchedItems;
+    return queryMatchedItems.filter((item) => item.status === statusFilter);
+  }, [queryMatchedItems, statusFilter]);
 
   const visibleVehicleLocations = React.useMemo(() => {
     const visibleVinSet = new Set(visibleItems.map((item) => item.vin.trim().toUpperCase()));
@@ -271,76 +254,41 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
               padding: '4px 0 8px 0', 
               background: '#ffffff', 
               display: 'flex', 
-              flexWrap: 'nowrap', 
+              flexWrap: 'wrap', 
               alignItems: 'center', 
               justifyContent: 'space-between',
-              gap: '12px',
-              overflowX: 'auto'
+              gap: '12px'
             }}>
-              {/* Nhóm tìm kiếm và lọc */}
-              <div style={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '8px', flex: '1 1 auto' }}>
-                <label className="search-box" style={{ flex: '1 1 180px', minWidth: '160px', minHeight: '34px', height: '34px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              {/* 1. Nhóm Tags (Metrics ngang hàng) */}
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', flex: '1 1 auto' }}>
+                <button onClick={() => setStatusFilter('all')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: statusFilter === 'all' ? '#e2e8f0' : '#f1f5f9', color: '#334155', borderRadius: '6px', border: statusFilter === 'all' ? '1px solid #cbd5e1' : '1px solid #e2e8f0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                  Tổng: <strong>{items.length}</strong>
+                </button>
+                <button onClick={() => setStatusFilter('Chưa ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: statusFilter === 'Chưa ghép' ? '#d1fae5' : '#ecfdf5', color: '#047857', borderRadius: '6px', border: statusFilter === 'Chưa ghép' ? '1px solid #6ee7b7' : '1px solid #a7f3d0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                  Chưa ghép: <strong>{unpairedCount}</strong>
+                </button>
+                <button onClick={() => setStatusFilter('Đang giữ')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: statusFilter === 'Đang giữ' ? '#fef3c7' : '#fffbeb', color: '#b45309', borderRadius: '6px', border: statusFilter === 'Đang giữ' ? '1px solid #fcd34d' : '1px solid #fde68a', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                  Đang giữ: <strong>{heldCount}</strong>
+                </button>
+                <button onClick={() => setStatusFilter('Đã ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: statusFilter === 'Đã ghép' ? '#dbeafe' : '#eff6ff', color: '#1d4ed8', borderRadius: '6px', border: statusFilter === 'Đã ghép' ? '1px solid #93c5fd' : '1px solid #bfdbfe', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+                  Đã ghép: <strong>{pairedCount}</strong>
+                </button>
+              </div>
+
+              {/* 2. Nhóm Tìm kiếm & Thao tác */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: '1 1 auto', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                <label className="search-box" style={{ flex: '1 1 200px', maxWidth: '300px', minHeight: '34px', height: '34px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Search size={14} style={{ color: '#64748b' }} />
                   <input
                     type="text"
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
-                    placeholder="Tìm nhanh VIN, bãi xe, người giữ..."
+                    placeholder="Tìm nhanh VIN, dòng, bản, nội/ngoại thất..."
                     style={{ fontSize: '12.5px', border: 'none', outline: 'none', width: '100%', color: '#1e293b' }}
                   />
                 </label>
-                <label className="select-box" style={{ flex: '1 1 90px', minWidth: '100px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
-                  <Filter size={12} style={{ color: '#64748b' }} />
-                  <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}>
-                    <option value="all">Tất cả TT</option>
-                    <option value="Chưa ghép">Chưa ghép</option>
-                    <option value="Đang giữ">Đang giữ</option>
-                    <option value="Đã ghép">Đã ghép</option>
-                  </select>
-                </label>
-                <label className="select-box" style={{ flex: '1 1 90px', minWidth: '110px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
-                  <Filter size={12} style={{ color: '#64748b' }} />
-                  <select value={lineFilter} onChange={(e) => setLineFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}>
-                    <option value="all">Mọi dòng xe</option>
-                    {lineOptions.map((line) => (
-                      <option key={line} value={line}>
-                        {line}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="select-box" style={{ flex: '1 1 90px', minWidth: '115px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
-                  <Filter size={12} style={{ color: '#64748b' }} />
-                  <select value={versionFilter} onChange={(e) => setVersionFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}>
-                    <option value="all">Mọi phiên bản</option>
-                    {versionOptions.map((version) => (
-                      <option key={version} value={version}>
-                        {version}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="select-box" style={{ flex: '1 1 90px', minWidth: '105px', minHeight: '34px', height: '34px', padding: '0 8px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '6px', background: '#f8fafc' }}>
-                  <Filter size={12} style={{ color: '#64748b' }} />
-                  <select value={exteriorFilter} onChange={(e) => setExteriorFilter(e.target.value)} style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}>
-                    <option value="all">Mọi màu sắc</option>
-                    {exteriorOptions.map((ext) => (
-                      <option key={ext} value={ext}>
-                        {ext}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <div style={{ width: '1px', height: '20px', background: '#e2e8f0', margin: '0 4px', flexShrink: 0 }} />
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', fontSize: '12px', fontWeight: 600, color: '#475569', background: '#f1f5f9', padding: '4px 10px', borderRadius: '20px', flexShrink: 0 }}>
-                  <span style={{ color: '#2563eb' }}>{visibleItems.length}</span>
-                  <span style={{ color: '#94a3b8' }}>/</span>
-                  <span>{items.length} xe</span>
-                </div>
                 
-                {(searchText || statusFilter !== 'all' || lineFilter !== 'all' || versionFilter !== 'all' || exteriorFilter !== 'all') && (
+                {searchText && (
                   <button
                     type="button"
                     className="ghost-button"
@@ -352,30 +300,19 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
                       color: '#dc2626', 
                       borderColor: '#fca5a5', 
                       padding: '4px 10px', 
-                      height: '28px',
+                      height: '34px',
                       borderRadius: '8px', 
                       fontSize: '11.5px', 
                       fontWeight: 600,
-                      background: '#fef2f2',
-                      flexShrink: 0
+                      background: '#fef2f2'
                     }}
-                    onClick={() => {
-                      setSearchText('');
-                      setStatusFilter('all');
-                      setLineFilter('all');
-                      setVersionFilter('all');
-                      setExteriorFilter('all');
-                    }}
-                    title="Hủy toàn bộ lọc"
+                    onClick={() => setSearchText('')}
+                    title="Xóa tìm kiếm"
                   >
                     <RotateCcw size={12} />
-                    Xóa
                   </button>
                 )}
-              </div>
 
-              {/* Nhóm thao tác */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: '0 0 auto' }}>
                 {isAdmin && (
                   <button
                     className="ghost-button"
@@ -384,11 +321,11 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
                     title="Xuất danh sách kho xe ra file Excel"
                   >
                     <Download size={14} />
-                    <span>Xuất Excel</span>
+                    <span className="hide-on-mobile">Xuất Excel</span>
                   </button>
                 )}
 
-                {canManageInventory ? (
+                {canManageInventory && (
                   <button
                     className="primary-button"
                     onClick={onOpenImport}
@@ -397,7 +334,7 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
                     <PackageCheck size={15} />
                     <span>Nhập kho</span>
                   </button>
-                ) : null}
+                )}
               </div>
             </div>
           )}
