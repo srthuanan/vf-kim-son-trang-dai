@@ -148,7 +148,7 @@ function App() {
   // UI states
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
   const [query, setQuery] = useState('');
-  const [status, setStatus] = useState<OrderStatus | 'Tất cả' | 'Chờ xử lý'>('Tất cả');
+  const [status, setStatus] = useState<OrderStatus | 'Tất cả'>('Tất cả');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Modal toggle states
@@ -175,11 +175,7 @@ function App() {
   // Thực thi Filter trên danh sách orders
   const filteredOrders = useMemo(() => {
     let result = orders.filter((order) => {
-      const matchesStatus = 
-        status === 'Tất cả' || 
-        order.status === status ||
-        (status === 'Chờ xử lý' && ['Chờ phê duyệt', 'Đã phê duyệt', 'Yêu cầu bổ sung', 'Đã bổ sung', 'Chờ ký hóa đơn'].includes(order.status));
-        
+      const matchesStatus = status === 'Tất cả' || order.status === status;
       if (!matchesStatus) return false;
 
       const normQuery = query.trim().toLowerCase();
@@ -441,7 +437,6 @@ function App() {
                 canPairOrder={canPairOrder(userRole)}
                 canManageOrderActions={canManageOrderActions(userRole)}
                 showStaffColumn={userRole === 'admin' || userRole === 'manager'}
-                isAdmin={userRole === 'admin'}
                 isUnpairingOrderId={isUnpairingOrderId}
                 isUpdatingPolicy={isUpdatingPolicy}
                 query={query}
@@ -469,7 +464,6 @@ function App() {
                 canHoldVehicle={canHoldVehicle(userRole)}
                 currentUsername={currentUsername}
                 canOverrideHeldVehicle={canOverrideHeldVehicle(userRole)}
-                isAdmin={userRole === 'admin'}
                 isReleasingVin={isReleasingVin}
                 isHoldingVin={isHoldingVin}
                 isQueueingVin={isQueueingVin}
@@ -505,7 +499,6 @@ function App() {
                 <InvoiceRequestsPanel
                   requests={invoiceRequests}
                   canApprove={canApproveInvoice(userRole)}
-                  isAdmin={userRole === 'admin'}
                   isProcessing={isAdvancingInvoice || isDeletingInvoice}
                   onApprove={(request) => handleApproveInvoiceRequest(request.id)}
                   onRequestSupplement={setRequestingSupplement}

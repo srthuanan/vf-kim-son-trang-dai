@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Search, Filter, Eye, PackageCheck, X, FileCheck, Ban, Pencil, ScrollText, User, Car, CreditCard, ArrowLeft, Info, Copy, TriangleAlert, Download } from 'lucide-react';
+import { Search, Filter, Eye, PackageCheck, X, FileCheck, Ban, Pencil, ScrollText, User, Car, CreditCard, ArrowLeft, Info, Copy, TriangleAlert } from 'lucide-react';
 import { Order, OrderStatus, InventoryItem, ProfileRow } from '../types';
 import { statusTone, staffNames } from '../constants';
 import { matchesVehicleConfig, canUseVehicleForPair } from '../utils/matching';
@@ -8,7 +8,6 @@ import { getPolicyNames, parseSmartPolicy } from '../utils/policyParser';
 import { QueueRankingModal } from './modals/QueueRankingModal';
 import { InlineOrderEditForm } from './InlineOrderEditForm';
 import { VehicleConfigRow, UpdateOrderInput } from '../types';
-import * as XLSX from 'xlsx';
 
 const viDateTimeFormatter = new Intl.DateTimeFormat('vi-VN', {
   day: '2-digit',
@@ -50,31 +49,31 @@ function parseDetailDate(value?: string) {
     return Number.isNaN(parsed.getTime()) ? null : parsed;
   };
 
-  const isoTimeDate = parseWithPattern(
-    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/,
-    m => ({ year: +m[1], month: +m[2], day: +m[3], hour: +m[4], minute: +m[5], second: +m[6] })
+  return (
+    parseWithPattern(
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?$/,
+      (matches) => ({
+        day: Number(matches[1]),
+        month: Number(matches[2]),
+        year: Number(matches[3]),
+        hour: matches[4] ? Number(matches[4]) : 0,
+        minute: matches[5] ? Number(matches[5]) : 0,
+        second: matches[6] ? Number(matches[6]) : 0
+      })
+    ) ||
+    parseWithPattern(
+      /^(\d{4})-(\d{1,2})-(\d{1,2})(?:\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?$/,
+      (matches) => ({
+        year: Number(matches[1]),
+        month: Number(matches[2]),
+        day: Number(matches[3]),
+        hour: matches[4] ? Number(matches[4]) : 0,
+        minute: matches[5] ? Number(matches[5]) : 0,
+        second: matches[6] ? Number(matches[6]) : 0
+      })
+    ) ||
+    null
   );
-  if (isoTimeDate) return isoTimeDate;
-
-  const vnFullPattern = parseWithPattern(
-    /^(\d{2}):(\d{2}):(\d{2}) (\d{2})\/(\d{2})\/(\d{4})$/,
-    m => ({ year: +m[6], month: +m[5], day: +m[4], hour: +m[1], minute: +m[2], second: +m[3] })
-  );
-  if (vnFullPattern) return vnFullPattern;
-
-  const vnShortPattern = parseWithPattern(
-    /^(\d{2})\/(\d{2})\/(\d{4})$/,
-    m => ({ year: +m[3], month: +m[2], day: +m[1] })
-  );
-  if (vnShortPattern) return vnShortPattern;
-
-  const parts = trimmed.split('/');
-  if (parts.length === 3) {
-    const parsed = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
-    if (!Number.isNaN(parsed.getTime())) return parsed;
-  }
-
-  return null;
 }
 
 const formatDetailDate = (value?: string | null) => {
@@ -95,9 +94,9 @@ interface OrdersPanelProps {
   isUnpairingOrderId: string;
   isUpdatingPolicy: boolean;
   query: string;
-  status: OrderStatus | 'Tất cả' | 'Chờ xử lý';
+  status: OrderStatus | 'Tất cả';
   onQueryChange: (value: string) => void;
-  onStatusChange: (value: OrderStatus | 'Tất cả' | 'Chờ xử lý') => void;
+  onStatusChange: (value: OrderStatus | 'Tất cả') => void;
   onViewOrder: (order: Order) => void;
   onPairOrderSubmit: (orderId: string, vin: string) => Promise<boolean>;
   onUnpairOrder: (orderId: string) => void;
@@ -107,14 +106,13 @@ interface OrdersPanelProps {
   onUpdateOrder: (input: UpdateOrderInput) => Promise<boolean>;
   onSelectPolicy: (order: Order) => void;
   showStaffColumn?: boolean;
-  isAdmin?: boolean;
   vehicleConfigs: VehicleConfigRow[];
   isUpdatingOrder: boolean;
   onViewLog?: (orderId: string) => void;
 }
 
 export const OrdersPanel: React.FC<OrdersPanelProps> = ({
-  staffProfiles = [],
+  staffProfiles,
   orders,
   allOrders,
   inventory,
@@ -137,7 +135,6 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   onUpdateOrder,
   onSelectPolicy,
   showStaffColumn,
-  isAdmin,
   vehicleConfigs,
   isUpdatingOrder
 }) => {
@@ -276,27 +273,11 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
     }
   }, [orders, selectedOrderId]);
 
-  const queryMatchedOrders = useMemo(() => {
-    if (!allOrders) return orders;
-    const normQuery = query.trim().toLowerCase();
-    if (!normQuery) return allOrders;
-    return allOrders.filter(order => (
-      order.id.toLowerCase().includes(normQuery) ||
-      order.customer.toLowerCase().includes(normQuery) ||
-      (order.phone && order.phone.includes(normQuery)) ||
-      (order.vin && order.vin.toLowerCase().includes(normQuery)) ||
-      order.line.toLowerCase().includes(normQuery) ||
-      order.version.toLowerCase().includes(normQuery) ||
-      order.exterior.toLowerCase().includes(normQuery) ||
-      order.interior.toLowerCase().includes(normQuery)
-    ));
-  }, [allOrders, orders, query]);
-
-  const totalOrders = queryMatchedOrders.length;
-  const unpairedOrders = queryMatchedOrders.filter((order) => order.status === 'Chưa ghép').length;
-  const reviewOrders = queryMatchedOrders.filter((order) => reviewStatuses.includes(order.status)).length;
-  const issuedOrders = queryMatchedOrders.filter((order) => order.status === 'Đã xuất hóa đơn').length;
-  const canceledOrders = queryMatchedOrders.filter((order) => order.status === 'Đã hủy').length;
+  const totalOrders = orders.length;
+  const unpairedOrders = orders.filter((order) => order.status === 'Chưa ghép').length;
+  const reviewOrders = orders.filter((order) => reviewStatuses.includes(order.status)).length;
+  const issuedOrders = orders.filter((order) => order.status === 'Đã xuất hóa đơn').length;
+  const canceledOrders = orders.filter((order) => order.status === 'Đã hủy').length;
 
   const selectedCandidates = selectedOrder
     ? inventory.filter(
@@ -330,28 +311,6 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
     }
   }, [isMobile]);
 
-  const handleExportOrders = () => {
-    const data = orders.map(o => ({
-      'Mã Đơn': o.id,
-      'Ngày Cọc': o.depositDate || o.createdAt,
-      'Khách Hàng': o.customer,
-      'Sales': o.staff,
-      'Dòng Xe': o.line,
-      'Phiên Bản': o.version,
-      'Màu Ngoại': o.exterior,
-      'Màu Nội': o.interior,
-      'Trạng Thái': o.status,
-      'Số VIN': o.vin || '',
-      'Ngày Ghép': o.pairedAt || '',
-      'Ngày YC XHĐ': o.needDate || '',
-      'Ghi Chú': o.ghiChu || ''
-    }));
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'DonHang');
-    XLSX.writeFile(workbook, 'Danh_Sach_Don_Hang.xlsx');
-  };
-
   return (
     <section
       className={isMobile ? `panel orders-panel ${mobileView === 'detail' ? 'orders-mobile-detail' : 'orders-mobile-list'}` : 'panel orders-panel'}
@@ -361,21 +320,21 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
         <div className="orders-data-side">
           {/* 1. Hàng Metrics rút gọn siêu gọn */}
           <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-            <button onClick={() => onStatusChange('Tất cả')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Tất cả' ? '#e2e8f0' : '#f1f5f9', color: '#334155', borderRadius: '6px', border: status === 'Tất cả' ? '1px solid #cbd5e1' : '1px solid #e2e8f0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+            <span className="tag" style={{ fontSize: '10.5px', padding: '3px 8px', background: '#f1f5f9', color: '#334155', borderRadius: '6px', border: '1px solid #e2e8f0', fontWeight: 600 }}>
               Tổng: <strong>{totalOrders}</strong>
-            </button>
-            <button onClick={() => onStatusChange('Chưa ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chưa ghép' ? '#d1fae5' : '#ecfdf5', color: '#047857', borderRadius: '6px', border: status === 'Chưa ghép' ? '1px solid #6ee7b7' : '1px solid #a7f3d0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+            </span>
+            <span className="tag" style={{ fontSize: '10.5px', padding: '3px 8px', background: '#ecfdf5', color: '#047857', borderRadius: '6px', border: '1px solid #a7f3d0', fontWeight: 600 }}>
               Chưa ghép: <strong>{unpairedOrders}</strong>
-            </button>
-            <button onClick={() => onStatusChange('Chờ xử lý')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chờ xử lý' ? '#fef3c7' : '#fffbeb', color: '#b45309', borderRadius: '6px', border: status === 'Chờ xử lý' ? '1px solid #fcd34d' : '1px solid #fde68a', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+            </span>
+            <span className="tag" style={{ fontSize: '10.5px', padding: '3px 8px', background: '#fffbeb', color: '#b45309', borderRadius: '6px', border: '1px solid #fde68a', fontWeight: 600 }}>
               Chờ xử lý: <strong>{reviewOrders}</strong>
-            </button>
-            <button onClick={() => onStatusChange('Đã xuất hóa đơn')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã xuất hóa đơn' ? '#dbeafe' : '#eff6ff', color: '#1d4ed8', borderRadius: '6px', border: status === 'Đã xuất hóa đơn' ? '1px solid #93c5fd' : '1px solid #bfdbfe', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+            </span>
+            <span className="tag" style={{ fontSize: '10.5px', padding: '3px 8px', background: '#eff6ff', color: '#1d4ed8', borderRadius: '6px', border: '1px solid #bfdbfe', fontWeight: 600 }}>
               Đã xuất HĐ: <strong>{issuedOrders}</strong>
-            </button>
-            <button onClick={() => onStatusChange('Đã hủy')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã hủy' ? '#ffe4e6' : '#fff1f2', color: '#be123c', borderRadius: '6px', border: status === 'Đã hủy' ? '1px solid #fda4af' : '1px solid #fecdd3', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+            </span>
+            <span className="tag" style={{ fontSize: '10.5px', padding: '3px 8px', background: '#fff1f2', color: '#be123c', borderRadius: '6px', border: '1px solid #fecdd3', fontWeight: 600 }}>
               Đã hủy: <strong>{canceledOrders}</strong>
-            </button>
+            </span>
           </div>
 
           {/* 2. Thanh bộ lọc Toolbar (mô phỏng hệt Kho xe) */}
@@ -405,32 +364,18 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                 onChange={(e) => onStatusChange(e.target.value as OrderStatus | 'Tất cả')} 
                 style={{ fontSize: '12px', fontWeight: 600, color: '#334155', border: 'none', background: 'transparent', width: '100%', outline: 'none', cursor: 'pointer' }}
               >
-                <option value="Tất cả">Tất cả</option>
-                <option value="Chưa ghép">Chưa ghép</option>
-                <option value="Đã ghép">Đã ghép</option>
-                <option value="Chờ xử lý">Chờ xử lý</option>
-                <option value="Chờ phê duyệt">Chờ phê duyệt</option>
-                <option value="Đã phê duyệt">Đã phê duyệt</option>
-                <option value="Yêu cầu bổ sung">Yêu cầu bổ sung</option>
-                <option value="Đã bổ sung">Đã bổ sung</option>
-                <option value="Chờ ký hóa đơn">Chờ ký hóa đơn</option>
-                <option value="Đã xuất hóa đơn">Đã xuất hóa đơn</option>
-                <option value="Đã hủy">Đã hủy</option>
+                <option>Tất cả</option>
+                <option>Chưa ghép</option>
+                <option>Đã ghép</option>
+                <option>Chờ phê duyệt</option>
+                <option>Đã phê duyệt</option>
+                <option>Yêu cầu bổ sung</option>
+                <option>Đã bổ sung</option>
+                <option>Chờ ký hóa đơn</option>
+                <option>Đã xuất hóa đơn</option>
+                <option>Đã hủy</option>
               </select>
             </label>
-
-            {isAdmin && (
-              <button
-                type="button"
-                className="ghost-button"
-                onClick={handleExportOrders}
-                style={{ flex: '0 0 auto', minHeight: '34px', height: '34px', padding: '0 12px', border: '1px solid #cbd5e1', borderRadius: '8px', background: '#f8fafc', color: '#10b981', fontWeight: 600, fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}
-                title="Xuất danh sách ra file Excel"
-              >
-                <Download size={14} />
-                <span className="hide-on-mobile">Xuất Excel</span>
-              </button>
-            )}
 
             <button
               type="button"
