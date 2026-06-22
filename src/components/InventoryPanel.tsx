@@ -277,14 +277,14 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
 
               {/* 2. Nhóm Tìm kiếm & Thao tác */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: '1 1 auto', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-                <label className="search-box" style={{ flex: '1 1 200px', maxWidth: '300px', minHeight: '34px', height: '34px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <label className="search-box" style={{ flex: '1 1 200px', maxWidth: '300px', minHeight: '32px', height: '32px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '6px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Search size={14} style={{ color: '#64748b' }} />
                   <input
                     type="text"
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                     placeholder="Tìm nhanh VIN, dòng, bản, nội/ngoại thất..."
-                    style={{ fontSize: '12.5px', border: 'none', outline: 'none', width: '100%', color: '#1e293b' }}
+                    style={{ fontSize: '12px', border: 'none', outline: 'none', width: '100%', color: '#1e293b' }}
                   />
                 </label>
                 
@@ -300,38 +300,38 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
                       color: '#dc2626', 
                       borderColor: '#fca5a5', 
                       padding: '4px 10px', 
-                      height: '34px',
-                      borderRadius: '8px', 
+                      height: '32px',
+                      borderRadius: '6px', 
                       fontSize: '11.5px', 
-                      fontWeight: 600,
+                      fontWeight: 500,
                       background: '#fef2f2'
                     }}
                     onClick={() => setSearchText('')}
                     title="Xóa tìm kiếm"
                   >
-                    <RotateCcw size={12} />
+                    <RotateCcw size={13} />
                   </button>
                 )}
 
                 {isAdmin && (
                   <button
-                    className="ghost-button"
+                    className="ghost-button hover-bg-slate"
                     onClick={handleExportInventory}
-                    style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', color: '#10b981', background: '#f8fafc', border: '1px solid #cbd5e1', display: 'flex', alignItems: 'center' }}
+                    style={{ height: '32px', padding: '0 12px', borderRadius: '6px', fontSize: '11.5px', fontWeight: 500, gap: '6px', color: '#059669', background: '#ffffff', border: '1px solid #e2e8f0', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', transition: 'all 0.2s', cursor: 'pointer' }}
                     title="Xuất danh sách kho xe ra file Excel"
                   >
-                    <Download size={14} />
+                    <Download size={13} />
                     <span className="hide-on-mobile">Xuất Excel</span>
                   </button>
                 )}
 
                 {canManageInventory && (
                   <button
-                    className="primary-button"
+                    className="hover-opacity"
                     onClick={onOpenImport}
-                    style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', display: 'flex', alignItems: 'center' }}
+                    style={{ height: '32px', padding: '0 14px', borderRadius: '6px', fontSize: '11.5px', fontWeight: 500, gap: '6px', color: '#ffffff', background: '#0f172a', border: 'none', boxShadow: '0 1px 2px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
                   >
-                    <PackageCheck size={15} />
+                    <PackageCheck size={14} />
                     <span>Nhập kho</span>
                   </button>
                 )}

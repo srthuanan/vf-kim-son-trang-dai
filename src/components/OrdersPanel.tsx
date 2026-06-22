@@ -390,37 +390,37 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
 
             {/* 2. Thanh công cụ tìm kiếm & nút */}
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', flex: '1 1 auto', justifyContent: 'flex-end' }}>
-              <label className="search-box" style={{ flex: '1 1 200px', maxWidth: '300px', minHeight: '34px', height: '34px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <label className="search-box" style={{ flex: '1 1 200px', maxWidth: '300px', minHeight: '32px', height: '32px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '6px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Search size={14} style={{ color: '#64748b' }} />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => onQueryChange(e.target.value)}
                 placeholder="Tìm nhanh số đơn, KH, VIN..."
-                style={{ fontSize: '12.5px', border: 'none', outline: 'none', width: '100%', color: '#1e293b' }}
+                style={{ fontSize: '12px', border: 'none', outline: 'none', width: '100%', color: '#1e293b' }}
               />
             </label>
 
             {isAdmin && (
               <button
                 type="button"
-                className="ghost-button"
+                className="ghost-button hover-bg-slate"
                 onClick={handleExportOrders}
-                style={{ flex: '0 0 auto', minHeight: '34px', height: '34px', padding: '0 12px', border: '1px solid #cbd5e1', borderRadius: '8px', background: '#f8fafc', color: '#10b981', fontWeight: 600, fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}
+                style={{ flex: '0 0 auto', height: '32px', padding: '0 12px', border: '1px solid #e2e8f0', borderRadius: '6px', background: '#ffffff', color: '#059669', fontWeight: 500, fontSize: '11.5px', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'all 0.2s', cursor: 'pointer' }}
                 title="Xuất danh sách ra file Excel"
               >
-                <Download size={14} />
+                <Download size={13} />
                 <span className="hide-on-mobile">Xuất Excel</span>
               </button>
             )}
 
             <button
               type="button"
-              className="ghost-button"
+              className="ghost-button hover-bg-slate"
               onClick={() => setShowQueueModal(true)}
-              style={{ flex: '0 0 auto', minHeight: '34px', height: '34px', padding: '0 12px', border: '1px solid #cbd5e1', borderRadius: '8px', background: '#f8fafc', color: '#3b82f6', fontWeight: 600, fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}
+              style={{ flex: '0 0 auto', height: '32px', padding: '0 12px', border: '1px solid #e2e8f0', borderRadius: '6px', background: '#ffffff', color: '#2563eb', fontWeight: 500, fontSize: '11.5px', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'all 0.2s', cursor: 'pointer' }}
             >
-              <Car size={14} />
+              <Car size={13} />
               Xếp hạng chờ ghép xe
             </button>
             </div>
