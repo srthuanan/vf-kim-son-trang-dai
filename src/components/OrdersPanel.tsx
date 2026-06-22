@@ -561,16 +561,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                             })()}
                           </td>
                           <td>
-                            <span 
-                              className={statusTone[order.status]} 
-                              style={{ 
-                                display: 'inline-block', 
-                                padding: '3px 8px', 
-                                borderRadius: '12px', 
-                                fontSize: '11px', 
-                                fontWeight: 700 
-                              }}
-                            >
+                            <span className={statusTone[order.status]}>
                               {order.status}
                             </span>
                           </td>

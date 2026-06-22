@@ -402,7 +402,7 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
                       <td>{item.exterior}</td>
                       <td>{item.interior}</td>
                       <td>
-                        <span className={stockTone[item.status]} style={{ display: 'inline-block', marginBottom: item.status === 'Đang giữ' ? '4px' : '0' }}>{item.status}</span>
+                        <span className={stockTone[item.status]} style={{ marginBottom: item.status === 'Đang giữ' ? '4px' : '0' }}>{item.status}</span>
                         {item.status === 'Đang giữ' && (
                           <div style={{ fontSize: '11px', color: '#64748b', lineHeight: 1.4, marginTop: '2px' }}>
                             {item.holder && <div style={{ color: '#334155', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '140px' }} title={item.holder}>{item.holder}</div>}
