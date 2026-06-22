@@ -437,6 +437,7 @@ function App() {
                 canPairOrder={canPairOrder(userRole)}
                 canManageOrderActions={canManageOrderActions(userRole)}
                 showStaffColumn={userRole === 'admin' || userRole === 'manager'}
+                isAdmin={userRole === 'admin'}
                 isUnpairingOrderId={isUnpairingOrderId}
                 isUpdatingPolicy={isUpdatingPolicy}
                 query={query}
@@ -464,6 +465,7 @@ function App() {
                 canHoldVehicle={canHoldVehicle(userRole)}
                 currentUsername={currentUsername}
                 canOverrideHeldVehicle={canOverrideHeldVehicle(userRole)}
+                isAdmin={userRole === 'admin'}
                 isReleasingVin={isReleasingVin}
                 isHoldingVin={isHoldingVin}
                 isQueueingVin={isQueueingVin}
@@ -499,6 +501,7 @@ function App() {
                 <InvoiceRequestsPanel
                   requests={invoiceRequests}
                   canApprove={canApproveInvoice(userRole)}
+                  isAdmin={userRole === 'admin'}
                   isProcessing={isAdvancingInvoice || isDeletingInvoice}
                   onApprove={(request) => handleApproveInvoiceRequest(request.id)}
                   onRequestSupplement={setRequestingSupplement}

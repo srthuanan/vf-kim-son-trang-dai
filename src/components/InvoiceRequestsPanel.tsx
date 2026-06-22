@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Search, CheckCircle2, XCircle, Clock, ExternalLink, CheckSquare, FilePlus2, User, Car, CreditCard, FileText, HelpCircle, ArrowLeft, Eye, ShieldCheck, ClipboardCheck, Info, Mail, RefreshCw, X, Trash2 } from 'lucide-react';
+import { Search, CheckCircle2, XCircle, Clock, ExternalLink, CheckSquare, FilePlus2, User, Car, CreditCard, FileText, HelpCircle, ArrowLeft, Eye, ShieldCheck, ClipboardCheck, Info, Mail, RefreshCw, X, Trash2, Download } from 'lucide-react';
 import { YeucauxhdRow, Order } from '../types';
 import { copyToClipboard } from '../utils/clipboard';
 import * as apiService from '../services/apiService';
 import { supabase } from '../services/supabaseClient';
+import * as XLSX from 'xlsx';
 
 const toEmbeddableUrl = (url: string) => {
   if (!url) return '';
@@ -55,6 +56,7 @@ interface InvoiceRequestsPanelProps {
   onSupplement: (req: YeucauxhdRow) => void;
   onDelete?: (req: YeucauxhdRow) => void;
   onReload?: () => void;
+  isAdmin?: boolean;
 }
 
 export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
@@ -67,7 +69,8 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
   onUploadInvoice,
   onSupplement,
   onDelete,
-  onReload
+  onReload,
+  isAdmin
 }) => {
   const [selectedFolder, setSelectedFolder] = useState('pending_approval');
   const [query, setQuery] = useState('');
@@ -268,6 +271,23 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
     );
   };
 
+  const handleExportRequests = () => {
+    const data = filtered.map(r => ({
+      'Mã Đơn': r.so_don_hang,
+      'Ngày Cọc': r.ngay_coc,
+      'Khách Hàng': r.ten_khach_hang,
+      'Dòng Xe': r.dong_xe,
+      'Số VIN': r.vin || '',
+      'TVBH': r.tvbh || '',
+      'Ngày Tạo': new Date(r.created_at).toLocaleDateString('vi-VN'),
+      'Trạng Thái': getWorkflowStatus(r)
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'YCXHD');
+    XLSX.writeFile(workbook, 'Danh_Sach_YCXHD.xlsx');
+  };
+
   return (
     <div className="orders-modular-workspace" style={{ height: '100%', flex: 1, display: 'flex', flexDirection: 'column', background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', minHeight: 0, position: 'relative', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
       
@@ -307,18 +327,35 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
             );
           })}
         </div>
-        {/* SEARCH - MINIMAL */}
-        <div style={{ position: 'relative', width: isMobile ? '100%' : '260px' }}>
-          <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-          <input 
-            type="text" 
-            placeholder="Tìm kiếm mã ĐH, khách hàng, VIN..." 
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            style={{ width: '100%', padding: '8px 12px 8px 32px', borderRadius: '20px', border: '1px solid #e2e8f0', fontSize: '13px', background: '#f8fafc', outline: 'none', color: '#0f172a', transition: 'all 0.2s' }}
-            onFocus={(e) => { e.target.style.background = '#fff'; e.target.style.borderColor = '#cbd5e1'; e.target.style.boxShadow = '0 0 0 3px rgba(241, 245, 249, 1)'; }}
-            onBlur={(e) => { e.target.style.background = '#f8fafc'; e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = 'none'; }}
-          />
+        {/* RIGHT CONTROLS */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {isAdmin && (
+            <button
+              className="ghost-button"
+              onClick={handleExportRequests}
+              style={{
+                height: '34px', padding: '0 12px', borderRadius: '20px', fontSize: '13px', fontWeight: 600, gap: '6px',
+                color: '#10b981', background: '#f8fafc', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center'
+              }}
+              title="Xuất danh sách yêu cầu ra file Excel"
+            >
+              <Download size={14} />
+              <span className="hide-on-mobile">Xuất Excel</span>
+            </button>
+          )}
+          {/* SEARCH - MINIMAL */}
+          <div style={{ position: 'relative', width: isMobile ? '100%' : '260px' }}>
+            <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+            <input 
+              type="text" 
+              placeholder="Tìm kiếm mã ĐH, khách hàng, VIN..." 
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              style={{ width: '100%', padding: '8px 12px 8px 32px', borderRadius: '20px', border: '1px solid #e2e8f0', fontSize: '13px', background: '#f8fafc', outline: 'none', color: '#0f172a', transition: 'all 0.2s' }}
+              onFocus={(e) => { e.target.style.background = '#fff'; e.target.style.borderColor = '#cbd5e1'; e.target.style.boxShadow = '0 0 0 3px rgba(241, 245, 249, 1)'; }}
+              onBlur={(e) => { e.target.style.background = '#f8fafc'; e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = 'none'; }}
+            />
+          </div>
         </div>
       </div>
 

@@ -1,10 +1,11 @@
 import React from 'react';
-import { PackageCheck, X, Clock, FilePlus2, LocateFixed, Search, Filter, RotateCcw, ArrowLeft, Edit, Trash2 } from 'lucide-react';
+import { PackageCheck, X, Clock, FilePlus2, LocateFixed, Search, Filter, RotateCcw, ArrowLeft, Edit, Trash2, Download } from 'lucide-react';
 import { InventoryItem, VehicleLocationRow } from '../types';
 import { stockTone } from '../constants';
 import { VehicleLocationMapPanel } from './VehicleLocationMapPanel';
 import { EditVehicleModal } from './modals/EditVehicleModal';
 import * as apiService from '../services/apiService';
+import * as XLSX from 'xlsx';
 
 interface InventoryPanelProps {
   items: InventoryItem[];
@@ -27,6 +28,7 @@ interface InventoryPanelProps {
   onUpdateVehicleLocation: (item: InventoryItem) => void;
   vehicleConfigs: import('../types').VehicleConfigRow[];
   onRefresh: () => void;
+  isAdmin?: boolean;
 }
 
 export const InventoryPanel: React.FC<InventoryPanelProps> = ({
@@ -49,7 +51,8 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
   onLeaveQueue,
   onUpdateVehicleLocation,
   vehicleConfigs,
-  onRefresh
+  onRefresh,
+  isAdmin
 }) => {
   const [highlightedVin, setHighlightedVin] = React.useState<string | null>(null);
   const [selectedVin, setSelectedVin] = React.useState<string | null>(null);
@@ -170,6 +173,23 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
     return true;
   };
 
+  const handleExportInventory = () => {
+    const data = items.map(item => ({
+      'VIN': item.vin,
+      'Dòng Xe': item.line,
+      'Phiên Bản': item.version,
+      'Màu Ngoại': item.exterior,
+      'Màu Nội': item.interior,
+      'Trạng Thái': item.status,
+      'Vị Trí': item.location || '',
+      'Bãi Xe': vehicleLocations.find(l => item.latitude === l.latitude && item.longitude === l.longitude)?.location || '',
+      'Người Giữ': item.holder || ''
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'KhoXe');
+    XLSX.writeFile(workbook, 'Danh_Sach_Kho_Xe.xlsx');
+  };
 
   return (
     <section className={isMobile ? `panel inventory-dashboard ${mobileView === 'detail' ? 'inventory-mobile-detail' : 'inventory-mobile-list'}` : 'panel inventory-dashboard'}>
@@ -347,11 +367,24 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
                   Xóa
                 </button>
               )}
+
+              {isAdmin && (
+                <button
+                  className="ghost-button"
+                  onClick={handleExportInventory}
+                  style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', marginLeft: canManageInventory ? 'auto' : '0', color: '#10b981', background: '#f8fafc', border: '1px solid #cbd5e1' }}
+                  title="Xuất danh sách kho xe ra file Excel"
+                >
+                  <Download size={14} />
+                  <span>Xuất Excel</span>
+                </button>
+              )}
+
               {canManageInventory ? (
                 <button
                   className="primary-button"
                   onClick={onOpenImport}
-                  style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', marginLeft: 'auto' }}
+                  style={{ height: '34px', padding: '0 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, gap: '6px', marginLeft: isAdmin ? '8px' : 'auto' }}
                 >
                   <PackageCheck size={15} />
                   <span>Nhập kho</span>
