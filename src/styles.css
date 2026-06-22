@@ -2535,33 +2535,39 @@ small {
   background: #65746d;
 }
 
-.dot.pending,
+.dot.pending { background: #f59e0b; }
 .status.pending {
-  background: #f7ead9;
-  color: #935314;
+  background: #ffffff;
+  color: #d97706;
+  border: 1px solid #fde68a;
 }
 
-.dot.preparing,
+.dot.preparing { background: #10b981; }
 .status.preparing {
-  background: #e8eefc;
-  color: #115e59;
+  background: #ffffff;
+  color: #059669;
+  border: 1px solid #a7f3d0;
 }
 
-.dot.shipping,
+.dot.shipping { background: #0ea5e9; }
 .status.shipping {
-  background: #e5f2ed;
-  color: #0f766e;
+  background: #ffffff;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
 }
 
-.dot.done,
+.dot.done { background: #3b82f6; }
 .status.done {
-  background: #e7f6df;
-  color: #2f6f1f;
+  background: #ffffff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
 }
 
+.dot.canceled { background: #ef4444; }
 .status.canceled {
-  background: #f9e4e2;
-  color: #b42318;
+  background: #ffffff;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
 }
 
 .alert-list,
