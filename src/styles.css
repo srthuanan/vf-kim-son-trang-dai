@@ -5384,6 +5384,9 @@ td small {
   background: #f8fafc;
   border: none;
   border-bottom: 1px solid #cbd5e1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .inventory-data-side td {
@@ -5656,6 +5659,9 @@ td small {
   background: #f8fafc;
   border: none;
   border-bottom: 1px solid #cbd5e1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .orders-data-side td {
