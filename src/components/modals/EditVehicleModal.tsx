@@ -9,7 +9,7 @@ interface EditVehicleModalProps {
   vehicleConfigs: VehicleConfigRow[];
   isSubmitting: boolean;
   onClose: () => void;
-  onSubmit: (vin: string, updates: Partial<InventoryItem>) => Promise<boolean>;
+  onSubmit: (vin: string, updates: Partial<InventoryItem> & { newVin?: string }) => Promise<boolean>;
 }
 
 export const EditVehicleModal: React.FC<EditVehicleModalProps> = ({
