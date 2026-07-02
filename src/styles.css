@@ -5462,43 +5462,37 @@ td small {
 
 .inventory-data-side th:last-child,
 .inventory-data-side td:last-child {
-  width: 220px !important;
-  min-width: 220px !important;
-  max-width: 220px !important;
+  width: 140px !important;
+  min-width: 140px !important;
+  max-width: 140px !important;
   text-align: right;
+}
+
+.inventory-data-side .row-action-button span {
+  display: none;
 }
 
 .inventory-data-side .row-action-button {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  height: 28px;
-  padding: 0 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid transparent;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
   transition: all 0.2s ease;
   cursor: pointer;
-  background: transparent;
 }
 
-.inventory-data-side .action-btn-hold { color: #059669; border-color: #a7f3d0; background: #ecfdf5; }
-.inventory-data-side .action-btn-hold:hover:not(:disabled) { background: #d1fae5; }
-
-.inventory-data-side .action-btn-create { color: #0f766e; border-color: #99f6e4; background: #f0fdfa; }
-.inventory-data-side .action-btn-create:hover:not(:disabled) { background: #ccfbf1; }
-
-.inventory-data-side .action-btn-release,
-.inventory-data-side .action-btn-delete { color: #e11d48; border-color: #fecdd3; background: #fff1f2; }
+.inventory-data-side .action-btn-hold:hover:not(:disabled) { background: #ecfdf5; color: #059669; }
+.inventory-data-side .action-btn-create:hover:not(:disabled) { background: #f0fdfa; color: #0f766e; }
 .inventory-data-side .action-btn-release:hover:not(:disabled),
-.inventory-data-side .action-btn-delete:hover:not(:disabled) { background: #ffe4e6; }
-
-.inventory-data-side .action-btn-edit { color: #2563eb; border-color: #bfdbfe; background: #eff6ff; }
-.inventory-data-side .action-btn-edit:hover:not(:disabled) { background: #dbeafe; }
-
-.inventory-data-side .action-btn-queue { color: #d97706; border-color: #fde68a; background: #fffbeb; }
-.inventory-data-side .action-btn-queue:hover:not(:disabled) { background: #fef3c7; }
+.inventory-data-side .action-btn-delete:hover:not(:disabled) { background: #fff1f2; color: #e11d48; }
+.inventory-data-side .action-btn-edit:hover:not(:disabled) { background: #eff6ff; color: #2563eb; }
+.inventory-data-side .action-btn-queue:hover:not(:disabled) { background: #fffbeb; color: #d97706; }
 
 .inventory-data-side .row-action-button:disabled {
   opacity: 0.5;
