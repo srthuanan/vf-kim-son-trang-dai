@@ -315,6 +315,7 @@ export interface SalesPolicyRow {
 
 export interface UpdateOrderInput {
   orderId: string;
+  newOrderId?: string;
   customer: string;
   line: string;
   version: string;

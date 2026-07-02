@@ -739,6 +739,10 @@ export const updateOrderDetails = async (
     ma_amis: input.maAmis?.trim() || null
   };
 
+  if (input.newOrderId && input.newOrderId !== input.orderId) {
+    updateData.so_don_hang = input.newOrderId.trim();
+  }
+
   if (criticalChanged) {
     updateData.ket_qua = 'Chưa ghép';
     updateData.vin = null;
@@ -774,7 +778,7 @@ export const updateOrderDetails = async (
       ghi_chu: input.ghiChu?.trim() || null,
       updated_at: new Date().toISOString()
     })
-    .eq('so_don_hang', input.orderId);
+    .eq('so_don_hang', input.newOrderId ? input.newOrderId.trim() : input.orderId);
 
   // Tự ghép lại theo FIFO nếu đổi cấu hình
   let autoMatchedVin = '';

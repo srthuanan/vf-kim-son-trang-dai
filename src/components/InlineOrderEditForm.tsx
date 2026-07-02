@@ -46,6 +46,7 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
   );
   
   const [error, setError] = React.useState('');
+  const [newOrderId, setNewOrderId] = React.useState(order.id);
   const [customer, setCustomer] = React.useState(order.customer);
   const [line, setLine] = React.useState(order.line);
   const [version, setVersion] = React.useState(order.version);
@@ -174,6 +175,7 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
 
     const ok = await onSubmit({
       orderId: order.id,
+      newOrderId: newOrderId.trim(),
       customer: customer.trim(),
       line,
       version,
@@ -244,6 +246,12 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
       <div style={{ flex: 1, overflowY: 'auto' }}>
         <table style={{ width: '100%', boxSizing: 'border-box', tableLayout: 'fixed', borderCollapse: 'collapse', fontSize: '13px', border: '1px solid #cbd5e1' }}>
           <tbody>
+            <tr>
+              <td style={{ backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', padding: '8px 12px', fontWeight: 600, color: '#475569', width: '18%' }}>Số hồ sơ <span style={{ color: 'red' }}>*</span></td>
+              <td colSpan={3} style={{ border: '1px solid #cbd5e1', padding: '8px 12px' }}>
+                <input className="seamless-input" value={newOrderId} onChange={(e) => setNewOrderId(e.target.value)} placeholder="Nhập số hồ sơ mới..." required />
+              </td>
+            </tr>
             <tr>
               <td style={{ backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', padding: '8px 12px', fontWeight: 600, color: '#475569', width: '18%' }}>Khách hàng</td>
               <td style={{ border: '1px solid #cbd5e1', padding: '8px 12px', width: '32%' }}>
