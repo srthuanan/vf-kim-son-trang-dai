@@ -5435,6 +5435,8 @@ td small {
   background: rgba(248, 250, 252, 0.85);
   backdrop-filter: blur(8px);
   border: none;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -5446,7 +5448,7 @@ td small {
 
 .inventory-data-side tbody tr {
   background: #ffffff;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 0 0 1px #e2e8f0, 0 1px 3px rgba(15, 23, 42, 0.04);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 16px;
 }
@@ -5461,8 +5463,7 @@ td small {
   font-size: 13px;
   color: #334155;
   border: none;
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
+  border-right: 1px solid #f1f5f9;
   vertical-align: middle;
 }
 
@@ -5474,7 +5475,7 @@ td small {
 .inventory-data-side td:last-child { 
   border-top-right-radius: 16px; 
   border-bottom-right-radius: 16px; 
-  border-right: 1px solid transparent; 
+  border-right: none;
   width: 240px !important; min-width: 240px !important; max-width: 240px !important;
 }
 
