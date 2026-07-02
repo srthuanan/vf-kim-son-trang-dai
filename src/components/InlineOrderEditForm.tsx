@@ -353,6 +353,48 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
               </td>
             </tr>
             <tr>
+              <td style={{ backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', padding: '8px 12px', fontWeight: 600, color: '#475569' }}>Chính sách</td>
+              <td style={{ border: '1px solid #cbd5e1', padding: '0', position: 'relative' }} colSpan={3}>
+                <div className={`multi-select ${policyOpen ? 'open' : ''}`} ref={policySelectRef} style={{ border: 'none', minHeight: '36px', height: '100%' }}>
+                  <div className="select-box" onClick={policyLoading ? undefined : togglePolicyDropdown} style={{ border: 'none', background: 'transparent', height: '100%', minHeight: '36px', padding: '8px 12px', display: 'flex', alignItems: 'center' }}>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div className="selected-main" style={{ fontSize: '13px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {selectedPolicyCount > 0 ? (selectedPolicyPreview || 'Đã chọn chính sách') : 'Chọn chính sách...'}
+                      </div>
+                      <div className="selected-more" style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>
+                        {selectedPolicyCount > 1 ? `+${selectedPolicyCount - 1}` : ''}
+                      </div>
+                    </div>
+                    <span className="select-caret" style={{ marginLeft: 'auto' }} />
+                  </div>
+
+                  <div className="dropdown-list" style={{ top: '100%', border: '1px solid #cbd5e1', borderRadius: '4px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', zIndex: 99 }}>
+                    {policyLoading ? (
+                      <div className="policy-picker-empty" style={{ padding: '8px 12px' }}>Đang tải danh sách chính sách...</div>
+                    ) : filteredPolicyOptions.length === 0 ? (
+                      <div className="policy-picker-empty" style={{ padding: '8px 12px' }}>Không có chính sách phù hợp.</div>
+                    ) : (
+                      filteredPolicyOptions.map((p) => {
+                        const checked = policy.includes(p.ten_chinh_sach);
+                        return (
+                          <label key={p.ten_chinh_sach} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid #f1f5f9' }}>
+                            <input
+                              type="checkbox"
+                              value={p.ten_chinh_sach}
+                              checked={checked}
+                              onChange={() => togglePolicy(p.ten_chinh_sach)}
+                              style={{ marginTop: '2px' }}
+                            />
+                            <span style={{ fontSize: '13px', lineHeight: '1.4' }}>{p.ten_chinh_sach}</span>
+                          </label>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
               <td style={{ backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', padding: '8px 12px', fontWeight: 600, color: '#475569' }}>Đăng ký xe</td>
               <td style={{ border: '1px solid #cbd5e1', padding: '8px 12px' }}>
                 <select className="seamless-select" value={dangKyXe === true ? 'true' : dangKyXe === false ? 'false' : ''} onChange={(e) => {
