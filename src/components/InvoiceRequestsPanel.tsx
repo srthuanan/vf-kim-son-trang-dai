@@ -505,6 +505,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
                       { label: 'Nguồn khách', value: selectedRequest.nguon_khach || 'Trực tiếp' },
                       { label: 'Mã Hợp Đồng', value: <span className="clickable-copy-field" onClick={() => copyToClipboard(selectedRequest.so_hop_dong || '', 'Mã HĐ')}>{selectedRequest.so_hop_dong || 'N/A'}</span> },
                       { label: 'Mã VSO', value: <span className="clickable-copy-field" onClick={() => copyToClipboard(selectedRequest.ma_vso || '', 'Mã VSO')}>{selectedRequest.ma_vso || 'N/A'}</span> },
+                      { label: 'Mã Amis', value: <span className="clickable-copy-field" onClick={() => copyToClipboard(selectedRequest.ma_amis || '', 'Mã Amis')}>{selectedRequest.ma_amis || 'N/A'}</span> },
                       { label: 'Ngày ký HĐ', value: formatMobileDate(selectedRequest.ngay_ky_hop_dong) || '—' },
                       { label: 'Giá công bố', value: formatCurrency(selectedRequest.gia_cong_bo) || '—' },
                       { label: 'Đăng ký xe', value: selectedRequest.dang_ky_xe ? 'Có' : 'Không' },
