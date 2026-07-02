@@ -1668,7 +1668,14 @@ export const updateVehicle = async (vin: string, updates: Partial<import('../typ
   if (updates.ma_dms !== undefined) dbUpdates.ma_dms = updates.ma_dms;
   dbUpdates.updated_at = new Date().toISOString();
 
-  return await supabase.from('khoxe').update(dbUpdates).eq('vin', vin.trim());
+  const result = await supabase.from('khoxe').update(dbUpdates).eq('vin', vin.trim());
+
+  if (updates.newVin && updates.newVin !== vin && !result.error) {
+    // Đồng bộ số VIN mới sang đơn hàng nếu xe này đang được ghép
+    await supabase.from('donhang').update({ vin: dbUpdates.vin }).eq('vin', vin.trim());
+  }
+
+  return result;
 };
 
 // =========================================================
