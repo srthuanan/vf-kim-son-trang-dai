@@ -33,10 +33,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
       <div className="brand">
-        <div className="brand-mark">VF</div>
-        <div>
-          <strong>VF KIM SƠN</strong>
-          <span>TRẢNG DÀI</span>
+        <div className="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="brand-icon">
+            <path d="M4 7l8 10 8-10" />
+            <path d="M12 2v20" />
+            <path d="M8 7h8" />
+          </svg>
+        </div>
+        <div className="brand-text">
+          <strong className="brand-title">VF KIM SƠN</strong>
+          <span className="brand-subtitle">TRẢNG DÀI</span>
         </div>
       </div>
 
