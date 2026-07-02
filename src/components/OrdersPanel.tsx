@@ -111,6 +111,7 @@ interface OrdersPanelProps {
   vehicleConfigs: VehicleConfigRow[];
   isUpdatingOrder: boolean;
   onViewLog?: (orderId: string) => void;
+  onDeleteOrderSubmit?: (orderId: string) => Promise<boolean>;
 }
 
 export const OrdersPanel: React.FC<OrdersPanelProps> = ({
@@ -139,7 +140,8 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   showStaffColumn,
   isAdmin,
   vehicleConfigs,
-  isUpdatingOrder
+  isUpdatingOrder,
+  onDeleteOrderSubmit
 }) => {
   const [knownPolicies, setKnownPolicies] = useState<string[]>([]);
   
@@ -804,6 +806,22 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                                 style={{ flex: 1, padding: '10px', fontSize: '13px', fontWeight: 600, border: '1px solid #fecaca', background: selectedCanCancel ? '#fef2f2' : '#ffffff', color: selectedCanCancel ? '#ef4444' : '#fca5a5', cursor: selectedCanCancel ? 'pointer' : 'not-allowed', borderRadius: 0 }}
                               >
                                 Hủy đơn
+                              </button>
+                            )}
+                            {isAdmin && !isPairingInline && !isCancelingInline && onDeleteOrderSubmit && (
+                              <button
+                                onClick={async () => {
+                                  if (window.confirm('Bạn có chắc chắn muốn XÓA VĨNH VIỄN đơn hàng này không? Dữ liệu không thể khôi phục.')) {
+                                    const success = await onDeleteOrderSubmit(selectedOrder.id);
+                                    if (success) {
+                                      setIsDetailPanelOpen(false);
+                                    }
+                                  }
+                                }}
+                                style={{ flex: 1, padding: '10px', fontSize: '13px', fontWeight: 600, border: '1px solid #fecaca', background: '#ffffff', color: '#dc2626', cursor: 'pointer', borderRadius: 0 }}
+                                title="Xóa vĩnh viễn đơn hàng"
+                              >
+                                Xóa vĩnh viễn
                               </button>
                             )}
                           </div>

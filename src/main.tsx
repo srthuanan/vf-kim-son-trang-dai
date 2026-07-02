@@ -117,6 +117,7 @@ function App() {
     handleUnpairVehicle,
     isCanceling,
     handleCancelOrder,
+    handleDeleteOrder,
     isUpdatingOrder,
     handleUpdateOrder,
     isUpdatingPolicy,
@@ -453,6 +454,7 @@ function App() {
                 onUnpairOrder={handleUnpairVehicle}
                 onInvoiceOrder={setInvoicingOrder}
                 onCancelOrderSubmit={handleCancelOrder}
+                onDeleteOrderSubmit={handleDeleteOrder}
                 onEditOrder={setEditingOrder}
                 onUpdateOrder={handleUpdateOrder}
                 isUpdatingOrder={isUpdatingOrder}

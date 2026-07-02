@@ -1012,6 +1012,31 @@ export const unpairVehicle = async (orderId: string) => {
   return result;
 };
 
+export const deleteOrder = async (orderId: string) => {
+  if (!supabase) throw new Error('Supabase chưa được cấu hình');
+  
+  const { data: order } = await supabase
+    .from('donhang')
+    .select('vin')
+    .eq('so_don_hang', orderId)
+    .single();
+
+  if (order?.vin) {
+    await unpairVehicle(orderId);
+  }
+
+  const result = await supabase
+    .from('donhang')
+    .delete()
+    .eq('so_don_hang', orderId);
+
+  if (!result.error) {
+    await notifyAdminAction(`vừa xóa vĩnh viễn đơn hàng ${orderId}.`);
+    await logSystemActivity('system_action', null, `Admin vừa xóa vĩnh viễn đơn hàng ${orderId}`);
+  }
+  return result;
+};
+
 export const addNewVehicle = async (vehicle: KhoxeRow) => {
   if (!supabase) throw new Error('Supabase chưa được cấu hình');
   const result = await supabase.from('khoxe').insert(vehicle);
