@@ -220,6 +220,7 @@ export interface YeucauxhdRow {
   hinh_thuc_tt: string | null;
   nguon_khach: string | null;
   ma_vso: string | null;
+  ma_amis: string | null;
   mua_bao_hiem: boolean | null;
   dang_ky_xe: boolean | null;
   gia_cong_bo: number | null;
