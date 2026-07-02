@@ -452,6 +452,23 @@ export function useOrderOperations({
     }
   }
 
+  async function handleDeleteOrder(orderId: string): Promise<boolean> {
+    try {
+      const { error } = await apiService.deleteOrder(orderId);
+      if (error) {
+        setSyncState('error');
+        setSyncMessage(`Không thể xóa đơn ${orderId}: ${error.message}`);
+        return false;
+      }
+      await loadWorkspace({ showLoading: false });
+      return true;
+    } catch (err: any) {
+      setSyncState('error');
+      setSyncMessage(`Không thể xóa đơn ${orderId}: ${err.message}`);
+      return false;
+    }
+  }
+
   async function handleUpdateOrder(input: UpdateOrderInput) {
     setIsUpdatingOrder(true);
     try {
@@ -704,6 +721,7 @@ export function useOrderOperations({
     handleUnpairVehicle,
     isCanceling,
     handleCancelOrder,
+    handleDeleteOrder,
     isUpdatingOrder,
     handleUpdateOrder,
     isUpdatingPolicy,
