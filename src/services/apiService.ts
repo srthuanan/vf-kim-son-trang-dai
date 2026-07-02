@@ -1025,6 +1025,10 @@ export const deleteOrder = async (orderId: string) => {
     await unpairVehicle(orderId);
   }
 
+  // Delete related records in car_hold_activities and yeucauxhd to satisfy foreign keys
+  await supabase.from('car_hold_activities').delete().eq('so_don_hang', orderId);
+  await supabase.from('yeucauxhd').delete().eq('so_don_hang', orderId);
+
   const result = await supabase
     .from('donhang')
     .delete()
