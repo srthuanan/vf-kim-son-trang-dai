@@ -4972,8 +4972,7 @@ td small {
     grid-column: span 2;
   }
 
-  .orders-data-side .table-wrap,
-  .inventory-data-side .table-wrap {
+  .orders-data-side .table-wrap {
     overflow-x: auto !important;
     overflow-y: visible !important;
     -webkit-overflow-scrolling: touch;
@@ -5617,11 +5616,12 @@ td small {
     height: auto;
   }
   .inventory-data-side {
-    height: auto;
-    overflow: visible;
+    height: 70vh;
+    min-height: 500px;
+    overflow: hidden;
   }
   .inventory-data-side .table-wrap {
-    overflow-y: visible;
+    overflow-y: auto !important;
   }
   .inventory-visual-side {
     overflow: visible;
