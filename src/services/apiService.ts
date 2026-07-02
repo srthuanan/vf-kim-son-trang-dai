@@ -1654,10 +1654,11 @@ export const deleteVehicle = async (vin: string) => {
   return result;
 };
 
-export const updateVehicle = async (vin: string, updates: Partial<import('../types').InventoryItem>) => {
+export const updateVehicle = async (vin: string, updates: Partial<import('../types').InventoryItem> & { newVin?: string }) => {
   if (!supabase) throw new Error('Supabase chưa được cấu hình');
   
   const dbUpdates: any = {};
+  if (updates.newVin && updates.newVin !== vin) dbUpdates.vin = updates.newVin.trim().toUpperCase();
   if (updates.line !== undefined) dbUpdates.dong_xe = updates.line;
   if (updates.version !== undefined) dbUpdates.phien_ban = updates.version;
   if (updates.exterior !== undefined) dbUpdates.ngoai_that = updates.exterior;

@@ -25,6 +25,7 @@ export const EditVehicleModal: React.FC<EditVehicleModalProps> = ({
   );
 
   const [error, setError] = React.useState('');
+  const [newVin, setNewVin] = React.useState(vehicle.vin);
   const [line, setLine] = React.useState(vehicle.line);
   const [version, setVersion] = React.useState(vehicle.version);
   const [exterior, setExterior] = React.useState(vehicle.exterior);
@@ -39,12 +40,13 @@ export const EditVehicleModal: React.FC<EditVehicleModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!line || !version || !exterior || !interior) {
-      setError('Vui lòng điền đầy đủ Dòng xe, Phiên bản, Màu sắc.');
+    if (!newVin.trim() || !line || !version || !exterior || !interior) {
+      setError('Vui lòng điền đầy đủ VIN, Dòng xe, Phiên bản, Màu sắc.');
       return;
     }
 
     const success = await onSubmit(vehicle.vin, {
+      newVin: newVin.trim().toUpperCase(),
       line,
       version,
       exterior,
@@ -66,7 +68,7 @@ export const EditVehicleModal: React.FC<EditVehicleModalProps> = ({
       <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', width: '90%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}>
         <div style={{ padding: '20px 24px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: '#ffffff', zIndex: 10 }}>
           <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>
-            Chỉnh sửa xe: <span style={{ color: '#0f766e' }}>{vehicle.vin}</span>
+            Chỉnh sửa xe: <span style={{ color: '#0f766e' }}>{newVin}</span>
           </h2>
           <button type="button" onClick={onClose} disabled={isSubmitting} style={{ background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', padding: '4px', display: 'flex' }}>
             <X size={20} />
@@ -82,7 +84,17 @@ export const EditVehicleModal: React.FC<EditVehicleModalProps> = ({
           )}
 
           <div style={{ marginBottom: '20px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#475569', marginBottom: '6px' }}>Số VIN định danh <span style={{color: '#ef4444'}}>*</span></label>
+                <input
+                  required
+                  value={newVin}
+                  onChange={(e) => setNewVin(e.target.value.toUpperCase())}
+                  disabled={isSubmitting}
+                  style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}
+                />
+              </div>
               <div>
                 <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#475569', marginBottom: '6px' }}>Trạng thái (Không thể sửa)</label>
                 <div className={stockTone[vehicle.status]} style={{ padding: '10px 12px', background: '#f1f5f9', borderRadius: '8px', fontSize: '14px', fontWeight: 600, border: '1px solid #e2e8f0', color: '#334155' }}>
