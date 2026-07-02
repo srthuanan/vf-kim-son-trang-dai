@@ -1672,7 +1672,23 @@ export const updateVehicle = async (vin: string, updates: Partial<import('../typ
 
   if (updates.newVin && updates.newVin !== vin && !result.error) {
     // Đồng bộ số VIN mới sang đơn hàng nếu xe này đang được ghép
-    await supabase.from('donhang').update({ vin: dbUpdates.vin }).eq('vin', vin.trim());
+    const { data: updatedOrders } = await supabase.from('donhang').update({ vin: dbUpdates.vin }).eq('vin', vin.trim()).select('*');
+    
+    // Gửi email thông báo đổi VIN cho các đơn hàng liên quan
+    if (updatedOrders && updatedOrders.length > 0) {
+      for (const order of updatedOrders) {
+        supabase.functions.invoke('send-email', {
+          body: {
+            actionId: 'vin_replaced',
+            record: {
+              ...order,
+              old_vin: vin.trim(),
+              new_vin: dbUpdates.vin
+            }
+          }
+        }).catch(e => console.warn('Lỗi gọi gửi email vin_replaced:', e));
+      }
+    }
   }
 
   return result;
