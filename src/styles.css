@@ -250,9 +250,9 @@ button:disabled {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #0f766e, #14b8a6);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #f8fafc;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
   flex-shrink: 0;
 }
 
