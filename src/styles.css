@@ -225,13 +225,14 @@ button:disabled {
   position: sticky;
   top: 0;
   display: flex;
-  flex: 0 0 220px;
+  flex: 0 0 240px;
   flex-direction: column;
   height: 100vh;
-  padding: 24px 14px;
-  border-right: 1px solid #d9ded5;
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(18px);
+  padding: 24px 16px;
+  border-right: none;
+  background: #ffffff;
+  box-shadow: 2px 0 24px rgba(15, 23, 42, 0.04);
+  z-index: 10;
 }
 
 .brand {
@@ -291,17 +292,25 @@ small {
 
 .nav-item {
   justify-content: flex-start;
-  gap: 11px;
-  min-height: 44px;
-  padding: 0 12px;
+  gap: 12px;
+  min-height: 46px;
+  padding: 0 14px;
   background: transparent;
-  color: #31433c;
+  color: #475569;
+  font-weight: 500;
+  border-radius: 12px;
 }
 
-.nav-item:hover,
+.nav-item:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
 .nav-item.active {
-  background: #e5f2ed;
-  color: #0f766e;
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+  font-weight: 600;
 }
 
 .sidebar-footer {
