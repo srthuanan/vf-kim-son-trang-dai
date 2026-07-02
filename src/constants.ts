@@ -19,7 +19,7 @@ export const tabs = [
   { key: 'dashboard', label: 'Tổng quan', icon: LayoutDashboard },
   { key: 'orders', label: 'Đơn hàng', icon: ShoppingBag },
   { key: 'inventory', label: 'Kho xe', icon: Boxes },
-  { key: 'invoices', label: 'Yêu cầu HĐ', icon: ClipboardList },
+  { key: 'invoices', label: 'Hóa đơn', icon: ClipboardList },
   { key: 'pricing', label: 'Tính giá', icon: Calculator },
   { key: 'staff', label: 'Nhân sự', icon: Users },
   { key: 'settings', label: 'Cấu hình', icon: Settings }
