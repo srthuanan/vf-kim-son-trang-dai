@@ -1032,7 +1032,6 @@ export const deleteOrder = async (orderId: string) => {
 
   if (!result.error) {
     await notifyAdminAction(`vừa xóa vĩnh viễn đơn hàng ${orderId}.`);
-    await logSystemActivity('system_action', null, `Admin vừa xóa vĩnh viễn đơn hàng ${orderId}`);
   }
   return result;
 };
