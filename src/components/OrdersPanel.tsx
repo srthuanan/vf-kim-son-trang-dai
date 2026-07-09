@@ -463,7 +463,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                         <div className="orders-mobile-card-header">
                           <div className="orders-mobile-card-headings">
                             <p className="orders-mobile-card-title" style={{ textTransform: 'uppercase' }}>{order.customer}</p>
-                            <p className="orders-mobile-card-subtitle">{order.id}</p>
+                            <p className="orders-mobile-card-subtitle">{order.contractCode || order.id}</p>
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
                             <span className={statusTone[order.status]} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '4px 8px', borderRadius: '999px', fontSize: '11px', fontWeight: 700 }}>
@@ -537,7 +537,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                           style={{ cursor: 'pointer', transition: 'background 0.15s', backgroundColor: order.isWarning ? '#fff1f2' : undefined }}
                         >
                           <td style={{ fontWeight: 700, color: order.isWarning ? '#e11d48' : '#0f766e', display: 'flex', alignItems: 'center', gap: '6px', borderBottom: 'none' }}>
-                            {order.id}
+                            {order.contractCode || order.id}
                             {order.isWarning && (
                               <div style={{ display: 'flex', alignItems: 'center', gap: '2px', color: '#e11d48', fontSize: '11px', fontWeight: 700, backgroundColor: '#ffe4e6', padding: '2px 4px', borderRadius: '4px' }} title={order.warningMessage}>
                                 <TriangleAlert size={12} />
@@ -622,8 +622,8 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
                       <div className="orders-detail-pane__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', marginBottom: '16px', borderBottom: '2px solid #1e293b' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <h3 style={{ fontSize: '20px', margin: 0, fontWeight: 700, color: '#111827' }}>Hồ sơ: {selectedOrder.id}</h3>
-                          <button className="ghost-button" title="Copy mã đơn" onClick={() => copyToClipboard(selectedOrder.id, 'Mã đơn')} style={{ padding: '4px', height: 'auto', color: '#64748b' }}><Copy size={14} /></button>
+                          <h3 style={{ fontSize: '20px', margin: 0, fontWeight: 700, color: '#111827' }}>Hồ sơ: {selectedOrder.contractCode || selectedOrder.id}</h3>
+                          <button className="ghost-button" title="Copy mã đơn" onClick={() => copyToClipboard(selectedOrder.contractCode || selectedOrder.id, 'Mã đơn')} style={{ padding: '4px', height: 'auto', color: '#64748b' }}><Copy size={14} /></button>
                         </div>
                         <span className={statusTone[selectedOrder.status]} style={{ padding: '4px 8px', border: '1px solid currentColor', fontSize: '12px', fontWeight: 600 }}>{selectedOrder.status}</span>
                       </div>
