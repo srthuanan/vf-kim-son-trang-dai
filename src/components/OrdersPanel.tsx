@@ -159,6 +159,13 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
       .filter((n): n is string => Boolean(n));
     return Array.from(new Set([...names, ...staffNames]));
   }, [staffProfiles]);
+
+  const activeStaffNames = useMemo(() => {
+    if (!allOrders) return [];
+    const names = allOrders.map(o => o.staff).filter(Boolean);
+    return Array.from(new Set(names)).sort();
+  }, [allOrders]);
+
   const [staffFilter, setStaffFilter] = useState('Tất cả');
   const [isDetailPanelOpen, setIsDetailPanelOpen] = useState(false);
   const [isEditingInline, setIsEditingInline] = useState(false);
@@ -419,7 +426,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                 style={{ fontSize: '12px', border: '1px solid #cbd5e1', borderRadius: '6px', height: '32px', minWidth: '150px', background: '#fff', color: '#1e293b', outline: 'none', padding: '0 8px' }}
               >
                 <option value="Tất cả">Tất cả TVBH</option>
-                {dynamicStaffNames.map(name => (
+                {activeStaffNames.map(name => (
                   <option key={name} value={name}>{name}</option>
                 ))}
               </select>
