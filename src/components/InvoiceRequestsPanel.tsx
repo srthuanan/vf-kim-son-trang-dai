@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Search, CheckCircle2, XCircle, Clock, ExternalLink, CheckSquare, FilePlus2, User, Car, CreditCard, FileText, HelpCircle, ArrowLeft, Eye, ShieldCheck, ClipboardCheck, Info, Mail, RefreshCw, X, Trash2, Download } from 'lucide-react';
+import { Search, CheckCircle2, XCircle, Clock, ExternalLink, CheckSquare, FilePlus2, User, Car, CreditCard, FileText, HelpCircle, ArrowLeft, Eye, ShieldCheck, ClipboardCheck, Info, Mail, RefreshCw, X, Trash2, Download, RotateCcw } from 'lucide-react';
 import { YeucauxhdRow, Order } from '../types';
 import { copyToClipboard } from '../utils/clipboard';
 import * as apiService from '../services/apiService';
@@ -566,6 +566,27 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
                     {getWorkflowStatus(selectedRequest) === 'Yêu cầu bổ sung' && (
                       <button onClick={() => onSupplement(selectedRequest)} disabled={isProcessing} className="primary-button" style={{ height: '26px', padding: '0 8px', fontSize: '11px', borderRadius: '4px', background: '#d97706', borderColor: '#d97706' }}>
                         {isProcessing ? <RefreshCw size={12} className="spin" style={{ marginRight: '4px' }} /> : <FilePlus2 size={12} style={{ marginRight: '4px' }} />} Bổ sung ngay
+                      </button>
+                    )}
+                    {canApprove && (['Đã phê duyệt', 'Chờ ký hóa đơn', 'Đã xuất hóa đơn'].includes(getWorkflowStatus(selectedRequest))) && (
+                      <button 
+                        onClick={() => {
+                           const current = getWorkflowStatus(selectedRequest);
+                           let prev = '';
+                           if (current === 'Đã xuất hóa đơn') prev = 'Chờ ký hóa đơn';
+                           else if (current === 'Chờ ký hóa đơn') prev = 'Đã phê duyệt';
+                           else if (current === 'Đã phê duyệt') prev = 'Chờ phê duyệt';
+                           
+                           if (prev && window.confirm(`Bạn có chắc chắn muốn lùi từ trạng thái "${current}" về "${prev}" không?`)) {
+                             if (onBulkUpdateStatus) onBulkUpdateStatus([selectedRequest.id], prev);
+                           }
+                        }} 
+                        disabled={isProcessing} 
+                        className="ghost-button" 
+                        style={{ height: '26px', padding: '0 8px', fontSize: '11px', borderRadius: '4px', color: '#64748b', borderColor: '#cbd5e1' }}
+                        title="Lùi trạng thái"
+                      >
+                        {isProcessing ? <RefreshCw size={12} className="spin" style={{ marginRight: '4px' }} /> : <RotateCcw size={12} style={{ marginRight: '4px' }} />} Lùi lại
                       </button>
                     )}
                     {canApprove && onDelete && (
