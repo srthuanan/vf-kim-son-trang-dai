@@ -134,7 +134,9 @@ function App() {
     handleFinalizeInvoice,
     handleUploadIssuedInvoice,
     isDeletingInvoice,
-    handleDeleteInvoiceRequest
+    handleDeleteInvoiceRequest,
+    handleBulkUpdateInvoiceStatus,
+    handleBulkDeleteInvoiceRequests
   } = useOrderOperations({
     session,
     currentUsername,
@@ -514,7 +516,9 @@ function App() {
                   onPendingSignature={(request) => handleMarkInvoicePendingSignature(request.id)}
                   onUploadInvoice={setFinalizingRequest}
                   onSupplement={setSupplementingRequest}
-                    onDelete={(request) => handleDeleteInvoiceRequest(request.id)}
+                  onDelete={(request) => handleDeleteInvoiceRequest(request.id)}
+                  onBulkUpdateStatus={handleBulkUpdateInvoiceStatus}
+                  onBulkDelete={handleBulkDeleteInvoiceRequests}
                 />
               </div>
             )}

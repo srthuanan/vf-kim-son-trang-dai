@@ -676,6 +676,38 @@ export function useOrderOperations({
     }
   }
 
+  async function handleBulkUpdateInvoiceStatus(requestIds: string[], newStatus: string) {
+    setIsAdvancingInvoice(true);
+    try {
+      const { error } = await apiService.updateInvoiceRequestStatus(requestIds, newStatus);
+      if (error) {
+        setSyncState('error');
+        setSyncMessage(`Lỗi cập nhật trạng thái hàng loạt: ${error.message}`);
+        return false;
+      }
+      await loadWorkspace({ showLoading: false });
+      return true;
+    } finally {
+      setIsAdvancingInvoice(false);
+    }
+  }
+
+  async function handleBulkDeleteInvoiceRequests(requestIds: string[]) {
+    setIsDeletingInvoice(true);
+    try {
+      const { error } = await apiService.deleteMultipleInvoiceRequests(requestIds);
+      if (error) {
+        setSyncState('error');
+        setSyncMessage(`Lỗi xóa yêu cầu hàng loạt: ${error.message}`);
+        return false;
+      }
+      await loadWorkspace({ showLoading: false });
+      return true;
+    } finally {
+      setIsDeletingInvoice(false);
+    }
+  }
+
   async function handleDeleteInvoiceRequest(requestId: string) {
     setIsDeletingInvoice(true);
     try {
@@ -738,6 +770,8 @@ export function useOrderOperations({
     handleFinalizeInvoice,
     handleUploadIssuedInvoice,
     isDeletingInvoice,
-    handleDeleteInvoiceRequest
+    handleDeleteInvoiceRequest,
+    handleBulkUpdateInvoiceStatus,
+    handleBulkDeleteInvoiceRequests
   };
 }

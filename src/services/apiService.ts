@@ -1574,6 +1574,77 @@ export const approveInvoiceRequest = async (requestId: string) => {
   });
 };
 
+export const updateInvoiceRequestStatus = async (requestIds: string[], newStatus: string) => {
+  if (!supabase) throw new Error('Supabase chưa được cấu hình');
+  if (!requestIds || requestIds.length === 0) return { error: null };
+
+  let baseStatus = 'pending';
+  if (['Đã phê duyệt', 'Chờ ký hóa đơn', 'Đã xuất hóa đơn'].includes(newStatus)) baseStatus = 'approved';
+  else if (['Từ chối', 'Đã hủy'].includes(newStatus)) baseStatus = 'rejected';
+
+  // Cập nhật nhiều yêu cầu XHĐ
+  const { error: reqError } = await supabase
+    .from('yeucauxhd')
+    .update({ 
+      trang_thai_xu_ly: newStatus,
+      status: baseStatus,
+      updated_at: new Date().toISOString()
+    })
+    .in('id', requestIds);
+
+  if (reqError) return { error: reqError };
+
+  // Lấy các mã đơn hàng để đồng bộ
+  const { data: reqs } = await supabase.from('yeucauxhd').select('so_don_hang').in('id', requestIds);
+  if (reqs && reqs.length > 0) {
+    const orderIds = reqs.map(r => r.so_don_hang).filter(Boolean);
+    if (orderIds.length > 0) {
+      await supabase.from('donhang').update({ ket_qua: newStatus }).in('so_don_hang', orderIds);
+    }
+  }
+
+  return { error: null };
+};
+
+export const deleteMultipleInvoiceRequests = async (requestIds: string[]) => {
+  if (!supabase) throw new Error('Supabase chưa được cấu hình');
+  if (!requestIds || requestIds.length === 0) return { error: null };
+
+  // 1. Phục hồi xe và trạng thái đơn hàng (Mô phỏng lại logic deleteInvoiceRequest)
+  const { data: requestsToDelete } = await supabase.from('yeucauxhd').select('*').in('id', requestIds);
+  
+  if (requestsToDelete && requestsToDelete.length > 0) {
+    const orderIds = requestsToDelete.map(r => r.so_don_hang).filter(Boolean);
+    if (orderIds.length > 0) {
+      await supabase.from('donhang').update({ ket_qua: 'Đã ghép' }).in('so_don_hang', orderIds);
+    }
+    
+    for (const request of requestsToDelete) {
+      if (request.vin) {
+        const { data: existingVehicle } = await supabase.from('khoxe').select('vin').eq('vin', request.vin).single();
+        if (!existingVehicle) {
+          await supabase.from('khoxe').insert({
+            vin: request.vin,
+            dong_xe: request.dong_xe,
+            phien_ban: request.phien_ban,
+            ngoai_that: request.ngoai_that,
+            noi_that: request.noi_that,
+            so_may: request.so_may,
+            gia_cong_bo: request.gia_cong_bo,
+            da_ghep: true,
+            status: 'held',
+            held_by: request.requested_by,
+            held_at: new Date().toISOString()
+          });
+        }
+      }
+    }
+  }
+
+  // 2. Xóa các yêu cầu
+  return await supabase.from('yeucauxhd').delete().in('id', requestIds);
+};
+
 export const requestInvoiceSupplement = async (requestId: string, reason: string) => {
   if (!supabase) throw new Error('Supabase chưa được cấu hình');
   const result = await supabase.rpc('request_invoice_supplement', {
