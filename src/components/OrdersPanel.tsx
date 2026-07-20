@@ -159,6 +159,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
       .filter((n): n is string => Boolean(n));
     return Array.from(new Set([...names, ...staffNames]));
   }, [staffProfiles]);
+  const [staffFilter, setStaffFilter] = useState('Tất cả');
   const [isDetailPanelOpen, setIsDetailPanelOpen] = useState(false);
   const [isEditingInline, setIsEditingInline] = useState(false);
   const [mobileView, setMobileView] = useState<'list' | 'detail'>('list');
@@ -264,8 +265,13 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
     return () => media.removeListener(update);
   }, []);
 
+  const displayOrders = useMemo(() => {
+    if (staffFilter === 'Tất cả') return orders;
+    return orders.filter(o => o.staff === staffFilter);
+  }, [orders, staffFilter]);
+
   useEffect(() => {
-    if (!orders.length) {
+    if (!displayOrders.length) {
       if (selectedOrderId) {
         setSelectedOrderId('');
       }
@@ -273,16 +279,20 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
       return;
     }
 
-    if (!selectedOrderId || !orders.some((order) => order.id === selectedOrderId)) {
-      setSelectedOrderId(orders[0].id);
+    if (!selectedOrderId || !displayOrders.some((order) => order.id === selectedOrderId)) {
+      setSelectedOrderId(displayOrders[0]?.id || '');
     }
-  }, [orders, selectedOrderId]);
+  }, [displayOrders, selectedOrderId]);
 
   const queryMatchedOrders = useMemo(() => {
-    if (!allOrders) return orders;
+    if (!allOrders) return displayOrders;
+    let base = allOrders;
+    if (staffFilter !== 'Tất cả') {
+      base = base.filter(o => o.staff === staffFilter);
+    }
     const normQuery = query.trim().toLowerCase();
-    if (!normQuery) return allOrders;
-    return allOrders.filter(order => (
+    if (!normQuery) return base;
+    return base.filter(order => (
       order.id.toLowerCase().includes(normQuery) ||
       order.customer.toLowerCase().includes(normQuery) ||
       (order.phone && order.phone.includes(normQuery)) ||
@@ -292,7 +302,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
       order.exterior.toLowerCase().includes(normQuery) ||
       order.interior.toLowerCase().includes(normQuery)
     ));
-  }, [allOrders, orders, query]);
+  }, [allOrders, displayOrders, query, staffFilter]);
 
   const totalOrders = queryMatchedOrders.length;
   const unpairedOrders = queryMatchedOrders.filter((order) => order.status === 'Chưa ghép').length;
@@ -334,7 +344,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   }, [isMobile]);
 
   const handleExportOrders = () => {
-    const data = orders.map((o, index) => ({
+    const data = displayOrders.map((o, index) => ({
       'STT': index + 1,
       'TVBH': o.staff || '',
       'Tên Khách Hàng': o.customer || '',
@@ -402,6 +412,18 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
 
             {/* 2. Thanh công cụ tìm kiếm & nút */}
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', flex: '1 1 auto', justifyContent: 'flex-end' }}>
+              <select
+                className="seamless-select"
+                value={staffFilter}
+                onChange={(e) => setStaffFilter(e.target.value)}
+                style={{ fontSize: '12px', border: '1px solid #cbd5e1', borderRadius: '6px', height: '32px', minWidth: '150px', background: '#fff', color: '#1e293b', outline: 'none', padding: '0 8px' }}
+              >
+                <option value="Tất cả">Tất cả TVBH</option>
+                {dynamicStaffNames.map(name => (
+                  <option key={name} value={name}>{name}</option>
+                ))}
+              </select>
+
               <label className="search-box" style={{ flex: '1 1 200px', maxWidth: '300px', minHeight: '32px', height: '32px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '6px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Search size={14} style={{ color: '#64748b' }} />
               <input
@@ -442,12 +464,12 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
           <div className="table-wrap" style={{ marginTop: '4px' }}>
             {isMobile ? (
               <div className="orders-mobile-card-list">
-                {orders.length === 0 ? (
+                {displayOrders.length === 0 ? (
                   <div className="empty-state" style={{ padding: '24px 16px', textAlign: 'center' }}>
                     Không tìm thấy đơn hàng phù hợp.
                   </div>
                 ) : (
-                  orders.map((order) => {
+                  displayOrders.map((order) => {
                     const isActive = selectedOrder?.id === order.id;
                     return (
                       <button
@@ -514,14 +536,14 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.length === 0 ? (
+                  {displayOrders.length === 0 ? (
                     <tr>
                       <td colSpan={5} style={{ textAlign: 'center', padding: '30px', color: '#64748b', fontStyle: 'italic' }}>
                         Không tìm thấy đơn hàng phù hợp.
                       </td>
                     </tr>
                   ) : (
-                    orders.map((order) => {
+                    displayOrders.map((order) => {
                       const isActive = selectedOrder?.id === order.id;
                       return (
                         <tr
