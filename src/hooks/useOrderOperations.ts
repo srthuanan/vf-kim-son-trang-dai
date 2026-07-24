@@ -38,10 +38,13 @@ export function useOrderOperations({
   const [isUnpairingOrderId, setIsUnpairingOrderId] = useState('');
 
   async function handleCreateOrder(input: NewOrderInput) {
-    const orderId = input.orderId.trim().toUpperCase();
+    let orderId = input.orderId.trim().toUpperCase();
+    if (!orderId) {
+      orderId = `TEMP-${Date.now().toString(36).toUpperCase()}-${Math.floor(Math.random() * 1000)}`;
+    }
     const customer = input.customer.trim();
 
-    if (!orderId || !customer || !input.line || !input.version || !input.exterior || !input.depositDate || !input.policy?.length) {
+    if (!customer || !input.line || !input.version || !input.exterior || !input.depositDate || !input.policy?.length) {
       setCreateError('Vui lòng nhập đầy đủ thông tin bắt buộc.');
       return false;
     }

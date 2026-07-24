@@ -136,7 +136,6 @@ export const CreateOrderModal: React.FC<CreateOrderModalProps> = ({
   const selectedPolicyPreview = form.policy[0] || '';
   const isGasToElectricPolicy = form.policy.some((name) => name.toLowerCase().includes('thu cũ'));
   const isFormValid = Boolean(
-    form.orderId.trim() &&
     form.customer.trim() &&
     form.line.trim() &&
     form.version.trim() &&
@@ -237,9 +236,9 @@ export const CreateOrderModal: React.FC<CreateOrderModalProps> = ({
             
             <div className="premium-card-body">
               <div className="premium-form-group">
-                <label className="premium-label">Mã ĐH / VSO <span className="required">*</span></label>
+                <label className="premium-label">Mã ĐH / VSO</label>
                 <div className="premium-input-wrapper">
-                  <input className="premium-input" value={form.orderId} placeholder="G401xx-VSO..." onChange={(e) => updateField('orderId', e.target.value.trim().toUpperCase())} required />
+                  <input className="premium-input" value={form.orderId} placeholder="G401xx-VSO..." onChange={(e) => updateField('orderId', e.target.value.trim().toUpperCase())} />
                 </div>
               </div>
               <div className="premium-form-group">
