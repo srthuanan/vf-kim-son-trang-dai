@@ -407,7 +407,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ configs, onRefresh
               background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', 
               display: 'flex', flexDirection: 'column', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', padding: '20px'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', pb: '12px', borderBottom: '1px solid #f1f5f9' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #f1f5f9' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: '#e0f2fe', color: '#0284c7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Car size={20} />
@@ -827,7 +827,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ configs, onRefresh
                             {p.trang_thai || 'Hoạt động'}
                           </span>
                         </td>
-                        <td style={{ padding: '14px 16.px', textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                        <td style={{ padding: '14px 16px', textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
                           <button title="Sửa" onClick={() => handleEditPolicy(p, index)} style={{ padding: '6px', border: 'none', background: 'transparent', color: '#3b82f6', cursor: 'pointer' }}>
                             <Pencil size={16} />
                           </button>
