@@ -697,8 +697,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ configs, onRefresh
                 <th style={{ textAlign: 'left', padding: '14px 16px', fontWeight: 700 }}>Tên chính sách</th>
                 <th style={{ textAlign: 'left', padding: '14px 16px', fontWeight: 700 }}>Dòng xe áp dụng</th>
                 <th style={{ textAlign: 'left', padding: '14px 16px', fontWeight: 700 }}>Hạn sử dụng</th>
-                <th style={{ textAlign: 'left', padding: '14px 16px', fontWeight 700 }}>Trạng thái</th>
-                <th style={{ textAlign: 'right', padding: '14px 16px', fontWeight 700 }}>Thao tác</th>
+                <th style={{ textAlign: 'left', padding: '14px 16px', fontWeight: 700 }}>Trạng thái</th>
+                <th style={{ textAlign: 'right', padding: '14px 16px', fontWeight: 700 }}>Thao tác</th>
               </tr>
             </thead>
             <tbody>
