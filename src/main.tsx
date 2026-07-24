@@ -26,6 +26,7 @@ const InventoryPanel = lazy(() => import('./components/InventoryPanel').then((mo
 const InvoiceRequestsPanel = lazy(() => import('./components/InvoiceRequestsPanel').then((module) => ({ default: module.InvoiceRequestsPanel })));
 const StaffPanel = lazy(() => import('./components/StaffPanel').then((module) => ({ default: module.StaffPanel })));
 const HRPanel = lazy(() => import('./components/HRPanel').then((module) => ({ default: module.HRPanel })));
+const PricingPanel = lazy(() => import('./components/PricingPanel').then((module) => ({ default: module.PricingPanel })));
 
 // Lớp Popup Modal
 const CreateOrderModal = lazy(() => import('./components/modals/CreateOrderModal').then((module) => ({ default: module.CreateOrderModal })));
@@ -500,6 +501,10 @@ function App() {
                 vehicleConfigs={vehicleConfigs}
                 onRefresh={() => loadWorkspace({ showLoading: false })}
               />
+            )}
+
+            {activeTab === 'pricing' && (
+              <PricingPanel />
             )}
 
             {activeTab === 'invoices' && (

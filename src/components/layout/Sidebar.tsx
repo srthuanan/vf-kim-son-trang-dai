@@ -24,9 +24,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   profile,
   visibleTabs,
   userEmail,
-  onSignOut,
-  onChangePassword,
-  onEditProfile
+  onSignOut
 }) => {
   const tabs = visibleTabs.length ? visibleTabs : getVisibleTabs(profile?.role ?? 'sales');
 
@@ -49,62 +47,49 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <nav className="nav-list" aria-label="Điều hướng chính">
         {tabs.map((tab) => {
           const Icon = tab.icon;
+          const isActive = activeTab === tab.key;
           return (
             <button
               key={tab.key}
-              className={activeTab === tab.key ? 'nav-item active' : 'nav-item'}
+              className={isActive ? 'nav-item active' : 'nav-item'}
               onClick={() => {
                 setActiveTab(tab.key as TabKey);
                 setSidebarOpen(false);
               }}
               title={tab.label}
             >
-              <Icon size={18} />
+              <Icon size={19} strokeWidth={isActive ? 2.5 : 2} />
               <span>{tab.label}</span>
             </button>
           );
         })}
-
-        <a
-          href="/tinh-gia-xe"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nav-item"
-          style={{ textDecoration: 'none', color: '#003B95', background: '#eff6ff', border: '1px solid #dbeafe', fontWeight: 700, marginTop: '8px' }}
-          title="Mở Công Cụ Tính Giá Xe VinFast"
-        >
-          <Calculator size={18} />
-          <span>Tính Giá Xe VinFast</span>
-        </a>
       </nav>
 
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', borderTop: '1px solid #e2e8f0', paddingTop: '20px' }}>
-        {/* User Card */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', background: '#f8fafc', borderRadius: '14px', border: '1px solid #e2e8f0' }}>
-          <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'linear-gradient(135deg, #2563eb, #3b82f6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', flexShrink: 0 }}>
-            <UserRound size={18} strokeWidth={2.5} />
+      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', borderTop: '1px solid #f1f5f9', paddingTop: '16px' }}>
+        {/* User Profile Card */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+          <div style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', flexShrink: 0, boxShadow: '0 4px 10px rgba(2, 132, 199, 0.25)' }}>
+            <UserRound size={19} strokeWidth={2.5} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {profile?.full_name ?? userEmail ?? 'Người dùng'}
             </div>
-            <div style={{ fontSize: '11px', fontWeight: 600, color: '#64748b', marginTop: '2px' }}>
-              Vai trò: {profile ? roleLabels[profile.role] : 'Chưa có profile'}
+            <div style={{ fontSize: '11px', fontWeight: 600, color: '#0284c7', marginTop: '1px' }}>
+              {profile ? roleLabels[profile.role] : 'Hỗ Trợ Web'}
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <button 
-            onClick={onSignOut}
-            style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 12px', borderRadius: '10px', border: '1px solid transparent', background: '#fff1f2', color: '#e11d48', fontSize: '13px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s', outline: 'none', marginTop: '4px' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#ffe4e6'; e.currentTarget.style.color = '#be123c'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = '#fff1f2'; e.currentTarget.style.color = '#e11d48'; }}
-          >
-            <LogOut size={16} /> Đăng xuất
-          </button>
-        </div>
+        {/* Action Button */}
+        <button 
+          onClick={onSignOut}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', padding: '10px 12px', borderRadius: '12px', border: '1px solid #fecdd3', background: '#fff1f2', color: '#e11d48', fontSize: '13px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s', outline: 'none' }}
+          onMouseEnter={e => { e.currentTarget.style.background = '#ffe4e6'; e.currentTarget.style.borderColor = '#fda4af'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = '#fff1f2'; e.currentTarget.style.borderColor = '#fecdd3'; }}
+        >
+          <LogOut size={16} strokeWidth={2.2} /> Đăng xuất
+        </button>
       </div>
     </aside>
   );
