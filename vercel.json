@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/tinh-gia-xe", "destination": "/tinh-gia-xe.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

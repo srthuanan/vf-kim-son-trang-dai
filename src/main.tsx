@@ -24,7 +24,6 @@ const Dashboard = lazy(() => import('./components/Dashboard').then((module) => (
 const OrdersPanel = lazy(() => import('./components/OrdersPanel').then((module) => ({ default: module.OrdersPanel })));
 const InventoryPanel = lazy(() => import('./components/InventoryPanel').then((module) => ({ default: module.InventoryPanel })));
 const InvoiceRequestsPanel = lazy(() => import('./components/InvoiceRequestsPanel').then((module) => ({ default: module.InvoiceRequestsPanel })));
-const PricingPanel = lazy(() => import('./components/PricingPanel').then((module) => ({ default: module.PricingPanel })));
 const StaffPanel = lazy(() => import('./components/StaffPanel').then((module) => ({ default: module.StaffPanel })));
 const HRPanel = lazy(() => import('./components/HRPanel').then((module) => ({ default: module.HRPanel })));
 
@@ -48,7 +47,6 @@ import {
   canHoldVehicle,
   canManageInventory,
   canManageOrderActions,
-  canManagePricingConfig,
   canOverrideHeldVehicle,
   canPairOrder,
   canAccessTab,
@@ -523,7 +521,6 @@ function App() {
               </div>
             )}
 
-            {activeTab === 'pricing' && <PricingPanel isAdmin={canManagePricingConfig(userRole)} />}
 
             {activeTab === 'staff' && (
               <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '12px' }}>

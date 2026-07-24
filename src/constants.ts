@@ -3,7 +3,6 @@ import {
   ShoppingBag,
   Boxes,
   ClipboardList,
-  Calculator,
   Users,
   Settings,
   CalendarDays
@@ -20,7 +19,6 @@ export const tabs = [
   { key: 'orders', label: 'Đơn hàng', icon: ShoppingBag },
   { key: 'inventory', label: 'Kho xe', icon: Boxes },
   { key: 'invoices', label: 'Hóa đơn', icon: ClipboardList },
-  { key: 'pricing', label: 'Tính giá', icon: Calculator },
   { key: 'staff', label: 'Nhân sự', icon: Users },
   { key: 'settings', label: 'Cấu hình', icon: Settings }
 ] as const;
@@ -33,7 +31,6 @@ const roleTabAccess: Record<TabKey, AppRole[]> = {
   orders: ['admin', 'sales', 'manager', 'delivery'],
   inventory: ['admin', 'sales', 'manager', 'warehouse', 'delivery'],
   invoices: ['admin'],
-  pricing: ['admin', 'sales', 'manager'],
   staff: ['admin', 'sales', 'manager', 'staff'],
   settings: ['admin']
 };

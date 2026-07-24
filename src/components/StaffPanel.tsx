@@ -2,20 +2,17 @@ import React from 'react';
 import {
   BadgePlus,
   Mail,
-  RefreshCw,
   ShieldCheck,
   Trash2,
   RotateCw,
   Users,
   Search,
-  MailCheck,
-  UserRound,
-  Clock3,
   Plus,
   X,
   Send,
-  ExternalLink,
-  Copy
+  Copy,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { ProfileRow } from '../types';
 import { cancelStaffInvite, inviteStaffMember, resendStaffInvite, updateStaffPermission } from '../services/apiService';
@@ -29,17 +26,20 @@ type StaffPanelProps = {
   onChangePassword?: () => void;
 };
 
-export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, onReload, onEditProfile, onChangePassword }) => {
+export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, onReload }) => {
   const [email, setEmail] = React.useState('');
   const [fullName, setFullName] = React.useState('');
   const [inviteRole, setInviteRole] = React.useState<'sales' | 'manager'>('sales');
   const [department, setDepartment] = React.useState('');
   const [inviteManagerId, setInviteManagerId] = React.useState('');
+  
   const [permissionRole, setPermissionRole] = React.useState<'sales' | 'manager'>('sales');
   const [permissionDepartment, setPermissionDepartment] = React.useState('');
   const [permissionManagerId, setPermissionManagerId] = React.useState('');
   const [permissionLoading, setPermissionLoading] = React.useState(false);
+  
   const [query, setQuery] = React.useState('');
+  const [roleFilter, setRoleFilter] = React.useState<string>('all');
   const [selectedEmail, setSelectedEmail] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [rowAction, setRowAction] = React.useState<{ email: string; action: 'resend' | 'cancel' } | null>(null);
@@ -61,6 +61,7 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
   const isManager = currentProfile?.role === 'manager';
   const isSales = currentProfile?.role === 'sales';
   const isPersonalView = isSales;
+
   const managerOptions = React.useMemo(() => {
     const seen = new Set<string>();
     return staff
@@ -82,8 +83,8 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
     if (!managerId) return '';
     return managerOptions.find((item) => item.id === managerId)?.label || '';
   };
+
   const visibleStaff = React.useMemo(() => {
-    // Hide canceled/deleted users from the UI
     const activeStaff = staff.filter(item => item.invite_status !== 'canceled');
 
     if (isAdmin) {
@@ -107,19 +108,32 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
   }, [currentProfile, isAdmin, isManager, isSales, staff]);
 
   const filteredStaff = React.useMemo(() => {
+    let result = visibleStaff;
+
+    if (roleFilter !== 'all') {
+      if (roleFilter === 'pending') {
+        result = result.filter(item => !item.activated_at && item.invite_status !== 'active');
+      } else {
+        result = result.filter(item => item.role === roleFilter);
+      }
+    }
+
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return visibleStaff;
-    return visibleStaff.filter((item) => {
-      const email = item.email?.toLowerCase() || item.id.toLowerCase();
-      return (
-        item.full_name.toLowerCase().includes(normalized) ||
-        (item.department || '').toLowerCase().includes(normalized) ||
-        email.includes(normalized) ||
-        roleLabels[item.role].toLowerCase().includes(normalized) ||
-        getStatusLabel(item).toLowerCase().includes(normalized)
-      );
-    });
-  }, [query, visibleStaff]);
+    if (normalized) {
+      result = result.filter((item) => {
+        const email = item.email?.toLowerCase() || item.id.toLowerCase();
+        return (
+          item.full_name.toLowerCase().includes(normalized) ||
+          (item.department || '').toLowerCase().includes(normalized) ||
+          email.includes(normalized) ||
+          roleLabels[item.role].toLowerCase().includes(normalized) ||
+          getStatusLabel(item).toLowerCase().includes(normalized)
+        );
+      });
+    }
+
+    return result;
+  }, [query, roleFilter, visibleStaff]);
 
   const selectedStaff = React.useMemo(
     () => filteredStaff.find((item) => getRowEmail(item) === selectedEmail) || filteredStaff[0] || null,
@@ -150,13 +164,6 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
       setSelectedEmail(getRowEmail(filteredStaff[0]));
     }
   }, [filteredStaff, selectedEmail]);
-
-  const totalStaff = visibleStaff.length;
-  const adminCount = visibleStaff.filter((item) => item.role === 'admin').length;
-  const managerCount = visibleStaff.filter((item) => item.role === 'manager').length;
-  const salesCount = visibleStaff.filter((item) => item.role === 'sales').length;
-  const pendingCount = visibleStaff.filter((item) => item.invite_status !== 'active' && item.invite_status !== 'canceled').length;
-  const inactiveCount = visibleStaff.filter((item) => item.invite_status === 'canceled').length;
 
   const runStaffAction = async (
     action: 'resend' | 'cancel',
@@ -228,7 +235,7 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
             ? 'Đã gửi email kích hoạt tài khoản TPKD.'
             : 'Đã gửi email kích hoạt tài khoản TVBH.'
       );
-      setDrawerOpen(false); // Đóng drawer sau khi mời thành công
+      setDrawerOpen(false);
       await onReload();
     } catch (err: any) {
       setError(err?.message || 'Không thể tạo tài khoản nhân sự.');
@@ -237,7 +244,7 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
     }
   };
 
-  const copyToClipboard = (text: string, label: string) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
   };
 
@@ -272,513 +279,478 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
   };
 
   return (
-    <section className="panel staff-panel custom-scrollbar" style={{ background: 'transparent', border: '0', padding: '0', boxShadow: 'none', display: 'flex', flexDirection: 'column', gap: '20px', height: '100%', overflow: 'hidden' }}>
+    <section style={{ display: 'flex', flexDirection: 'column', gap: '16px', height: '100%', overflow: 'hidden', background: '#f8fafc', padding: '16px' }}>
       
-      {/* Status Banner Notifications */}
+      {/* STATUS NOTIFICATIONS */}
       {error && (
-        <div style={{ padding: '12px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px', color: '#b91c1c', fontWeight: 600, fontSize: '13.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <X size={16} /> {error}
+        <div style={{ padding: '10px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', color: '#991b1b', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <AlertCircle size={16} style={{ color: '#ef4444' }} /> {error}
         </div>
       )}
       {success && (
-        <div style={{ padding: '12px 16px', background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '12px', color: '#047857', fontWeight: 600, fontSize: '13.5px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <MailCheck size={16} /> {success}
+        <div style={{ padding: '10px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', color: '#166534', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <CheckCircle2 size={16} style={{ color: '#16a34a' }} /> {success}
         </div>
       )}
 
-      {/* Personal Profile Section */}
+      {/* PERSONAL VIEW FOR SALES ROLE */}
       {isPersonalView && (
-        <div style={{ display: 'flex', flexDirection: 'column', background: '#ffffff', borderRadius: '20px', border: '1px solid #cbd5e1', boxShadow: '0 4px 15px -3px rgba(0, 0, 0, 0.02)', overflow: 'hidden' }}>
-          <div style={{ padding: '14px 20px', borderBottom: '1px solid #e2e8f0', background: '#fafafb', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+        <div style={{ background: '#ffffff', borderRadius: '14px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', overflow: 'hidden' }}>
+          <div style={{ padding: '14px 20px', borderBottom: '1px solid #e2e8f0', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Hồ sơ của bạn</div>
-              <div style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a' }}>{currentProfile?.full_name || 'Đang tải...'}</div>
+              <span style={{ fontSize: '11px', color: '#0f766e', fontWeight: 700, textTransform: 'uppercase' }}>Hồ sơ nhân sự cá nhân</span>
+              <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', margin: '2px 0 0 0' }}>{currentProfile?.full_name || 'Đang tải...'}</h2>
             </div>
-            <span style={{ fontSize: '12px', fontWeight: 700, color: '#0f766e', background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '6px 10px', borderRadius: '999px' }}>
-              Chỉ bạn xem
-            </span>
           </div>
-          <div style={{ padding: '20px', display: 'grid', gap: '12px', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
-            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Họ & tên</span>
-              <strong style={{ display: 'block', marginTop: '4px', color: '#0f172a', fontSize: '14px' }}>{currentProfile?.full_name || '---'}</strong>
+          <div style={{ padding: '16px', display: 'grid', gap: '12px', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Họ & Tên</span>
+              <strong style={{ display: 'block', marginTop: '2px', color: '#0f172a', fontSize: '14px' }}>{currentProfile?.full_name || '---'}</strong>
             </div>
-            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Email</span>
-              <strong style={{ display: 'block', marginTop: '4px', color: '#0f172a', fontSize: '14px' }}>{currentProfile?.email || '---'}</strong>
+            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Email</span>
+              <strong style={{ display: 'block', marginTop: '2px', color: '#0f172a', fontSize: '14px' }}>{currentProfile?.email || '---'}</strong>
             </div>
-            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Phòng ban</span>
-              <strong style={{ display: 'block', marginTop: '4px', color: '#0f172a', fontSize: '14px' }}>{currentProfile?.department || 'Chưa gán'}</strong>
-            </div>
-            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Quyền hạn</span>
-              <strong style={{ display: 'block', marginTop: '4px', color: '#0f172a', fontSize: '14px' }}>{currentProfile ? roleLabels[currentProfile.role] : 'TVBH'}</strong>
-            </div>
-            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Trạng thái</span>
-              <strong style={{ display: 'block', marginTop: '4px', color: '#0f172a', fontSize: '14px' }}>{currentProfile ? getStatusLabel(currentProfile) : '---'}</strong>
-            </div>
-            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0', gridColumn: '1 / -1' }}>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Kích hoạt hoàn tất</span>
-              <strong style={{ display: 'block', marginTop: '4px', color: currentProfile?.activated_at ? '#059669' : '#64748b', fontSize: '14px' }}>
-                {currentProfile?.activated_at ? `✅ ${new Date(currentProfile.activated_at).toLocaleString('vi-VN')}` : '⌛ Đang chờ kích hoạt'}
-              </strong>
+            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Phòng ban</span>
+              <strong style={{ display: 'block', marginTop: '2px', color: '#0f172a', fontSize: '14px' }}>{currentProfile?.department || 'Chưa gán'}</strong>
             </div>
           </div>
         </div>
       )}
 
-      {/* Primary Modular Dual Pane Workspace (Visible for Admins & Managers) */}
+      {/* ADMIN & MANAGER DUAL PANE WORKSPACE */}
       {!isPersonalView && (
-        <div className="staff-modern-workspace">
-        
-        {/* LEFT PANEL: Data Grid */}
-        <div className="staff-list-side">
+        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '16px', flex: 1, minHeight: 0 }}>
           
-          {/* Search & Actions Subheader */}
-          <div style={{ padding: '14px 20px', borderBottom: '1px solid #e2e8f0', background: '#fafafb', display: 'flex', gap: '12px', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ position: 'relative', flex: 1, maxWidth: '320px' }}>
-              <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Tìm tên, email..."
-                style={{ width: '100%', padding: '8px 12px 8px 36px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '13.5px', fontWeight: 500, background: '#fff' }}
-              />
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap', fontSize: '12px', fontWeight: 600, color: '#475569', background: '#f1f5f9', padding: '6px 12px', borderRadius: '20px', marginLeft: 'auto' }}>
-              <span style={{ color: '#0f766e' }}>{filteredStaff.length}</span>
-              <span style={{ color: '#94a3b8' }}>/</span>
-              <span>{visibleStaff.length} nhân sự</span>
-            </div>
+          {/* LEFT PANEL: STAFF DATA TABLE */}
+          <div style={{ 
+            background: '#ffffff', borderRadius: '14px', border: '1px solid #e2e8f0', 
+            boxShadow: '0 2px 4px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', 
+            overflow: 'hidden'
+          }}>
             
-            {isAdmin && (
-              <button 
-                onClick={() => setDrawerOpen(true)}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#0f766e', color: '#ffffff', border: '0', borderRadius: '10px', padding: '8px 16px', fontSize: '13.5px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 2px 4px rgba(15, 118, 110, 0.2)' }}
-              >
-                <Plus size={15} strokeWidth={3} />
-                Mời nhân sự
-              </button>
-            )}
-          </div>
-
-          {/* Data Table */}
-          <div className="orders-table-scroller custom-scrollbar" style={{ flex: 1, overflowY: 'auto' }}>
-            {filteredStaff.length === 0 ? (
-              <div style={{ padding: '40px 20px', textAlign: 'center', color: '#64748b' }}>
-                <Users size={36} style={{ color: '#cbd5e1', marginBottom: '10px' }} />
-                <p style={{ fontWeight: 600, margin: 0 }}>Không có dữ liệu trùng khớp</p>
-              </div>
-            ) : (
-              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid #e2e8f0', background: '#f8fafc' }}>
-                    <th style={{ padding: '12px 20px', fontSize: '12px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Họ & Tên</th>
-                    <th style={{ padding: '12px 20px', fontSize: '12px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Phòng ban</th>
-                    <th style={{ padding: '12px 20px', fontSize: '12px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Quyền hạn</th>
-                    <th style={{ padding: '12px 20px', fontSize: '12px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Trạng thái</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredStaff.map((item) => {
-                    const emailVal = getRowEmail(item);
-                    const isActive = selectedStaff?.id === item.id;
-                    return (
-                      <tr 
-                        key={item.id}
-                        onClick={() => setSelectedEmail(emailVal)}
-                        style={{ borderBottom: '1px solid #f1f5f9', cursor: 'pointer', background: isActive ? 'rgba(15, 118, 110, 0.03)' : '#fff', transition: 'background 0.15s ease' }}
-                        className="hover-row"
-                      >
-                        <td style={{ padding: '12px 20px' }}>
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <strong style={{ fontSize: '13.5px', color: isActive ? '#0f766e' : '#0f172a', fontWeight: 700 }}>{item.full_name}</strong>
-                            <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 500 }}>{emailVal}</span>
-                          </div>
-                        </td>
-                        <td style={{ padding: '12px 20px' }}>
-                          <span style={{
-                            fontSize: '12px',
-                            fontWeight: 700,
-                            padding: '3px 8px',
-                            borderRadius: '6px',
-                            background: '#f8fafc',
-                            color: '#0f172a',
-                            border: '1px solid #e2e8f0'
-                          }}>
-                            {item.department || 'Chưa gán'}
-                          </span>
-                        </td>
-                        <td style={{ padding: '12px 20px' }}>
-                          <span style={{
-                            fontSize: '12px',
-                            fontWeight: 700,
-                            padding: '3px 8px',
-                            borderRadius: '6px',
-                            background: item.role === 'admin' ? '#eff6ff' : '#f1f5f9',
-                            color: item.role === 'admin' ? '#1d4ed8' : '#475569',
-                            border: '1px solid',
-                            borderColor: item.role === 'admin' ? '#bfdbfe' : '#e2e8f0'
-                          }}>
-                            {roleLabels[item.role]}
-                          </span>
-                        </td>
-                        <td style={{ padding: '12px 20px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                            <span style={{
-                              width: '6px',
-                              height: '6px',
-                              borderRadius: '50%',
-                              background: (item.activated_at || item.invite_status === 'active') ? '#10b981' : item.invite_status === 'canceled' ? '#ef4444' : '#f59e0b'
-                            }} />
-                            <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#334155' }}>{getStatusLabel(item)}</span>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            )}
-          </div>
-        </div>
-
-        {/* RIGHT PANEL: Detail Widget */}
-        <div className="staff-detail-side">
-          {selectedStaff ? (
-            <div className="staff-detail-card">
+            {/* Clean Header Toolbar */}
+            <div style={{ padding: '12px 16px', borderBottom: '1px solid #e2e8f0', background: '#ffffff', display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
               
-              {/* Card Header Banner */}
-              <div className={`staff-detail-header-content staff-detail-header-${selectedStaff.role}`}>
-                <div className="staff-avatar-large">
-                  {selectedStaff.full_name.trim().charAt(0).toUpperCase()}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                <div style={{ position: 'relative', width: '100%', maxWidth: '260px' }}>
+                  <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                  <input
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="Tìm tên, email..."
+                    style={{ width: '100%', padding: '6px 10px 6px 30px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', outline: 'none' }}
+                  />
                 </div>
-                <div>
-                  <h3 style={{ margin: 0, fontSize: '20px', color: '#fff', fontWeight: 800 }}>{selectedStaff.full_name}</h3>
-                  <div 
-                    onClick={() => copyToClipboard(getRowEmail(selectedStaff), 'Email')}
-                    style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)', fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center', marginTop: '2px' }}
-                    title="Click để copy email"
-                  >
-                    {getRowEmail(selectedStaff)}
-                    <Copy size={12} />
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '6px' }}>
-                  <span style={{
-                    background: (selectedStaff.activated_at || selectedStaff.invite_status === 'active') 
-                      ? 'rgba(16, 185, 129, 0.2)' 
-                      : selectedStaff.invite_status === 'canceled' 
-                        ? 'rgba(239, 68, 68, 0.2)' 
-                        : 'rgba(245, 158, 11, 0.2)',
-                    color: '#fff',
-                    padding: '3px 10px',
-                    borderRadius: '20px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    backdropFilter: 'blur(4px)',
-                    border: '1px solid rgba(255, 255, 255, 0.25)',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}>
-                    <span style={{
-                      width: '6px',
-                      height: '6px',
-                      borderRadius: '50%',
-                      background: (selectedStaff.activated_at || selectedStaff.invite_status === 'active') ? '#10b981' : selectedStaff.invite_status === 'canceled' ? '#ef4444' : '#f59e0b',
-                      display: 'inline-block'
-                    }} />
-                    {getStatusLabel(selectedStaff)}
-                  </span>
-                  <span style={{
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    color: '#fff',
-                    padding: '3px 10px',
-                    borderRadius: '20px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    backdropFilter: 'blur(4px)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)'
-                  }}>
-                    🚀 {roleLabels[selectedStaff.role]}
-                  </span>
-                  <span style={{
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    color: '#fff',
-                    padding: '3px 10px',
-                    borderRadius: '20px',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    backdropFilter: 'blur(4px)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)'
-                  }}>
-                    {selectedStaff.department || 'Chưa gán'}
-                  </span>
-                  {selectedStaff.role === 'sales' ? (
-                    <span style={{
-                      background: 'rgba(255, 255, 255, 0.2)',
-                      color: '#fff',
-                      padding: '3px 10px',
-                      borderRadius: '20px',
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      backdropFilter: 'blur(4px)',
-                      border: '1px solid rgba(255, 255, 255, 0.2)'
-                    }}>
-                      {getManagerLabel(selectedStaff.manager_id).split(' · ')[0] || 'Chưa gắn TPKD'}
-                    </span>
-                  ) : null}
+
+                {/* Role Filter Buttons */}
+                <div style={{ display: 'flex', gap: '3px', background: '#f1f5f9', padding: '3px', borderRadius: '8px' }}>
+                  {[
+                    { key: 'all', label: 'Tất cả' },
+                    { key: 'manager', label: 'TPKD' },
+                    { key: 'sales', label: 'TVBH' },
+                  ].map((filter) => (
+                    <button
+                      key={filter.key}
+                      onClick={() => setRoleFilter(filter.key)}
+                      style={{
+                        padding: '4px 9px', borderRadius: '6px', border: 'none', cursor: 'pointer',
+                        fontSize: '12px', fontWeight: roleFilter === filter.key ? 700 : 500,
+                        background: roleFilter === filter.key ? '#ffffff' : 'transparent',
+                        color: roleFilter === filter.key ? '#0f766e' : '#64748b',
+                        boxShadow: roleFilter === filter.key ? '0 1px 2px rgba(0,0,0,0.05)' : 'none'
+                      }}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Content Block */}
-              <div className="staff-detail-body custom-scrollbar" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
+              {isAdmin && (
+                <button 
+                  onClick={() => setDrawerOpen(true)}
+                  style={{ 
+                    display: 'flex', alignItems: 'center', gap: '6px', background: '#0f766e', 
+                    color: '#ffffff', border: '0', borderRadius: '8px', padding: '7px 14px', 
+                    fontSize: '13px', fontWeight: 600, cursor: 'pointer' 
+                  }}
+                >
+                  <Plus size={15} />
+                  Mời nhân sự
+                </button>
+              )}
+            </div>
+
+            {/* Staff Data Table */}
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+              {filteredStaff.length === 0 ? (
+                <div style={{ padding: '40px 20px', textAlign: 'center', color: '#64748b' }}>
+                  <Users size={30} style={{ color: '#cbd5e1', marginBottom: '8px' }} />
+                  <p style={{ fontWeight: 600, margin: 0, fontSize: '13px' }}>Không có nhân sự nào</p>
+                </div>
+              ) : (
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid #e2e8f0', background: '#f8fafc', color: '#475569', textTransform: 'uppercase', fontSize: '11px', letterSpacing: '0.03em' }}>
+                      <th style={{ padding: '10px 14px', fontWeight: 700 }}>Họ & Tên</th>
+                      <th style={{ padding: '10px 14px', fontWeight: 700 }}>Phòng ban</th>
+                      <th style={{ padding: '10px 14px', fontWeight: 700 }}>Quyền hạn</th>
+                      <th style={{ padding: '10px 14px', fontWeight: 700 }}>Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredStaff.map((item) => {
+                      const emailVal = getRowEmail(item);
+                      const isSelected = selectedStaff?.id === item.id;
+                      const initial = item.full_name.trim().charAt(0).toUpperCase();
+
+                      return (
+                        <tr 
+                          key={item.id}
+                          onClick={() => setSelectedEmail(emailVal)}
+                          style={{ 
+                            borderBottom: '1px solid #f1f5f9', cursor: 'pointer', 
+                            background: isSelected ? '#ecfdf5' : '#ffffff',
+                            borderLeft: isSelected ? '3px solid #0f766e' : '3px solid transparent'
+                          }}
+                        >
+                          <td style={{ padding: '10px 14px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                              <div style={{ 
+                                width: '32px', height: '32px', borderRadius: '50%', 
+                                background: isSelected ? '#0f766e' : '#f1f5f9', 
+                                color: isSelected ? '#ffffff' : '#475569',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                fontWeight: 700, fontSize: '13px', flexShrink: 0
+                              }}>
+                                {initial}
+                              </div>
+                              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <strong style={{ fontSize: '13.5px', color: isSelected ? '#0f766e' : '#0f172a', fontWeight: 600 }}>{item.full_name}</strong>
+                                <span style={{ fontSize: '11.5px', color: '#64748b' }}>{emailVal}</span>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td style={{ padding: '10px 14px' }}>
+                            <span style={{ fontSize: '12px', color: '#334155', fontWeight: 500 }}>
+                              {item.department || 'Chưa gán'}
+                            </span>
+                          </td>
+
+                          <td style={{ padding: '10px 14px' }}>
+                            <span style={{
+                              fontSize: '11.5px', fontWeight: 600, padding: '2px 8px', borderRadius: '999px',
+                              background: item.role === 'admin' ? '#f3e8ff' : item.role === 'manager' ? '#e0f2fe' : '#ccfbf1',
+                              color: item.role === 'admin' ? '#7e22ce' : item.role === 'manager' ? '#0369a1' : '#0f766e'
+                            }}>
+                              {roleLabels[item.role]}
+                            </span>
+                          </td>
+
+                          <td style={{ padding: '10px 14px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                              <span style={{
+                                width: '6px', height: '6px', borderRadius: '50%',
+                                background: (item.activated_at || item.invite_status === 'active') ? '#10b981' : item.invite_status === 'canceled' ? '#ef4444' : '#f59e0b'
+                              }} />
+                              <span style={{ fontSize: '12px', color: '#475569' }}>
+                                {getStatusLabel(item)}
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </div>
+
+          {/* RIGHT PANEL: STAFF DETAILS CARD */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {selectedStaff ? (
+              <div style={{ 
+                background: '#ffffff', borderRadius: '14px', border: '1px solid #e2e8f0', 
+                boxShadow: '0 2px 4px rgba(0,0,0,0.02)', overflow: 'hidden',
+                display: 'flex', flexDirection: 'column', height: '100%' 
+              }}>
                 
-                {/* Personal Info Block */}
-                <div style={{ background: '#ffffff', padding: '12px 14px', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', borderBottom: '1px solid #f1f5f9', paddingBottom: '6px' }}>
-                    Thông tin cá nhân
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                    <div>
-                      <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600 }}>Số điện thoại</div>
-                      <div style={{ fontSize: '13px', color: '#334155', fontWeight: 700 }}>{selectedStaff.phone || '---'}</div>
+                {/* Header Banner */}
+                <div style={{ 
+                  background: '#0f766e', padding: '16px', color: '#ffffff',
+                  display: 'flex', flexDirection: 'column', gap: '10px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ 
+                      width: '44px', height: '44px', borderRadius: '50%', 
+                      background: '#ffffff', color: '#0f766e', display: 'flex', 
+                      alignItems: 'center', justifyContent: 'center', fontSize: '18px', 
+                      fontWeight: 700, flexShrink: 0
+                    }}>
+                      {selectedStaff.full_name.trim().charAt(0).toUpperCase()}
                     </div>
-                    <div>
-                      <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600 }}>Giới tính</div>
-                      <div style={{ fontSize: '13px', color: '#334155', fontWeight: 700 }}>{selectedStaff.gender || '---'}</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600 }}>Ngày sinh</div>
-                      <div style={{ fontSize: '13px', color: '#334155', fontWeight: 700 }}>
-                        {selectedStaff.dob ? new Date(selectedStaff.dob).toLocaleDateString('vi-VN') : '---'}
+
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#ffffff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {selectedStaff.full_name}
+                      </h3>
+                      <div 
+                        onClick={() => copyToClipboard(getRowEmail(selectedStaff))}
+                        style={{ fontSize: '11.5px', color: '#ccfbf1', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}
+                      >
+                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getRowEmail(selectedStaff)}</span>
+                        <Copy size={11} />
                       </div>
                     </div>
-                    <div>
-                      <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 600 }}>Địa chỉ</div>
-                      <div style={{ fontSize: '13px', color: '#334155', fontWeight: 700 }}>{selectedStaff.address || '---'}</div>
-                    </div>
+                  </div>
+
+                  {/* Header Badges */}
+                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                    <span style={{
+                      background: (selectedStaff.activated_at || selectedStaff.invite_status === 'active') ? 'rgba(16, 185, 129, 0.25)' : 'rgba(245, 158, 11, 0.25)',
+                      color: '#ffffff', padding: '2px 8px', borderRadius: '999px', fontSize: '11px', fontWeight: 600
+                    }}>
+                      {(selectedStaff.activated_at || selectedStaff.invite_status === 'active') ? '✓ Đã kích hoạt' : '⌛ Chờ kích hoạt'}
+                    </span>
+                    <span style={{ background: 'rgba(255, 255, 255, 0.2)', color: '#ffffff', padding: '2px 8px', borderRadius: '999px', fontSize: '11px', fontWeight: 600 }}>
+                      {roleLabels[selectedStaff.role]}
+                    </span>
+                    <span style={{ background: 'rgba(255, 255, 255, 0.2)', color: '#ffffff', padding: '2px 8px', borderRadius: '999px', fontSize: '11px', fontWeight: 600 }}>
+                      {selectedStaff.department || 'Chưa gán phòng'}
+                    </span>
                   </div>
                 </div>
 
-                {isAdmin && selectedStaff.role !== 'admin' ? (
-                  <div style={{ background: '#ffffff', padding: '10px 12px', borderRadius: '12px', border: '1px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                      <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Sửa phân quyền</span>
-                      <ShieldCheck size={15} style={{ color: '#0f766e' }} />
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '10px', color: '#475569', fontWeight: 700, textTransform: 'uppercase' }}>Vai trò</label>
-                        <select
-                          value={permissionRole}
-                          onChange={(event) => {
-                            const nextRole = event.target.value as 'sales' | 'manager';
-                            setPermissionRole(nextRole);
-                            if (nextRole === 'sales') {
-                              setPermissionDepartment('');
-                              setPermissionManagerId('');
-                            }
-                          }}
-                          disabled={permissionLoading}
-                          style={{ padding: '8px 10px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '13px', fontWeight: 600, background: '#fff' }}
-                        >
-                          <option value="sales">TVBH</option>
-                          <option value="manager">TPKD</option>
-                        </select>
+                {/* Body Details */}
+                <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '14px', overflowY: 'auto', flex: 1 }}>
+                  
+                  {/* Section 1: Thông tin cá nhân */}
+                  <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                    <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', display: 'block', marginBottom: '8px' }}>
+                      Thông tin cá nhân
+                    </span>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                      <div>
+                        <div style={{ fontSize: '10.5px', color: '#94a3b8' }}>Số điện thoại</div>
+                        <div style={{ fontSize: '12.5px', color: '#0f172a', fontWeight: 600 }}>{selectedStaff.phone || 'Chưa cập nhật'}</div>
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '10px', color: '#475569', fontWeight: 700, textTransform: 'uppercase' }}>
-                          {permissionRole === 'sales' ? 'TPKD phụ trách' : 'Phòng ban'}
-                        </label>
-                        {permissionRole === 'sales' ? (
+                      <div>
+                        <div style={{ fontSize: '10.5px', color: '#94a3b8' }}>Giới tính</div>
+                        <div style={{ fontSize: '12.5px', color: '#0f172a', fontWeight: 600 }}>{selectedStaff.gender || 'Chưa cập nhật'}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '10.5px', color: '#94a3b8' }}>Ngày sinh</div>
+                        <div style={{ fontSize: '12.5px', color: '#0f172a', fontWeight: 600 }}>
+                          {selectedStaff.dob ? new Date(selectedStaff.dob).toLocaleDateString('vi-VN') : 'Chưa cập nhật'}
+                        </div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '10.5px', color: '#94a3b8' }}>Địa chỉ</div>
+                        <div style={{ fontSize: '12.5px', color: '#0f172a', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={selectedStaff.address || ''}>
+                          {selectedStaff.address || 'Chưa cập nhật'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Section 2: Sửa phân quyền (Admin Only) */}
+                  {isAdmin && selectedStaff.role !== 'admin' ? (
+                    <div style={{ background: '#ffffff', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span style={{ fontSize: '11px', color: '#0f172a', fontWeight: 700, textTransform: 'uppercase' }}>Phân quyền</span>
+                        <ShieldCheck size={14} style={{ color: '#0f766e' }} />
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                        <div>
+                          <label style={{ fontSize: '10.5px', color: '#475569', fontWeight: 600, marginBottom: '2px', display: 'block' }}>Vai trò</label>
                           <select
-                            value={permissionManagerId}
+                            value={permissionRole}
                             onChange={(event) => {
-                              const nextManagerId = event.target.value;
-                              setPermissionManagerId(nextManagerId);
-                              const nextManager = managerOptions.find((item) => item.id === nextManagerId);
-                              setPermissionDepartment(nextManager?.department || '');
+                              const nextRole = event.target.value as 'sales' | 'manager';
+                              setPermissionRole(nextRole);
+                              if (nextRole === 'sales') {
+                                setPermissionDepartment('');
+                                setPermissionManagerId('');
+                              }
                             }}
                             disabled={permissionLoading}
-                            style={{ padding: '8px 10px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '13px', fontWeight: 600, background: '#fff' }}
+                            style={{ width: '100%', padding: '6px 8px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '12.5px', background: '#fff' }}
                           >
-                            <option value="">Chọn TPKD</option>
-                            {managerOptions.map((item) => (
-                              <option key={item.id} value={item.id}>
-                                {item.label}
-                              </option>
-                            ))}
+                            <option value="sales">TVBH</option>
+                            <option value="manager">TPKD</option>
                           </select>
-                        ) : (
-                          <input
-                            value={permissionDepartment}
-                            onChange={(event) => setPermissionDepartment(event.target.value)}
-                            disabled={permissionLoading}
-                            style={{ padding: '8px 10px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '13px', fontWeight: 600 }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                    {permissionRole === 'sales' && permissionManagerId ? (
-                      <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600, marginTop: '2px' }}>
-                        ✓ Thuộc quản lý của <strong>{getManagerLabel(permissionManagerId).split(' · ')[0]}</strong>
-                      </div>
-                    ) : null}
-                    <button
-                      type="button"
-                      onClick={handleSavePermission}
-                      disabled={
-                        permissionLoading ||
-                        (selectedStaff.role === permissionRole &&
-                          ((permissionRole === 'sales' && selectedStaff.manager_id === permissionManagerId) ||
-                            (permissionRole === 'manager' && (selectedStaff.department || '') === permissionDepartment.trim())))
-                      }
-                      style={{ width: '100%', border: 0, background: '#0f766e', color: '#fff', padding: '8px 12px', borderRadius: '10px', fontWeight: 800, fontSize: '13px', cursor: 'pointer', marginTop: '2px' }}
-                    >
-                      {permissionLoading ? 'Đang lưu...' : 'Lưu phân quyền'}
-                    </button>
-                  </div>
-                ) : isAdmin ? (
-                  <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '8px 12px', borderRadius: '10px', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <ShieldCheck size={14} style={{ color: '#64748b', flexShrink: 0 }} />
-                    <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>
-                      Không thể thay đổi phân quyền của tài khoản Admin.
-                    </span>
-                  </div>
-                ) : null}
-
-                {/* Metadata Timeline Bar */}
-                <div style={{ display: 'flex', gap: '16px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '10px 14px' }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Ngày gửi lời mời</div>
-                    <span style={{ fontSize: '12.5px', color: '#334155', fontWeight: 700, display: 'block', marginTop: '2px' }}>
-                      {selectedStaff.invited_at ? new Date(selectedStaff.invited_at).toLocaleDateString('vi-VN') : '---'}
-                    </span>
-                  </div>
-                  <div style={{ width: '1px', background: '#e2e8f0' }} />
-                  <div style={{ flex: 1.5 }}>
-                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Kích hoạt tài khoản</div>
-                    <span style={{ fontSize: '12.5px', color: selectedStaff.activated_at ? '#059669' : '#64748b', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-                      {selectedStaff.activated_at ? `✅ ${new Date(selectedStaff.activated_at).toLocaleString('vi-VN')}` : '⌛ Đang chờ kích hoạt'}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Action Area */}
-                <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {isAdmin ? (
-                    <>
-                      {selectedStaff.invite_status !== 'active' && (
-                        <button
-                          type="button"
-                          onClick={() => runStaffAction('resend', selectedStaff, resendStaffInvite)}
-                          disabled={rowAction?.email === getRowEmail(selectedStaff) && rowAction.action === 'resend'}
-                          style={{ width: '100%', background: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '10px', padding: '8px 12px', fontSize: '13px', color: '#0f172a', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }}
-                        >
-                          <RotateCw size={14} />
-                          <span>{rowAction?.email === getRowEmail(selectedStaff) && rowAction.action === 'resend' ? 'Đang thực thi...' : 'Gửi lại Email mời'}</span>
-                        </button>
-                      )}
-
-                      {selectedStaff.invite_status === 'active' && (
-                        <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '8px 12px', borderRadius: '10px', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                          <ShieldCheck size={14} style={{ color: '#059669', flexShrink: 0 }} />
-                          <span style={{ fontSize: '12px', color: '#047857', fontWeight: 600 }}>
-                            Đã kích hoạt & có đầy đủ quyền thao tác trên hệ thống.
-                          </span>
                         </div>
-                      )}
 
-                      {selectedStaff.id !== currentProfile?.id && selectedStaff.role !== 'admin' && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (window.confirm(`Bạn có chắc chắn muốn xóa nhân sự ${selectedStaff.full_name}?`)) {
-                              runStaffAction('cancel', selectedStaff, cancelStaffInvite);
-                            }
-                          }}
-                          disabled={rowAction?.email === getRowEmail(selectedStaff) && rowAction.action === 'cancel'}
-                          style={{ width: '100%', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '8px 12px', fontSize: '13px', color: '#b91c1c', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }}
-                        >
-                          <Trash2 size={14} />
-                          <span>{rowAction?.email === getRowEmail(selectedStaff) && rowAction.action === 'cancel' ? 'Đang thực thi...' : 'Xóa nhân sự'}</span>
-                        </button>
-                      )}
-                    </>
-                  ) : (
-                    <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', padding: '8px 12px', borderRadius: '10px', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <ShieldCheck size={14} style={{ color: '#2563eb', flexShrink: 0 }} />
-                      <span style={{ fontSize: '12px', color: '#1d4ed8', fontWeight: 600 }}>
-                        Quyền TPKD: Chỉ quản lý nhân sự & đơn hàng thuộc phòng ban.
+                        <div>
+                          <label style={{ fontSize: '10.5px', color: '#475569', fontWeight: 600, marginBottom: '2px', display: 'block' }}>
+                            {permissionRole === 'sales' ? 'TPKD phụ trách' : 'Phòng ban'}
+                          </label>
+                          {permissionRole === 'sales' ? (
+                            <select
+                              value={permissionManagerId}
+                              onChange={(event) => {
+                                const nextManagerId = event.target.value;
+                                setPermissionManagerId(nextManagerId);
+                                const nextManager = managerOptions.find((item) => item.id === nextManagerId);
+                                setPermissionDepartment(nextManager?.department || '');
+                              }}
+                              disabled={permissionLoading}
+                              style={{ width: '100%', padding: '6px 8px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '12.5px', background: '#fff' }}
+                            >
+                              <option value="">Chọn TPKD</option>
+                              {managerOptions.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.label}
+                                </option>
+                              ))}
+                            </select>
+                          ) : (
+                            <input
+                              value={permissionDepartment}
+                              onChange={(event) => setPermissionDepartment(event.target.value)}
+                              disabled={permissionLoading}
+                              placeholder="VD: PKD 1"
+                              style={{ width: '100%', padding: '6px 8px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '12.5px' }}
+                            />
+                          )}
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={handleSavePermission}
+                        disabled={permissionLoading}
+                        style={{ 
+                          width: '100%', border: 0, background: '#0f766e', color: '#fff', 
+                          padding: '7px 10px', borderRadius: '6px', fontWeight: 600, 
+                          fontSize: '12.5px', cursor: 'pointer'
+                        }}
+                      >
+                        {permissionLoading ? 'Đang lưu...' : 'Lưu thay đổi phân quyền'}
+                      </button>
+                    </div>
+                  ) : null}
+
+                  {/* Section 3: Lịch sử tài khoản & Kích hoạt */}
+                  <div style={{ background: '#f8fafc', padding: '10px 12px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', gap: '12px' }}>
+                    <div style={{ flex: 1 }}>
+                      <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Gửi lời mời</span>
+                      <span style={{ fontSize: '12px', color: '#0f172a', fontWeight: 600, display: 'block', marginTop: '1px' }}>
+                        {selectedStaff.invited_at ? new Date(selectedStaff.invited_at).toLocaleDateString('vi-VN') : '---'}
                       </span>
                     </div>
-                  )}
-                </div>
+                    <div style={{ width: '1px', background: '#cbd5e1' }} />
+                    <div style={{ flex: 1.2 }}>
+                      <span style={{ fontSize: '10px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Kích hoạt tài khoản</span>
+                      <span style={{ fontSize: '12px', color: selectedStaff.activated_at ? '#16a34a' : '#64748b', fontWeight: 600, display: 'block', marginTop: '1px' }}>
+                        {selectedStaff.activated_at ? `✅ ${new Date(selectedStaff.activated_at).toLocaleString('vi-VN')}` : '⌛ Chờ kích hoạt'}
+                      </span>
+                    </div>
+                  </div>
 
+                  {/* Section 3: Action Buttons */}
+                  <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {isAdmin && (
+                      <>
+                        {selectedStaff.invite_status !== 'active' && (
+                          <button
+                            type="button"
+                            onClick={() => runStaffAction('resend', selectedStaff, resendStaffInvite)}
+                            disabled={rowAction?.email === getRowEmail(selectedStaff) && rowAction.action === 'resend'}
+                            style={{ 
+                              width: '100%', background: '#ffffff', border: '1px solid #cbd5e1', 
+                              borderRadius: '8px', padding: '8px', fontSize: '12.5px', 
+                              color: '#0f172a', fontWeight: 600, display: 'flex', 
+                              alignItems: 'center', justifyContent: 'center', gap: '6px', cursor: 'pointer' 
+                            }}
+                          >
+                            <RotateCw size={13} />
+                            <span>{rowAction?.email === getRowEmail(selectedStaff) && rowAction.action === 'resend' ? 'Đang gửi...' : 'Gửi lại Email kích hoạt'}</span>
+                          </button>
+                        )}
+
+                        {selectedStaff.id !== currentProfile?.id && selectedStaff.role !== 'admin' && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (window.confirm(`Bạn có chắc chắn muốn xóa nhân sự ${selectedStaff.full_name}?`)) {
+                                runStaffAction('cancel', selectedStaff, cancelStaffInvite);
+                              }
+                            }}
+                            disabled={rowAction?.email === getRowEmail(selectedStaff) && rowAction.action === 'cancel'}
+                            style={{ 
+                              width: '100%', background: '#fef2f2', border: '1px solid #fecaca', 
+                              borderRadius: '8px', padding: '8px', fontSize: '12.5px', 
+                              color: '#dc2626', fontWeight: 600, display: 'flex', 
+                              alignItems: 'center', justifyContent: 'center', gap: '6px', cursor: 'pointer' 
+                            }}
+                          >
+                            <Trash2 size={13} />
+                            <span>{rowAction?.email === getRowEmail(selectedStaff) && rowAction.action === 'cancel' ? 'Đang xóa...' : 'Xóa tài khoản nhân sự'}</span>
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+
+                </div>
               </div>
-            </div>
-          ) : (
-            <div style={{ border: '2px dashed #cbd5e1', borderRadius: '20px', padding: '40px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#94a3b8', textAlign: 'center' }}>
-              <Users size={36} strokeWidth={1.5} style={{ marginBottom: '10px' }} />
-              <strong>Vui lòng chọn một nhân sự</strong>
-              <p style={{ fontSize: '12.5px', margin: '4px 0 0 0' }}>Thông số và hành động quản lý tài khoản sẽ được quy tụ đầy đủ tại đây.</p>
-            </div>
-          )}
-        </div>
+            ) : (
+              <div style={{ border: '2px dashed #cbd5e1', borderRadius: '14px', padding: '30px 16px', textAlign: 'center', color: '#94a3b8' }}>
+                <Users size={28} style={{ marginBottom: '6px' }} />
+                <strong style={{ display: 'block', fontSize: '13px' }}>Chọn một nhân sự từ danh sách</strong>
+              </div>
+            )}
+          </div>
 
         </div>
       )}
 
-      {/* ================= RIGHT SLIDING DRAWER: Mời nhân sự ================= */}
+      {/* DRAWER: MỜI NHÂN SỰ MỚI */}
       {drawerOpen && isAdmin && (
         <>
-          {/* Backdrop Overlay */}
           <div 
             onClick={() => !loading && setDrawerOpen(false)}
-            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.3)', backdropFilter: 'blur(4px)', zIndex: 1000, cursor: 'default' }}
+            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(4px)', zIndex: 1000 }}
           />
           
-          {/* Side Panel Drawer */}
-          <div style={{ position: 'fixed', top: 0, right: 0, height: '100vh', width: '100%', maxWidth: '440px', background: '#ffffff', zIndex: 1001, boxShadow: '-5px 0 25px rgba(0,0,0,0.1)', animation: 'slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards', display: 'flex', flexDirection: 'column' }}>
-            
-            {/* Header */}
-            <div style={{ padding: '20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafafb' }}>
+          <div style={{ 
+            position: 'fixed', top: 0, right: 0, height: '100vh', width: '100%', maxWidth: '400px', 
+            background: '#ffffff', zIndex: 1001, boxShadow: '-5px 0 25px rgba(0,0,0,0.15)', 
+            display: 'flex', flexDirection: 'column' 
+          }}>
+            <div style={{ padding: '16px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f8fafc' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <BadgePlus size={18} style={{ color: '#0f766e' }} />
-                <strong style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a' }}>Mời nhân sự mới</strong>
+                <BadgePlus size={16} style={{ color: '#0f766e' }} />
+                <strong style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a' }}>Mời nhân sự mới</strong>
               </div>
               <button onClick={() => setDrawerOpen(false)} disabled={loading} style={{ border: '0', background: 'transparent', cursor: 'pointer', padding: '4px', color: '#64748b' }}>
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            {/* Main Form Body */}
-            <form onSubmit={handleInvite} style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1, overflowY: 'auto' }}>
-              <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5, margin: 0 }}>
-                Hệ thống sẽ tự động gửi một email chứa đường dẫn thiết lập tài khoản. Đảm bảo nhập chính xác email hoạt động của nhân sự.
-              </p>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '12px', color: '#475569', fontWeight: 700, textTransform: 'uppercase' }}>Họ và Tên</label>
+            <form onSubmit={handleInvite} style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px', flex: 1, overflowY: 'auto' }}>
+              <div>
+                <label style={{ fontSize: '11px', color: '#475569', fontWeight: 700, textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>Họ và Tên *</label>
                 <input 
                   value={fullName} 
                   onChange={(event) => setFullName(event.target.value)} 
-                  placeholder="Ví dụ: Nguyễn Anh Tuấn" 
+                  placeholder="VD: Nguyễn Anh Tuấn" 
                   required 
                   disabled={loading}
-                  style={{ padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '14px', fontWeight: 600 }}
+                  style={{ width: '100%', padding: '8px 10px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', outline: 'none' }}
                 />
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '12px', color: '#475569', fontWeight: 700, textTransform: 'uppercase' }}>Email công việc</label>
+              <div>
+                <label style={{ fontSize: '11px', color: '#475569', fontWeight: 700, textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>Email công việc *</label>
                 <div style={{ position: 'relative' }}>
-                  <Mail size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                  <Mail size={15} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
                   <input 
                     type="email"
                     value={email} 
@@ -786,21 +758,14 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
                     placeholder="nhanvien@vinfast.vn" 
                     required 
                     disabled={loading}
-                    style={{ width: '100%', padding: '10px 12px 10px 36px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '14px', fontWeight: 600 }}
+                    style={{ width: '100%', padding: '8px 10px 8px 32px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', outline: 'none' }}
                   />
                 </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px' }}>
-                <ShieldCheck size={16} style={{ color: '#0f766e' }} />
-                <span style={{ fontSize: '13px', color: '#475569', fontWeight: 600 }}>
-                  Có thể chọn vai trò <strong style={{ color: '#0f766e' }}>TVBH</strong> hoặc <strong style={{ color: '#0f766e' }}>TPKD</strong>
-                </span>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <label style={{ fontSize: '12px', color: '#475569', fontWeight: 700, textTransform: 'uppercase' }}>Vai trò</label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div>
+                  <label style={{ fontSize: '11px', color: '#475569', fontWeight: 700, textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>Vai trò</label>
                   <select
                     value={inviteRole}
                     onChange={(event) => {
@@ -812,14 +777,15 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
                       }
                     }}
                     disabled={loading}
-                    style={{ padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '14px', fontWeight: 600, background: '#fff' }}
+                    style={{ width: '100%', padding: '8px 10px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', outline: 'none', background: '#fff' }}
                   >
                     <option value="sales">TVBH</option>
                     <option value="manager">TPKD</option>
                   </select>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <label style={{ fontSize: '12px', color: '#475569', fontWeight: 700, textTransform: 'uppercase' }}>
+
+                <div>
+                  <label style={{ fontSize: '11px', color: '#475569', fontWeight: 700, textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
                     {inviteRole === 'sales' ? 'TPKD phụ trách' : 'Phòng ban'}
                   </label>
                   {inviteRole === 'sales' ? (
@@ -832,7 +798,7 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
                         setDepartment(nextManager?.department || '');
                       }}
                       disabled={loading}
-                      style={{ padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '14px', fontWeight: 600, background: '#fff' }}
+                      style={{ width: '100%', padding: '8px 10px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', outline: 'none', background: '#fff' }}
                     >
                       <option value="">Chọn TPKD</option>
                       {managerOptions.map((item) => (
@@ -845,60 +811,35 @@ export const StaffPanel: React.FC<StaffPanelProps> = ({ staff, currentProfile, o
                     <input
                       value={department}
                       onChange={(event) => setDepartment(event.target.value)}
-                      placeholder="Ví dụ: Kinh doanh 1"
+                      placeholder="VD: PKD 1"
                       disabled={loading}
-                      style={{ padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '10px', fontSize: '14px', fontWeight: 600 }}
+                      style={{ width: '100%', padding: '8px 10px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '13px', outline: 'none' }}
                     />
                   )}
                 </div>
               </div>
-              {inviteRole === 'sales' ? (
-                <div style={{ padding: '12px', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '10px', color: '#1d4ed8', fontWeight: 600, fontSize: '12.5px' }}>
-                  TVBH mới sẽ được gán cho <strong>{getManagerLabel(inviteManagerId) || 'chưa chọn TPKD'}</strong>.
-                </div>
-              ) : null}
 
-              {/* Action buttons for form */}
-              <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '12px', paddingTop: '20px', borderTop: '1px solid #e2e8f0' }}>
+              <div style={{ marginTop: 'auto', display: 'flex', gap: '8px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
                 <button 
                   type="button" 
                   onClick={() => setDrawerOpen(false)}
                   disabled={loading}
-                  style={{ border: '1px solid #cbd5e1', background: '#fff', color: '#334155', padding: '12px', borderRadius: '10px', fontWeight: 700, fontSize: '13.5px', cursor: 'pointer' }}
+                  style={{ flex: 1, border: '1px solid #cbd5e1', background: '#fff', color: '#475569', padding: '9px', borderRadius: '8px', fontWeight: 600, fontSize: '13px', cursor: 'pointer' }}
                 >
                   Hủy
                 </button>
                 <button 
                   type="submit" 
                   disabled={loading}
-                  style={{ border: 0, background: '#0f766e', color: '#fff', padding: '12px', borderRadius: '10px', fontWeight: 800, fontSize: '13.5px', cursor: 'pointer', boxShadow: '0 4px 12px rgba(15, 118, 110, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+                  style={{ flex: 1.5, border: 0, background: '#0f766e', color: '#fff', padding: '9px', borderRadius: '8px', fontWeight: 700, fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
                 >
-                  {loading ? (
-                    <span>Đang gửi lời mời...</span>
-                  ) : (
-                    <>
-                      <Send size={14} />
-                      <span>Gửi Email Lời Mời</span>
-                    </>
-                  )}
+                  {loading ? 'Đang gửi...' : <><Send size={14} /> Gửi lời mời</>}
                 </button>
               </div>
             </form>
-
           </div>
         </>
       )}
-
-      {/* Standard Animation Keyframes injection for React inline support */}
-      <style>{`
-        @keyframes slideIn {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-        .hover-row:hover {
-          background: #f8fafc !important;
-        }
-      `}</style>
 
     </section>
   );

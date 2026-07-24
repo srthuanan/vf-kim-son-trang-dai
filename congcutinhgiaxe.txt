@@ -1,0 +1,807 @@
+<html lang="vi"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BÁO GIÁ XE Ô TÔ ĐIỆN #VINFASTO2O VIETHOANG – Kênh VinFast O2O (Online to Offline) là mô hình kết hợp liền mạch giữa nền tảng trực tuyến (website, ứng dụng) và hệ thống showroom thực tế. Mô hình này cho phép người dùng thực hiện toàn bộ quy trình từ chọn xe, định cấu hình, thanh toán đến nhận xe một cách cực kỳ nhanh chóng và tiện lợi</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+<link rel="alternate" title="oNhúng (JSON)" type="application/json+oembed" href="https://vinfasto2o.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fvinfasto2o.com%2F">
+<link rel="alternate" title="oNhúng (XML)" type="text/xml+oembed" href="https://vinfasto2o.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fvinfasto2o.com%2F&amp;format=xml">
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="wp-block-library-inline-css">
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}:root .has-text-align-center{text-align:center}:root .has-text-align-left{text-align:left}:root .has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{word-wrap:normal!important;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-color]){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=/wp-includes/css/dist/block-library/common.min.css */
+</style>
+<style id="wp-block-paragraph-inline-css">
+.is-small-text{font-size:.875em}.is-regular-text{font-size:1em}.is-large-text{font-size:2.25em}.is-larger-text{font-size:3em}.has-drop-cap:not(:focus):first-letter{float:left;font-size:8.4em;font-style:normal;font-weight:100;line-height:.68;margin:.05em .1em 0 0;text-transform:uppercase}body.rtl .has-drop-cap:not(:focus):first-letter{float:none;margin-left:.1em}p.has-drop-cap.has-background{overflow:hidden}:root :where(p.has-background){padding:1.25em 2.375em}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}p.has-text-align-left[style*="writing-mode:vertical-lr"],p.has-text-align-right[style*="writing-mode:vertical-rl"]{rotate:180deg}
+/*# sourceURL=https://vinfasto2o.com/wp-includes/blocks/paragraph/style.min.css */
+</style>
+
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel="stylesheet" id="vfe-frontend-css-css" href="https://vinfasto2o.com/wp-content/plugins/vinfast-o2o/assets/frontend.css?ver=1.4.1" media="all">
+<link rel="stylesheet" id="nhatweb-style-css" href="https://vinfasto2o.com/wp-content/themes/nhatweb/style.css?ver=1783259653" media="all">
+<script id="jquery-core-js" src="https://vinfasto2o.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script id="jquery-migrate-js" src="https://vinfasto2o.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
+<link rel="https://api.w.org/" href="https://vinfasto2o.com/wp-json/"><link rel="alternate" title="JSON" type="application/json" href="https://vinfasto2o.com/wp-json/wp/v2/pages/2"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://vinfasto2o.com/xmlrpc.php?rsd">
+<link rel="canonical" href="https://vinfasto2o.com/">
+<link rel="shortlink" href="https://vinfasto2o.com/">
+<link rel="icon" href="https://vinfasto2o.com/wp-content/uploads/2026/06/cropped-84D76146-81F1-45DA-976E-E4975D26430D-32x32.png" sizes="32x32">
+<link rel="icon" href="https://vinfasto2o.com/wp-content/uploads/2026/06/cropped-84D76146-81F1-45DA-976E-E4975D26430D-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://vinfasto2o.com/wp-content/uploads/2026/06/cropped-84D76146-81F1-45DA-976E-E4975D26430D-180x180.png">
+<meta name="msapplication-TileImage" content="https://vinfasto2o.com/wp-content/uploads/2026/06/cropped-84D76146-81F1-45DA-976E-E4975D26430D-270x270.png">
+<script src="/_rum/beacon.js" data-osh-rum="" data-z="6a573d5faa2190fb2ee2e19e" async=""></script><script src="/_osh-cs/widget.js" data-osh-cs="" data-osh-token="6a63330d:MDFLWTlRWVRNNzhFMVFSQzRDRVA2MVdHMTY:31338e3b8184970b:2e48d286bafed3ce5344dd6c0124af27fdad54a937e0c71f6fd5d16169d3539b" async=""></script><script src="https://vinfasto2o.com/wp-includes/js/wp-emoji-release.min.js?ver=7.0.2" defer=""></script> <style id="vfe-css-fixes"> .vfe-input, .vfe-select, .vfe-full-input { box-sizing: border-box !important; } </style> </head>
+<body class="home wp-singular page-template-default page page-id-2 wp-theme-nhatweb">
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <h1 class="site-title">
+            <a href="https://vinfasto2o.com/">BÁO GIÁ XE Ô TÔ ĐIỆN #VINFASTO2O VIETHOANG</a>
+        </h1>
+
+    </div>
+</header>
+	
+<div class="nhatweb-promo-bar" id="topPromoBar">
+    <div class="promo-content">
+        <div class="promo-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        </div>
+        
+        <div class="marquee-container">
+            <span class="marquee-text">o2o VIETHOANG cập nhật 7/72026 : Chính thức ưu đãi tháng 7: - VF5: Giảm 25 triệu. - Limo Green: Giảm 35 triệu. - MPV 7: Giảm 20 triệu - Các khách hàng từng mua xe xăng trực tiếp từ VinFast sẽ nhận được voucher có mệnh giá tương ứng với xe đã mua là 30 triệu (Fadil), 60 triệu (Lux A2.0) và 80 triệu đồng (Lux SA2.0).</span>
+        </div>
+    </div>
+    <button class="promo-close" onclick="document.getElementById('topPromoBar').style.display='none'">✕</button>
+</div>
+
+<main class="site-main">
+<p class="wp-block-paragraph"></p><div class="vfe-frontend-container" id="vfe-app">
+    <div class="vfe-left-col">
+        <div class="vfe-card">
+            <h3 class="vfe-card-title">LỰA CHỌN CẤU HÌNH XE</h3>
+            
+            <div class="vfe-form-group">
+                <label>Dòng xe</label>
+                <select id="vfe-fe-car" class="vfe-select"><option value="0">MINIO GREEN</option><option value="1">VF2</option><option value="2">VF8 Thế hệ mới</option><option value="3">LIMO GREEN</option><option value="4">Herio Green</option><option value="5">EC VAN</option><option value="6">MPV7</option><option value="7">VF9</option><option value="8">VF8</option><option value="9">VF7</option><option value="10">VF6</option><option value="11">VF5</option><option value="12">VF3</option></select>
+            </div>
+            
+            <div class="vfe-form-group">
+                <label>Phiên bản</label>
+                <select id="vfe-fe-version" class="vfe-select"><option value="0">VF3 PLUS</option><option value="1">VF3 ECO - TC2</option></select>
+            </div>
+
+            <div class="vfe-car-preview">
+                <img decoding="async" id="vfe-fe-preview-img" src="https://vinfasto2o.com/wp-content/uploads/2026/05/1CE1W-6.png" alt="Ảnh xe" style="width: 100%; max-width: 450px; margin: 0px auto 20px;">
+                <div id="vfe-fe-colors-wrap" class="vfe-color-swatches"><div class="vfe-swatch active" data-cidx="0" title="Infinity Blanc - 285.000.000 đ"><img src="https://vinfasto2o.com/wp-content/uploads/2026/05/1CE1W-6.png"></div><div class="vfe-swatch " data-cidx="1" title="Zenith Grey - 285.000.000 đ"><img src="https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuong.png"></div><div class="vfe-swatch " data-cidx="2" title="Solar Ruby - 285.000.000 đ"><img src="https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuon1g-1.png"></div><div class="vfe-swatch " data-cidx="3" title="Summer Yellow Body - Infinity Blanc Roof - 293.000.000 đ"><img src="https://vinfasto2o.com/wp-content/uploads/2026/05/taSi-xuong-1.png"></div><div class="vfe-swatch " data-cidx="4" title="Sky Blue - Infinity Blanc Roof - 293.000.000 đ"><img src="https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuoDng-1.png"></div><div class="vfe-swatch " data-cidx="5" title="Rose Pink Body - Infinity Blanc Roof - 293.000.000 đ"><img src="https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuonFg-1.png"></div><div class="vfe-swatch " data-cidx="6" title="Urban Mint - 293.000.000 đ"><img src="https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuoGng-1.png"></div></div>
+                <p style="text-align:center; font-weight:bold; margin-top:15px; font-size:16px;">Màu sắc: <span id="vfe-fe-color-name">Infinity Blanc</span></p>
+            </div>
+			<div id="vfe-exclusive-offer-wrap" style="background: rgb(255, 252, 245); border: 1px solid rgb(252, 232, 205); border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: left;">
+<!--                     <h4 style="margin: 0 0 10px 0; color: #d93025; font-size: 15px; display: flex; align-items: center; gap: 5px;">
+                        <span class="dashicons dashicons-star-filled" style="color: #f5b041;"></span> Ưu đãi độc quyền
+                    </h4> -->
+                    <div id="vfe-exclusive-offer-content" style="
+                        display: -webkit-box;
+                        -webkit-line-clamp: 5;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        font-size: 14px;
+                        color: #333;
+                        line-height: 1.6;
+                    "><div class="tab-left">
+<div class="body">
+<div class="tab-left-box">
+<div class="vf-cars-deposit__product-preview active" data-modelid="Products-Car-VF3">
+<div id="Products-Car-VF3-exterior" class="tab-car-left-content active">
+<div class="tab-car-left-info" data-modelid="Products-Car-VF3">
+<ul class="car-info-list car-edition active" data-edition="default">
+ 	<li class="car-info-item" data-options="">
+<p class="car-info-item-label">Công suất tối đa</p>
+<p class="car-info-item-no js-info-car-engine">30 kW</p>
+</li>
+ 	<li class="car-info-item" data-options="">
+<p class="car-info-item-label">Dung lượng pin khả dụng</p>
+<p class="car-info-item-no js-info-car-engine">18,64 kWh</p>
+</li>
+ 	<li class="car-info-item" data-options="">
+<p class="car-info-item-label">Quãng đường di chuyển</p>
+<p class="car-info-item-no js-info-car-engine">215 km</p>
+</li>
+</ul>
+<div class="car-info-list car-edition disclaimer active" data-edition="default">Quãng đường di chuyển được tính toán dựa trên kết quả kiểm định theo quy chuẩn toàn cầu (NEDC). Quãng đường di chuyển thực tế có thể giảm so với kết quả kiểm định, phụ thuộc vào tốc độ lái xe, nhiệt độ, địa hình, thói quen sử dụng của người lái, chế độ lái được cài đặt, số lượng hành khách và các điều kiện giao thông khác.</div>
+</div>
+</div>
+</div>
+<p class="tab-car-left-info-desc m-0"><span class="common">Các thông tin sản phẩm có thể thay đổi&nbsp;mà không cần báo trước</span></p>
+
+</div>
+</div>
+</div></div>
+                    <a href="javascript:void(0)" id="vfe-exclusive-offer-toggle" style="display: inline-block; color: #003B95; font-size: 13px; font-weight: 600; margin-top: 8px; text-decoration: none;">Xem thêm ▼</a>
+                </div>
+        </div>
+
+        <div class="vfe-card">
+            <h3 class="vfe-card-title">LỰA CHỌN ƯU ĐÃI</h3>
+            <div id="vfe-fe-promos-wrap"> <label class="vfe-promo-item" style="transition: 0.3s; align-items: flex-start; cursor: pointer; position: relative; opacity: 0.45; pointer-events: none; background: rgb(250, 250, 250); border-color: rgb(236, 236, 236);"> <input type="checkbox" class="chk-promo" data-pidx="0" style="margin-top: 4px; display: none;" disabled=""> <div class="vfe-lock-icon" style="color: rgb(176, 176, 176); margin-right: 15px; margin-top: 2px; display: block;"> <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> </div> <div class="vfe-promo-content" style="flex:1;"> <div class="vfe-item-title">Công an / Quân đội </div> <div class="vfe-item-desc">Giảm: 5%</div> <div style="font-size: 11.5px; color: #d93025; margin-top: 5px; font-style: italic; line-height: 1.3;">* Không áp dụng cùng: <b>Ưu đãi 2% kênh o2o, VinClub, CBNV VN POST</b></div> <div style="font-size: 11.5px; color: #0f9d58; margin-top: 3px; font-style: italic; line-height: 1.3;">* Tự động chọn kèm: <b>Ưu đãi 1% kênh o2o</b></div> </div> </label> <label class="vfe-promo-item" style="transition: 0.3s; align-items: flex-start; cursor: pointer; position: relative; opacity: 1; pointer-events: auto; background: rgb(255, 255, 255); border-color: rgb(224, 224, 224);"> <input type="checkbox" class="chk-promo" data-pidx="1" style="margin-top: 4px;" checked=""> <div class="vfe-lock-icon" style="display:none; color:#b0b0b0; margin-right:15px; margin-top:2px;"> <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> </div> <div class="vfe-promo-content" style="flex:1;"> <div class="vfe-item-title">Ưu đãi 2% kênh o2o <span style="display:inline-block; font-size:10px; font-weight:normal; background:#f1f3f4; color:#5f6368; padding:2px 5px; border-radius:4px; margin-left:8px; vertical-align:middle;">Trừ trên giá sau KM</span></div> <div class="vfe-item-desc">Giảm: 2%</div> <div style="font-size: 11.5px; color: #d93025; margin-top: 5px; font-style: italic; line-height: 1.3;">* Không áp dụng cùng: <b>Công an / Quân đội, Ưu đãi 1% kênh o2o</b></div>  </div> </label> <label class="vfe-promo-item" style="transition: 0.3s; align-items: flex-start; cursor: pointer; position: relative; opacity: 0.45; pointer-events: none; background: rgb(250, 250, 250); border-color: rgb(236, 236, 236);"> <input type="checkbox" class="chk-promo" data-pidx="2" style="margin-top: 4px; display: none;" disabled=""> <div class="vfe-lock-icon" style="color: rgb(176, 176, 176); margin-right: 15px; margin-top: 2px; display: block;"> <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> </div> <div class="vfe-promo-content" style="flex:1;"> <div class="vfe-item-title">Ưu đãi 1% kênh o2o </div> <div class="vfe-item-desc">Giảm: 1%</div> <div style="font-size: 11.5px; color: #d93025; margin-top: 5px; font-style: italic; line-height: 1.3;">* Không áp dụng cùng: <b>Ưu đãi 2% kênh o2o, VinClub, CBNV VN POST</b></div> <div style="font-size: 11.5px; color: #0f9d58; margin-top: 3px; font-style: italic; line-height: 1.3;">* Tự động chọn kèm: <b>Công an / Quân đội</b></div> </div> </label> <label class="vfe-promo-item" style="transition: 0.3s; align-items: flex-start; cursor: pointer; position: relative; opacity: 1; pointer-events: auto; background: rgb(255, 255, 255); border-color: rgb(224, 224, 224);"> <input type="checkbox" class="chk-promo" data-pidx="3" style="margin-top: 4px;"> <div class="vfe-lock-icon" style="display:none; color:#b0b0b0; margin-right:15px; margin-top:2px;"> <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> </div> <div class="vfe-promo-content" style="flex:1;"> <div class="vfe-item-title">VinClub <span style="display:inline-block; font-size:10px; font-weight:normal; background:#f1f3f4; color:#5f6368; padding:2px 5px; border-radius:4px; margin-left:8px; vertical-align:middle;">Trừ trên giá sau KM</span></div> <select class="vfe-promo-select-group" data-pidx="3" style="margin-top:8px; width:100%; max-width:250px; padding:6px 10px; border-radius:6px; border:1px solid #003B95; display:none; font-size:13px; background:#f8fbff; outline:none; color:#003B95; font-weight:600;"><option value="0">Hạng GOLD (Giảm 0.5%)</option><option value="1">Hạng Platium (Giảm 1%)</option><option value="2">Hạng Diamond (Giảm 1.5%%)</option></select> <div style="font-size: 11.5px; color: #d93025; margin-top: 5px; font-style: italic; line-height: 1.3;">* Không áp dụng cùng: <b>Công an / Quân đội, Ưu đãi 1% kênh o2o</b></div> <div style="font-size: 11.5px; color: #0f9d58; margin-top: 3px; font-style: italic; line-height: 1.3;">* Tự động chọn kèm: <b>Công an / Quân đội</b></div> </div> </label> <label class="vfe-promo-item" style="transition: 0.3s; align-items: flex-start; cursor: pointer; position: relative; opacity: 1; pointer-events: auto; background: rgb(255, 255, 255); border-color: rgb(224, 224, 224);"> <input type="checkbox" class="chk-promo" data-pidx="4" style="margin-top: 4px;"> <div class="vfe-lock-icon" style="display:none; color:#b0b0b0; margin-right:15px; margin-top:2px;"> <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> </div> <div class="vfe-promo-content" style="flex:1;"> <div class="vfe-item-title">Tri ân xe Xăng VF </div> <select class="vfe-promo-select-group" data-pidx="4" style="margin-top:8px; width:100%; max-width:250px; padding:6px 10px; border-radius:6px; border:1px solid #003B95; display:none; font-size:13px; background:#f8fbff; outline:none; color:#003B95; font-weight:600;"><option value="0">Fadil (Giảm 30.000.000 đ)</option><option value="1">Lux A (Giảm 60.000.000 đ)</option><option value="2">Lux SA (Giảm 80.000.000 đ)</option></select>   </div> </label> <label class="vfe-promo-item" style="transition: 0.3s; align-items: flex-start; cursor: pointer; position: relative; opacity: 1; pointer-events: auto; background: rgb(255, 255, 255); border-color: rgb(224, 224, 224);"> <input type="checkbox" class="chk-promo" data-pidx="5" style="margin-top: 4px;"> <div class="vfe-lock-icon" style="display:none; color:#b0b0b0; margin-right:15px; margin-top:2px;"> <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> </div> <div class="vfe-promo-content" style="flex:1;"> <div class="vfe-item-title">CBNV VN POST </div> <select class="vfe-promo-select-group" data-pidx="5" style="margin-top:8px; width:100%; max-width:250px; padding:6px 10px; border-radius:6px; border:1px solid #003B95; display:none; font-size:13px; background:#f8fbff; outline:none; color:#003B95; font-weight:600;"><option value="0">CBNV (Giảm 3 %)</option><option value="1">CBLĐ (Giảm 5%)</option></select> <div style="font-size: 11.5px; color: #d93025; margin-top: 5px; font-style: italic; line-height: 1.3;">* Không áp dụng cùng: <b>Công an / Quân đội, Ưu đãi 1% kênh o2o</b></div> <div style="font-size: 11.5px; color: #0f9d58; margin-top: 3px; font-style: italic; line-height: 1.3;">* Tự động chọn kèm: <b>Ưu đãi 2% kênh o2o</b></div> </div> </label></div>
+        </div>
+
+        <div class="vfe-card">
+            <h3 class="vfe-card-title">TỈNH/ THÀNH PHỐ ĐĂNG KÝ BIỂN XE</h3>
+            <div class="vfe-location-toggle-v2">
+                <label class="vfe-loc-btn active" id="lbl-loc-hcm_hn">
+                    <input type="radio" name="vfe_location" value="hcm_hn" checked="">
+                    <span>Hà Nội / TP.HCM</span>
+                </label>
+                <label class="vfe-loc-btn" id="lbl-loc-other">
+                    <input type="radio" name="vfe_location" value="other">
+                    <span>Tỉnh/Thành khác</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="vfe-card">
+            <h3 class="vfe-card-title">CHI PHÍ KHÁC</h3>
+            <div id="vfe-fe-custom-fees-wrap"> <label class="vfe-fee-item" style="transition: 0.3s; opacity: 1; pointer-events: none;"> <input type="checkbox" class="chk-fee" data-fidx="0" data-binding="hcm_hn" disabled=""> <div style="flex:1;"> <div class="vfe-item-title">Đăng ký biển số HN/HCM<span class="fee-badge-req" style="font-size:10px; background:#e8f0fe; color:#1967d2; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:normal;">Bắt buộc</span></div> <div class="vfe-item-desc">14.000.000 đ</div> </div> </label> <label class="vfe-fee-item" style="transition: 0.3s; opacity: 0.4; pointer-events: none;"> <input type="checkbox" class="chk-fee" data-fidx="1" data-binding="other" disabled=""> <div style="flex:1;"> <div class="vfe-item-title">Đăng ký biển số Tỉnh</div> <div class="vfe-item-desc">1.000.000 đ</div> </div> </label> <label class="vfe-fee-item" style="transition: 0.3s; opacity: 1; pointer-events: none;"> <input type="checkbox" class="chk-fee" data-fidx="2" data-binding="all" disabled=""> <div style="flex:1;"> <div class="vfe-item-title">Phí đường bộ<span class="fee-badge-req" style="font-size:10px; background:#e8f0fe; color:#1967d2; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:normal;">Bắt buộc</span></div> <div class="vfe-item-desc">1.560.000 đ</div> </div> </label> <label class="vfe-fee-item" style="transition: 0.3s; opacity: 1; pointer-events: none;"> <input type="checkbox" class="chk-fee" data-fidx="3" data-binding="all" disabled=""> <div style="flex:1;"> <div class="vfe-item-title">Phí đăng kiểm<span class="fee-badge-req" style="font-size:10px; background:#e8f0fe; color:#1967d2; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:normal;">Bắt buộc</span></div> <div class="vfe-item-desc">340.000 đ</div> </div> </label> <label class="vfe-fee-item" style="transition: 0.3s; opacity: 1; pointer-events: none;"> <input type="checkbox" class="chk-fee" data-fidx="4" data-binding="all" disabled=""> <div style="flex:1;"> <div class="vfe-item-title">TNDS xe dưới 6 chỗ<span class="fee-badge-req" style="font-size:10px; background:#e8f0fe; color:#1967d2; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:normal;">Bắt buộc</span></div> <div class="vfe-item-desc">480.700 đ</div> </div> </label> <label class="vfe-fee-item" style="transition: 0.3s; opacity: 1; pointer-events: auto;"> <input type="checkbox" class="chk-fee" data-fidx="5" data-binding="none"> <div style="flex:1;"> <div class="vfe-item-title">Phí dịch vụ đăng ký hộ</div> <div class="vfe-item-desc">3.500.000 đ</div> </div> </label></div>
+        </div>
+
+        <div class="vfe-card" style="margin-top: 20px; border-radius: 12px; background: #fff; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #eee;">
+            <h3 class="vfe-card-title" style="margin-bottom: 15px;">THÔNG TIN ĐĂNG KÝ ĐẶT CỌC</h3>
+            <div class="vfe-form-group">
+                <label style="font-weight: 600; font-size: 13px; color: #333; margin-bottom: 5px; display: block;">Họ và tên <span style="color:red">*</span></label>
+                <input type="text" id="vfe-lead-name" class="vfe-input" placeholder="Nhập họ và tên của bạn" style="width:100%; border:1px solid #ccc; padding:10px; border-radius:6px;">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="vfe-form-group">
+                    <label style="font-weight: 600; font-size: 13px; color: #333; margin-bottom: 5px; display: block;">Số điện thoại / Zalo <span style="color:red">*</span></label>
+                    <input type="text" id="vfe-lead-phone" class="vfe-input" placeholder="Nhập số điện thoại" style="width:100%; border:1px solid #ccc; padding:10px; border-radius:6px;">
+                </div>
+                <div class="vfe-form-group">
+                    <label style="font-weight: 600; font-size: 13px; color: #333; margin-bottom: 5px; display: block;">Email</label>
+                    <input type="email" id="vfe-lead-email" class="vfe-input" placeholder="Nhập email (nếu có)" style="width:100%; border:1px solid #ccc; padding:10px; border-radius:6px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vfe-right-col" id="vfe-export-area">
+        
+        <div class="vfe-card vfe-pricing-card" style="position: relative; overflow: hidden;">
+            
+            <div style="
+                position: absolute; 
+                top: 0; left: 0; right: 0; bottom: 0; 
+                z-index: 99; 
+                pointer-events: none; 
+                background-image: url('data:image/svg+xml,%3Csvg width=\'200\' height=\'180\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'16\' font-family=\'Arial, sans-serif\' font-weight=\'900\' fill=\'%23003B95\' fill-opacity=\'0.08\' text-anchor=\'middle\' dominant-baseline=\'middle\' transform=\'rotate(-40, 80, 80)\'%3Eo2o VIETHOANG 0906367789%3C/text%3E%3C/svg%3E'); 
+                background-repeat: repeat;
+            "></div>
+
+            <h3 class="vfe-card-title" style="border-bottom: 1px solid #eee; padding-bottom: 15px; text-align:center;">BẢNG DỰ TOÁN CHI TIẾT</h3>
+
+            <div class="vfe-breakdown">
+                <div class="vfe-row bold"><span id="lbl-car-ver-name">VF3 - VF3 ECO - TC2</span> <span id="val-base-price">285.000.000 đ</span></div>
+
+                <div id="vfe-breakdown-promos"><div class="vfe-row" style="color:#ea4335;"><span>- Ưu đãi 2% kênh o2o</span> <span>-5.700.000 đ</span></div></div>
+
+                <div class="vfe-row bold highlight-blue" style="margin-top: 10px;"><span>Giá thanh toán thực tế</span> <span id="val-contract-price">279.300.000 đ</span></div>
+                <div class="chu-thich"> <span>(Giá đã bao gồm cả PIN và thuế VAT)</span></div>
+
+                <div class="vfe-row bold" style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 15px;"><span>Phí lăn bánh</span> <span id="val-total-fees">16.380.700 đ</span></div>
+                <div id="vfe-breakdown-fees" class="vfe-sub-text"><div class="vfe-row"><span>Đăng ký biển số HN/HCM</span> <span>14.000.000 đ</span></div><div class="vfe-row"><span>Phí đường bộ</span> <span>1.560.000 đ</span></div><div class="vfe-row"><span>Phí đăng kiểm</span> <span>340.000 đ</span></div><div class="vfe-row"><span>TNDS xe dưới 6 chỗ</span> <span>480.700 đ</span></div></div>
+            </div>
+
+            <div class="vfe-grand-total-box">
+                <p class="vfe-lbl-total">Tổng chi phí dự kiến</p>
+                <h2 class="vfe-val-total" id="val-grand-total">295.680.700 đ</h2>
+            </div>
+
+            <div class="vfe-actions-grid" style="position: relative; z-index: 100;">
+                <button id="vfe-btn-submit-deposit" class="vfe-btn vfe-btn-blue vfe-btn-large">ĐẶT CỌC</button>
+                <button class="vfe-btn vfe-btn-green">LƯU BẢNG TÍNH</button>
+                <button class="vfe-btn vfe-btn-red" id="vfe-btn-pdf">TẢI FILE PDF</button>
+            </div>
+        </div>
+
+        <div class="vfe-card vfe-calc-card" style="border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+            <h3 class="vfe-card-title" style="color: #111; font-size: 18px; font-weight: 800; margin-bottom: 25px;">TÍNH TOÁN TRẢ GÓP</h3>
+            
+            <div class="vfe-form-group">
+                <label style="display: flex; align-items: center; gap: 5px;"><span class="dashicons dashicons-bank" style="color:#888;"></span> Ngân hàng / Lãi suất</label>
+                <select id="vfe-calc-bank" class="vfe-select" style="font-weight: 600; color: #003B95; border-color: #003B95;"><option value="manual">✓ Nhập thủ công</option><option value="tpbank">TPBANK — 10% cố định 12 tháng, thả nổi 13.6%</option><option value="vpb">VPBANK — 10.5% cố định 12 tháng, thả nổi 14%</option></select>
+            </div>
+
+            <div class="vfe-form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label>Tỷ lệ trả trước: <span id="vfe-lbl-percent-text" style="font-weight:bold;">35%</span></label>
+                    <input type="number" id="vfe-input-percent" value="35" min="10" max="90" style="width: 60px; padding: 5px; border: 1px solid #ccc; border-radius: 6px; text-align: center;">
+                </div>
+                <input type="range" id="vfe-calc-percent" min="10" max="90" value="35" class="vfe-range" style="margin-top: 10px;">
+            </div>
+
+            <div class="vfe-form-group">
+                <label>Lãi suất năm (%)</label>
+                <input type="number" id="vfe-calc-rate" class="vfe-input" value="9.5" step="0.1">
+            </div>
+
+            <div class="vfe-form-group">
+                <label>Thời hạn vay</label>
+                <select id="vfe-calc-months" class="vfe-select">
+                    <option value="24">24 tháng</option>
+                    <option value="36">36 tháng</option>
+                    <option value="48">48 tháng</option>
+                    <option value="60" selected="">60 tháng</option>
+                    <option value="72">72 tháng</option>
+                    <option value="84">84 tháng</option>
+                    <option value="96">96 tháng</option>
+                </select>
+            </div>
+
+            <div class="vfe-form-group">
+                <label>Lãi suất thả nổi sau kỳ cố định (%/năm) <span style="color:#999; font-weight:normal;">(để trống if không có)</span></label>
+                <input type="number" id="vfe-calc-float-rate" class="vfe-input" value="13.1" step="0.1">
+            </div>
+
+            <h4 style="font-size: 16px; margin: 25px 0 15px;">Kết quả tính toán</h4>
+            <p class="chu-thich">(Lưu ý khách hàng mua xe bằng hình thức vay ngân hàng sẽ bắt buộc phải mua bảo hiểm thân vỏ)</p>
+            <div class="vfe-calc-result-box" style="background: transparent; padding: 0; border: none;">
+                <div class="vfe-row"><span>Số tiền trả trước</span> <strong id="res-prepay">114.135.700 đ <div style="font-size: 11px; color: #777; font-weight: normal; margin-top: 4px; line-height: 1.4;">(Đã gồm97.755.000 đ trả trước giá xe<br>+ 16.380.700 đ tiền mặt cho Thuế phí)</div></strong></div>
+                <div class="vfe-row"><span>Số tiền vay</span> <strong id="res-loan">181.545.000 đ</strong></div>
+                <div class="vfe-row"><span>Gốc trả mỗi tháng</span> <strong id="res-principal">3.025.750 đ</strong></div>
+                
+                <div class="vfe-row installment-row" style="margin-top: 15px;">
+                    <div style="display: flex; flex-direction: column;">
+                        <span class="lbl-month" style="color: #000;">Trả hàng tháng</span>
+                        <span style="font-size: 12px; color: #888;" id="res-month-range">Tháng 1 -&gt; 3.049.704 đ ở tháng cuối</span>
+                    </div>
+                    <strong class="val-month" id="res-first-month" style="color: #003B95;">4.462.981 đ</strong>
+                </div>
+
+                <div class="vfe-row" style="margin-top: 15px;"><span>Tổng tiền lãi</span> <strong id="res-total-interest" style="color: #d93025;">43.835.553 đ</strong></div>
+                <div class="vfe-row"><span>Tổng tiền phải trả</span> <strong id="res-total-payment">225.380.553 đ</strong></div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <a href="javascript:void(0)" id="vfe-toggle-table" style="color: #003B95; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                    <span class="dashicons dashicons-arrow-up-alt2" id="vfe-table-icon"></span> Ẩn bảng chi tiết
+                </a>
+                <div id="vfe-detail-table-wrap" style="margin-top: 15px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: right;">
+                        <thead style="background: #fafafa;">
+                            <tr>
+                                <th style="padding: 10px; text-align: center; border-bottom: 1px solid #eee;">Kỳ</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #eee;">Dư nợ đầu kỳ</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #eee;">Trả gốc</th>
+                                <th style="padding: 10px; border-bottom: 1px solid #eee;">Trả lãi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vfe-detail-table-body">
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T1</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">181.545.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.437.231 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T2</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">178.519.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.413.277 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T3</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">175.493.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.389.324 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T4</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">172.467.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.365.370 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T5</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">169.442.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.341.416 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T6</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">166.416.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.317.462 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T7</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">163.390.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.293.508 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T8</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">160.364.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.269.554 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T9</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">157.339.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.245.600 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T10</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">154.313.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.221.647 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T11</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">151.287.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.197.693 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T12</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">148.261.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.173.739 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T13</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">145.236.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.149.785 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T14</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">142.210.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.125.831 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T15</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">139.184.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.101.877 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T16</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">136.158.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.077.923 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T17</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">133.133.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.053.970 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T18</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">130.107.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.030.016 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T19</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">127.081.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">1.006.062 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T20</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">124.055.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">982.108 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T21</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">121.030.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">958.154 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T22</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">118.004.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">934.200 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T23</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">114.978.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">910.246 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T24</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">111.952.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">886.293 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T25</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">108.927.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">862.339 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T26</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">105.901.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">838.385 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T27</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">102.875.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">814.431 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T28</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">99.849.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">790.477 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T29</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">96.824.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">766.523 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T30</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">93.798.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">742.569 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T31</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">90.772.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">718.616 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T32</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">87.746.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">694.662 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T33</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">84.721.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">670.708 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T34</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">81.695.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">646.754 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T35</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">78.669.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">622.800 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T36</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">75.643.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">598.846 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T37</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">72.618.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">574.893 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T38</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">69.592.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">550.939 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T39</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">66.566.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">526.985 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T40</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">63.540.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">503.031 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T41</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">60.515.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">479.077 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T42</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">57.489.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">455.123 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T43</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">54.463.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">431.169 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T44</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">51.437.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">407.216 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T45</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">48.412.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">383.262 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T46</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">45.386.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">359.308 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T47</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">42.360.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">335.354 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T48</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">39.334.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">311.400 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T49</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">36.309.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">287.446 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T50</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">33.283.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">263.492 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T51</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">30.257.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">239.539 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T52</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">27.231.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">215.585 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T53</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">24.206.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">191.631 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T54</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">21.180.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">167.677 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T55</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">18.154.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">143.723 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T56</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">15.128.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">119.769 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T57</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">12.103.000 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">95.815 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T58</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">9.077.250 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">71.862 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T59</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">6.051.500 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">47.908 đ</td>
+                </tr>
+            
+                <tr>
+                    <td style="padding: 5px; text-align: center; border-bottom: 1px solid #f0f0f0; color:#555;">T60</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0;">3.025.750 đ</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #f0f0f0; color: #d93025;">23.954 đ</td>
+                </tr>
+            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="vfe-deposit-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:#fff; width:100%; max-width:460px; border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.15); position:relative;">
+        <div style="background:#003B95; color:#fff; padding:18px 20px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; font-size:16px;">Thông tin đặt cọc xe VinFast</span>
+            <span id="vfe-close-modal" style="cursor:pointer; font-size:24px; font-weight:bold; line-height:1; opacity:0.8;">×</span>
+        </div>
+        
+        
+        <div style="padding:25px 20px; font-size:14px; line-height:1.6; color:#333;">
+            <p style="margin-top:0; font-weight:bold; font-size:15px; color:#111;">Liên hệ với VIỆT HOÀNG để được hướng dẫn đặt cọc :</p>
+            <ul style="padding-left:18px; margin:12px 0; color:#444;">
+                <li style="margin-bottom:8px;">Đặt cọc thông qua nhóm: <a href="https://zalo.me/g/cg5kpetyiio0be19civn" target="_blank" style="color:#003B95; font-weight:600; text-decoration:none;">https://zalo.me/g/cg5kpetyiio0be19civn</a></li>
+                <li>Liên hệ trực tiếp với cộng tác viên Zalo: <span style="font-weight:700; color:#003B95;">0906367789</span></li>
+            </ul>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:25px;">
+                <a href="#" id="vfe-modal-link-consult" target="_blank" style="background:#fff; color:#003B95; border:1px solid #003B95; text-align:center; padding:12px; border-radius:8px; font-weight:700; text-decoration:none;">Liên hệ tư vấn</a>
+                <a href="#" id="vfe-modal-link-deposit" target="_blank" style="background:#003B95; color:#fff; border:1px solid #003B95; text-align:center; padding:12px; border-radius:8px; font-weight:700; text-decoration:none;">Đặt Cọc Ngay</a>
+            </div>
+        </div>
+    </div>
+</div><p></p>
+</main> 
+<footer class="site-footer">
+    <div class="footer-inner">
+        <p>© 2026 - Kênh tư vấn bán hàng độc lập của CTV O2O VIETHOANG. Không phải website chính thức của VinFast.</p>
+    </div>
+</footer>
+
+<div class="bottom-right-widgets">
+
+    <div class="floating-contact-wrapper">
+            </div>
+
+        <div class="ctv-box-wrapper" id="ctvFloatingBox">
+        <div class="ctv-header" onclick="document.getElementById('ctvFloatingBox').classList.toggle('minimized')">
+            <span class="ctv-title">ĐT: 0906367789</span>
+            <button class="ctv-toggle" aria-label="Thu gọn"></button>
+        </div>
+        <div class="ctv-body">
+                        <div class="ctv-qr">
+                <img src="https://vinfasto2o.com/wp-content/uploads/2026/05/icon-appstore.jpg" alt="QR Code">
+            </div>
+                        
+            <div class="ctv-info">
+                <div class="ctv-desc">Tư vấn o2o</div>
+                <a href="https://zalo.me/g/trcehle7daauzocahvck" target="_blank" class="ctv-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.03 2 11c0 2.859 1.487 5.412 3.824 7.086.195.96-1.042 3.12-1.077 3.18a.5.5 0 0 0 .616.666c3.155-.838 5.215-2.029 5.922-2.52.477.06.967.088 1.465.088 5.523 0 10-4.03 10-9s-4.477-9-10-9z"></path></svg>
+                    Nhóm chat
+                </a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/nhatweb/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script id="html2pdf-js" src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script id="vfe-frontend-js-js-extra">
+var vfe_global_data = {"cars":[{"versions":[{"name":"MINIO","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-12.png","name":"","advanced":false,"price":188000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE17-6.png","name":"","advanced":false,"price":188000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-15.png","name":"","advanced":false,"price":188000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-10.png","name":"","advanced":false,"price":188000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1U11.png","name":"Jet Black Body - Summer Yellow Roof","advanced":true,"price":191000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1117.png","name":"Desat Silver Body - Jet Black Roof","advanced":true,"price":191000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/181U.png","name":"Summer Yellow Body - Infinity Blanc Roof","advanced":true,"price":191000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2I.png","name":"Tropical Jade","advanced":true,"price":196000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2K.png","name":"Rose Metallic","advanced":true,"price":196000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/182K.png","name":"Rose Metallic Body - Infinity Blanc Roof","advanced":true,"price":199000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1P2K.png","name":"Rose Metallic Body - Aqua Blue Roof","advanced":true,"price":199000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/182I.png","name":"Tropical Jade Body - Infinity Blanc Roof","advanced":true,"price":199000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1U2I.png","name":"Tropical Jade Body - Summer Yellow Roof","advanced":true,"price":199000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/182Q.png","name":"Solar Ruby Body - Infinity Blanc Roof","advanced":true,"price":199000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["ca_qd","o2o_1"],"includes":[],"is_default":true,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng Gold","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1","vinclub"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["vpb","tpbank"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9 ","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"},{"name":"\u00c9p bi\u1ec3n s\u1ed1","price":600000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cdiv class=\"vf-cars-deposit__product-preview active\" data-modelid=\"Products-Car-MinioGreen\"\u003E\r\n\u003Cdiv id=\"Products-Car-MinioGreen-exterior\" class=\"tab-car-left-content active\"\u003E\r\n\u003Cdiv class=\"tab-car-left-info\" data-modelid=\"Products-Car-MinioGreen\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E30 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E210 km (NEDC)\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.065 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i\u00a0m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":159,"car_name":"MINIO GREEN"},{"versions":[{"name":"mini car","discount":"","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/07/z8010313814043_f7dd54549dbbc19c0c4b6033932ba38b.jpg","name":"Infinity Blanc","advanced":false,"price":188000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/07/z8010314030135_9b58fb883cc76b437c84ac4eb6543fdc.jpg","name":"Solar Ruby","advanced":false,"price":188000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/07/z8010313830537_f72533abe82fb358a541b4e13cb8a33b.jpg","name":"Desat Silver","advanced":false,"price":188000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/07/z8010313801814_38cf5a1486651352e6a32dbad689a2ca.jpg","name":"Urban Mint","advanced":true,"price":196000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/07/z8010313796849_6533855dde1bf31fa7889ac6495153f0.jpg","name":"Yellow","advanced":true,"price":196000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/07/z8010313787561_747aa43933f9a567ba088b0528b7ddd4.jpg","name":"Sky Blue","advanced":true,"price":196000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/07/z8010314053052_172b46e198532d5e4033abd0b0ef08b2.jpg","name":"Rose Pink","advanced":true,"price":196000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/07/z8010313787716_06eb2840a08cb6fcefe76856e9179a09.jpg","name":"Pebble Beige","advanced":true,"price":196000000,"discount":""}]}],"promos":[{"id":"ca_qd","value":"5%","calc_type":"base","priority":0,"excludes":["o2o"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","calc_type":"after","priority":0,"excludes":["o2o_1"],"includes":[],"is_default":true},{"id":"o2o_1","value":"1%","calc_type":"base","priority":0,"excludes":["o2o"],"includes":["ca_qd"],"is_default":false},{"id":"coctienphong","value":"8000000","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":true},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vinclub","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":[],"is_default":false,"options":[{"name":"H\u1ea1ng V\u00e0ng","value":"0,5%"},{"name":"platium","value":"1%"},{"name":"Diamond","value":"1,5%"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["tpbank","vpb"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9 1 N\u0103m","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"},{"name":"\u00c9p bi\u1ec3n s\u1ed1","price":600000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"vf-cars-deposit__product-preview active\" data-modelid=\"Products-Car-VF2\"\u003E\r\n\u003Cdiv id=\"Products-Car-VF2-exterior\" class=\"tab-car-left-content active\"\u003E\r\n\u003Cdiv class=\"tab-car-left-info\" data-modelid=\"Products-Car-VF2\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E30 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003ET\u0103ng t\u1ed1c t\u1eeb 0 - 50 km/h\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E5,3 gi\u00e2y\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E~210 km/l\u1ea7n s\u1ea1c\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i\u00a0m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E","post_id":248,"car_name":"VF2"},{"versions":[{"name":"All New","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-2.webp","name":"Infinity Blanc","advanced":false,"price":899000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE33.webp","name":"Starburst Blue","advanced":false,"price":899000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q.webp","name":"Solar Ruby","advanced":false,"price":899000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11.webp","name":"Jet Black","advanced":false,"price":899000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/112Q.webp","name":"Solar Ruby Body - Jet Black Roof","advanced":true,"price":911000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1132.webp","name":"Vitality Orange Body - Jet Black Roof","advanced":true,"price":911000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1833.webp","name":"Starburst Blue Body - Infinity Blanc Roof","advanced":true,"price":911000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/312O.webp","name":"Mysterioso Purple Body - Stealth Gray Roof","advanced":true,"price":911000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/3111.webp","name":"Jet Black Body - Stealth Gray Roof","advanced":true,"price":911000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1832.webp","name":"Vitality Orange Body - Infinity Blanc Roof","advanced":true,"price":911000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE32.webp","name":"Vitality Orange","advanced":true,"price":911000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2O.webp","name":"Mysterioso Purple","advanced":true,"price":911000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o","vinclub"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["o2o_1"],"includes":[],"is_default":true,"calc_type":"after","priority":1},{"id":"o2o_1","value":"1%","excludes":["o2o"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng GOLD","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%"}],"calc_type":"after","priority":2},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3%"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["tpbank","vpb"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9 12 th\u00e1ng","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"},{"name":"\u00c9p bi\u1ec3n s\u1ed1","price":600000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E170 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n/l\u1ea7n s\u1ea1c \u0111\u1ea7y\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E480-500 km (NEDC)\r\n(T\u00f9y \u0111i\u1ec1u ki\u1ec7n v\u1eadn h\u00e0nh)\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.840mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":184,"car_name":"VF8 Th\u1ebf h\u1ec7 m\u1edbi"},{"versions":[{"name":"Limo","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE17-5.png","name":"Desat Silver","advanced":false,"price":699000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-7.png","name":"Jet Black","advanced":false,"price":699000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-8.png","name":"Solar Ruby","advanced":false,"price":699000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-8.png","name":"Infinity Blanc","advanced":false,"price":699000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["ca_qd","o2o_1"],"includes":[],"is_default":true,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng Gold","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"dong_xe","value":"35000000","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":true},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3%"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["vpb","tpbank"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9 1 N\u0103m","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe tr\u00ean 6 ch\u1ed7 1 n\u0103m","price":794000,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"},{"name":"\u00c9p bi\u1ec3n s\u1ed1","price":600000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cdiv class=\"vf-cars-deposit__product-preview active\" data-modelid=\"Products-Car-LimoGreen\"\u003E\r\n\u003Cdiv id=\"Products-Car-LimoGreen-exterior\" class=\"tab-car-left-content active\"\u003E\r\n\u003Cdiv class=\"tab-car-left-info\" data-modelid=\"Products-Car-LimoGreen\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E150 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E450 km (NEDC)\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.840 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i\u00a0m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":179,"car_name":"LIMO GREEN"},{"versions":[{"name":"Ti\u00eau chu\u1ea9n - 2","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-4.png","name":"Jet Black","advanced":false,"price":450000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE17-2-1.png","name":"Desat Silver","advanced":false,"price":450000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-9.png","name":"Infinity Blanc","advanced":false,"price":450000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-4.png","name":"Solar Ruby","advanced":false,"price":450000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["ca_qd","o2o_1"],"includes":[],"is_default":false,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng Gold","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"1"},{"name":"CBL\u0110","value":""}]}],"banks":["vpb","tpbank"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9 ","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"},{"name":"\u00c9p bi\u1ec3n s\u1ed1","price":600000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E110 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E326 km (NEDC)\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.514 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":174,"car_name":"Herio Green"},{"versions":[{"name":"EC Van N\u00e2ng cao - Kh\u00f4ng c\u1eeda tr\u01b0\u1ee3t","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-9.png","name":"Urban Mint","advanced":false,"price":286000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-9.png","name":"Solar Ruby","advanced":false,"price":286000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1U-1.png","name":"Yellow","advanced":false,"price":286000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-14.png","name":"Infinity Blanc","advanced":false,"price":286000000,"discount":""}],"discount":""},{"name":"EC Van N\u00e2ng cao - C\u00f3 c\u1eeda tr\u01b0\u1ee3t","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-9.png","name":"Urban Mint","advanced":false,"price":306000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-9.png","name":"Solar Ruby","advanced":false,"price":306000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1U-1.png","name":"Yellow","advanced":false,"price":306000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-14.png","name":"Infinity Blanc","advanced":false,"price":306000000,"discount":""}],"discount":""},{"name":"EC Van Ti\u00eau chu\u1ea9n ko \u0111i\u1ec1u ho\u00e0","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-9.png","name":"Urban Mint","advanced":false,"price":268000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-9.png","name":"Solar Ruby","advanced":false,"price":268000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1U-1.png","name":"Yellow","advanced":false,"price":268000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-14.png","name":"Infinity Blanc","advanced":false,"price":268000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["ca_qd","o2o_1"],"includes":[],"is_default":true,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng Gold","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3%"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["vpb","tpbank"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n xe t\u1ea3i","price":1000000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9 1 N\u0103m","price":1560000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"},{"name":"\u00c9p bi\u1ec3n s\u1ed1","price":600000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cdiv class=\"vf-cars-deposit__product-preview active\" data-modelid=\"Products-Car-ECVAN\"\u003E\r\n\u003Cdiv id=\"Products-Car-ECVAN-exterior\" class=\"tab-car-left-content active\"\u003E\r\n\u003Cdiv class=\"tab-car-left-info\" data-modelid=\"Products-Car-ECVAN\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E30 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y (NEDC)\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E175 km (NEDC)\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.520 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i\u00a0m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":154,"car_name":"EC VAN"},{"versions":[{"name":"MPV","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18.webp","name":"Infinity Blanc","advanced":false,"price":750000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-1-1.webp","name":"Jet Black","advanced":false,"price":750000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V.webp","name":"Zenith Grey","advanced":false,"price":750000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-1.webp","name":"Solar Ruby","advanced":false,"price":750000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2J-1.webp","name":"Moonlit Ocean","advanced":true,"price":760000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2N-1.webp","name":"Introspective Brown","advanced":true,"price":760000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["ca_qd","o2o_1"],"includes":[],"is_default":true},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false,"calc_type":"after"},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng Gold","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%"}]},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"dong_xe","value":"20000000","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":true},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"CBNV","value":"3%"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["vpb","tpbank"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe tr\u00ean 6 ch\u1ed7","price":794000,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-car-left-info\" data-modelid=\"Products-Car-VFMPV7\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\" style=\"height: 23.4375px\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E150 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\" style=\"height: 23.4375px\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E450 km (NEDC)\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\" style=\"height: 23.4375px\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.840 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003C/div\u003E","post_id":147,"car_name":"MPV7"},{"versions":[{"name":"Plus 6 Ch\u1ed7 Tr\u1ea7n Th\u00e9p","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-1-1.png","name":"Infinity Blanc","advanced":false,"price":1561000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-6.png","name":"Jet Black","advanced":false,"price":1561000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-2.png","name":"Zenith Grey","advanced":false,"price":1561000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1M-5.png","name":"Crimson Red","advanced":false,"price":1561000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-3.png","name":"Urban Mint","advanced":false,"price":1561000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE22-1-1.png","name":"Ivy Green","advanced":true,"price":1573000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE17-2.png","name":"Desat Silver","advanced":true,"price":1573000000,"discount":""}],"discount":""},{"name":"Plus 7 Ch\u1ed7  Tr\u1ea7n Th\u00e9p","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-2.png","name":"Infinity Blanc","advanced":false,"price":1529000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-6.png","name":"Jet Black","advanced":false,"price":1529000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-2.png","name":"Zenith Grey","advanced":false,"price":1529000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1M-5.png","name":"Crimson Red","advanced":false,"price":1529000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-3.png","name":"Urban Mint","advanced":false,"price":1529000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE22-1-1.png","name":"Ivy Green","advanced":true,"price":1541000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE17-2.png","name":"Desat Silver","advanced":true,"price":1541000000,"discount":""}],"discount":""},{"name":"Eco","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-4.png","name":"Infinity Blanc","advanced":false,"price":1348000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-2-1.png","name":"Jet Black","advanced":false,"price":1348000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-4.png","name":"Zenith Grey","advanced":false,"price":1348000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1M-2.png","name":"Crimson Red","advanced":false,"price":1348000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-4.png","name":"Urban Mint","advanced":false,"price":1348000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE22-4.png","name":"Ivy Green","advanced":true,"price":1360000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE17-1.png","name":"Desat Silver","advanced":true,"price":1360000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o","vinclub"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["o2o_1"],"includes":[],"is_default":true,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng GOLD","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["tpbank","vpb"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe tr\u00ean 6 ch\u1ed7","price":794000,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"},{"name":"\u00c9p bi\u1ec3n s\u1ed1","price":600000,"binding":"none"}]},"exclusive_offer":"\u003Cul class=\"car-info-list car-edition active\" data-edition=\"NE3LV\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E402 hp/300 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y l\u00ean t\u1edbi\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003EEco : 626 km - Plus : 602 km\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E3.149 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":126,"car_name":"VF9"},{"versions":[{"name":"PLUS 2 c\u1ea7u","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18.png","name":"Infinity Blanc","advanced":false,"price":1079000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-2.png","name":"Jet Black","advanced":false,"price":1079000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1M-1.png","name":"Crimson Red","advanced":false,"price":1079000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE22-2.png","name":"Ivy Green","advanced":false,"price":1079000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/171V.png","name":"Zenith Grey - Desat Silver Roof","advanced":true,"price":1091000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1V18.png","name":"Infinity Blanc - Zenith Grey Roof","advanced":true,"price":1091000000,"discount":""}],"discount":""},{"name":"ECO 1 c\u1ea7u","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-5.png","name":"Infinity Blanc","advanced":false,"price":898000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-11.png","name":"Jet Black","advanced":false,"price":898000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1M-3.png","name":"Crimson Red","advanced":false,"price":898000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE22-1.png","name":"Ivy Green","advanced":false,"price":898000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/171V-1.png","name":"Zenith Grey - Desat Silver Roof","advanced":true,"price":910000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1V18-1.png","name":"Infinity Blanc - Zenith Grey Roof","advanced":true,"price":910000000,"discount":""}],"discount":""},{"name":"ECO 2 c\u1ea7u","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-5.png","name":"Infinity Blanc","advanced":false,"price":910000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-11.png","name":"Jet Black","advanced":true,"price":910000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1M-3.png","name":"Crimson Red","advanced":false,"price":910000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE22-1.png","name":"Ivy Green","advanced":false,"price":910000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/171V-1.png","name":"Zenith Grey - Desat Silver Roof","advanced":true,"price":922000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1V18-1.png","name":"Infinity Blanc - Zenith Grey Roof","advanced":true,"price":922000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o","vinclub"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["o2o_1"],"includes":[],"is_default":true,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng GOLD","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["tpbank","vpb"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cdiv class=\"vf-cars-deposit__product-preview active\" data-modelid=\"Products-Car-VF8\"\u003E\r\n\u003Cdiv id=\"Products-Car-VF8-exterior\" class=\"tab-car-left-content active\"\u003E\r\n\u003Cdiv class=\"tab-car-left-info\" data-modelid=\"Products-Car-VF8\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003EPLUS : 402 hp/300 kW\u003C/p\u003E\r\nECO : 201 hp/150 kW\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y l\u00ean t\u1edbi\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003EPLUS : 457 km (WLTP)\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\nECO : 562 km (NEDC)\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.950 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i\u00a0m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":109,"car_name":"VF8"},{"versions":[{"name":"VF7 ECO - TC2","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-3.png","name":"Infinity Blanc","advanced":false,"price":740000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-1.png","name":"Jet Black","advanced":false,"price":740000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-1.png","name":"Zenith Grey","advanced":false,"price":740000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-2.png","name":"Solar Ruby","advanced":false,"price":740000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-1.png","name":"Urban Mint","advanced":true,"price":752000000,"discount":""}],"discount":""},{"name":"VF7 ECO c\u00f3 HUD - TC2","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-3.png","name":"Infinity Blanc","advanced":false,"price":750000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-1.png","name":"Jet Black","advanced":false,"price":750000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-1.png","name":"Zenith Grey","advanced":false,"price":750000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-2.png","name":"Solar Ruby","advanced":false,"price":750000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-1.png","name":"Urban Mint","advanced":true,"price":762000000,"discount":""}],"discount":""},{"name":"Plus 1 c\u1ea7u tr\u1ea7n th\u00e9p - TC2","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-3.png","name":"Infinity Blanc","advanced":false,"price":830000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-1.png","name":"Jet Black","advanced":false,"price":830000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-1.png","name":"Zenith Grey","advanced":false,"price":830000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-2.png","name":"Solar Ruby","advanced":false,"price":830000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-1.png","name":"Urban Mint","advanced":true,"price":842000000,"discount":""}],"discount":""},{"name":"Plus 2 c\u1ea7u tr\u1ea7n th\u00e9p - TC2","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-3.png","name":"Infinity Blanc","advanced":false,"price":920000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-1.png","name":"Jet Black","advanced":false,"price":920000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-1.png","name":"Zenith Grey","advanced":false,"price":920000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-2.png","name":"Solar Ruby","advanced":false,"price":920000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-1.png","name":"Urban Mint","advanced":true,"price":932000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o","vinclub"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["o2o_1"],"includes":[],"is_default":true,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng GOLD","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3%"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["tpbank","vpb"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"GC15V\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003EEco : 174 hp/130 kW\u003C/p\u003E\r\nPlus : 201 hp/150 kW\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003EEco : 440 km (NEDC)\u003C/p\u003E\r\nPlus : 500,5 km (NEDC)\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.840 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003Cdiv class=\"car-info-list car-edition disclaimer active\" data-edition=\"GC15V\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n \u0111\u01b0\u1ee3c t\u00ednh to\u00e1n d\u1ef1a tr\u00ean k\u1ebft qu\u1ea3 ki\u1ec3m \u0111\u1ecbnh theo quy chu\u1ea9n to\u00e0n c\u1ea7u (NEDC). Qu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n th\u1ef1c t\u1ebf c\u00f3 th\u1ec3 gi\u1ea3m so v\u1edbi k\u1ebft qu\u1ea3 ki\u1ec3m \u0111\u1ecbnh, ph\u1ee5 thu\u1ed9c v\u00e0o t\u1ed1c \u0111\u1ed9 l\u00e1i xe, nhi\u1ec7t \u0111\u1ed9, \u0111\u1ecba h\u00ecnh, th\u00f3i quen s\u1eed d\u1ee5ng c\u1ee7a ng\u01b0\u1eddi l\u00e1i, ch\u1ebf \u0111\u1ed9 l\u00e1i \u0111\u01b0\u1ee3c c\u00e0i \u0111\u1eb7t, s\u1ed1 l\u01b0\u1ee3ng h\u00e0nh kh\u00e1ch v\u00e0 c\u00e1c \u0111i\u1ec1u ki\u1ec7n giao th\u00f4ng kh\u00e1c.\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":101,"car_name":"VF7"},{"versions":[{"name":"VF6 PLUS - TC2","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-12-scaled.png","name":"Infinity Blanc","advanced":false,"price":699000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-8-scaled.png","name":"Jet Black","advanced":false,"price":699000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-7-scaled.png","name":"Zenith Grey","advanced":false,"price":699000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-7-scaled.png","name":"Solar Ruby","advanced":false,"price":699000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-8-scaled.png","name":"Urban Mint","advanced":true,"price":707000000,"discount":""}],"discount":""},{"name":"VF6 ECO - TC1","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-6.png","name":"Infinity Blanc","advanced":false,"price":646000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE11-9.png","name":"Jet Black","advanced":false,"price":646000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-3.png","name":"Zenith Grey","advanced":false,"price":646000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-1.png","name":"Solar Ruby","advanced":false,"price":646000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-2.png","name":"Urban Mint","advanced":true,"price":654000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o","vinclub"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["o2o_1"],"includes":[],"is_default":true,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng GOLD","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["tpbank","vpb"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9 12 th\u00e1ng","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"JB10V\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003Eeco : 174 hp/130 kW\u003C/p\u003E\r\nplus : 201 hp/150 kW\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y l\u00ean t\u1edbi\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003Eeco : 485 km (NEDC)\u003C/p\u003E\r\nplus : 460 km (NEDC)\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.730 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003Cdiv class=\"car-info-list car-edition disclaimer active\" data-edition=\"JB10V\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n \u0111\u01b0\u1ee3c t\u00ednh to\u00e1n d\u1ef1a tr\u00ean k\u1ebft qu\u1ea3 ki\u1ec3m \u0111\u1ecbnh theo quy chu\u1ea9n to\u00e0n c\u1ea7u (NEDC). Qu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n th\u1ef1c t\u1ebf c\u00f3 th\u1ec3 gi\u1ea3m so v\u1edbi k\u1ebft qu\u1ea3 ki\u1ec3m \u0111\u1ecbnh, ph\u1ee5 thu\u1ed9c v\u00e0o t\u1ed1c \u0111\u1ed9 l\u00e1i xe, nhi\u1ec7t \u0111\u1ed9, \u0111\u1ecba h\u00ecnh, th\u00f3i quen s\u1eed d\u1ee5ng c\u1ee7a ng\u01b0\u1eddi l\u00e1i, ch\u1ebf \u0111\u1ed9 l\u00e1i \u0111\u01b0\u1ee3c c\u00e0i \u0111\u1eb7t, s\u1ed1 l\u01b0\u1ee3ng h\u00e0nh kh\u00e1ch v\u00e0 c\u00e1c \u0111i\u1ec1u ki\u1ec7n giao th\u00f4ng kh\u00e1c.\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":90,"car_name":"VF6"},{"versions":[{"name":"VF5 PLUS - TC1","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-11.png","name":"Infinity Blanc","advanced":false,"price":496000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-6.png","name":"Zenith Grey","advanced":false,"price":496000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-6.png","name":"Solar Ruby","advanced":false,"price":496000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/111U.png","name":"Summer Yellow Body - Jet Black Roof","advanced":true,"price":504000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/181Y-1.png","name":"Sky Blue - Infinity Blanc Roof","advanced":true,"price":504000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-7.png","name":"Urban Mint","advanced":true,"price":504000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["ca_qd","o2o_1"],"includes":[],"is_default":true,"calc_type":"after","priority":1},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"H\u1ea1ng Gold","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%"}],"calc_type":"after","priority":2},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"dong_xe","value":"25000000","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":true},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["vpb","tpbank"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9 12 th\u00e1ng","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E134 hp/100 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n 1 l\u1ea7n s\u1ea1c \u0111\u1ea7y l\u00ean t\u1edbi\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E326,4 km (NEDC)\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EChi\u1ec1u d\u00e0i c\u01a1 s\u1edf\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E2.514 mm\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003Cdiv class=\"car-info-list car-edition disclaimer active\" data-edition=\"default\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n \u0111\u01b0\u1ee3c t\u00ednh to\u00e1n d\u1ef1a tr\u00ean k\u1ebft qu\u1ea3 ki\u1ec3m \u0111\u1ecbnh theo quy chu\u1ea9n to\u00e0n c\u1ea7u (NEDC). Qu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n th\u1ef1c t\u1ebf c\u00f3 th\u1ec3 gi\u1ea3m so v\u1edbi k\u1ebft qu\u1ea3 ki\u1ec3m \u0111\u1ecbnh, ph\u1ee5 thu\u1ed9c v\u00e0o t\u1ed1c \u0111\u1ed9 l\u00e1i xe, nhi\u1ec7t \u0111\u1ed9, \u0111\u1ecba h\u00ecnh, th\u00f3i quen s\u1eed d\u1ee5ng c\u1ee7a ng\u01b0\u1eddi l\u00e1i, ch\u1ebf \u0111\u1ed9 l\u00e1i \u0111\u01b0\u1ee3c c\u00e0i \u0111\u1eb7t, s\u1ed1 l\u01b0\u1ee3ng h\u00e0nh kh\u00e1ch v\u00e0 c\u00e1c \u0111i\u1ec1u ki\u1ec7n giao th\u00f4ng\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":89,"car_name":"VF5"},{"versions":[{"name":"VF3 PLUS","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE18-10.png","name":"Infinity Blanc","advanced":false,"price":296000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1V-5.png","name":"Zenith Grey","advanced":false,"price":296000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE2Q-5.png","name":"Solar Ruby","advanced":false,"price":296000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/181U-1.png","name":"Summer Yellow Body - Infinity Blanc Roof","advanced":true,"price":304000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/181Y.png","name":"Sky Blue - Infinity Blanc Roof","advanced":true,"price":304000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1821.png","name":"Rose Pink Body - Infinity Blanc Roof","advanced":true,"price":304000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/CE1W-6.png","name":"Urban Mint","advanced":true,"price":304000000,"discount":""}],"discount":""},{"name":"VF3 ECO - TC2","colors":[{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/1CE1W-6.png","name":"Infinity Blanc","advanced":false,"price":285000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuong.png","name":"Zenith Grey","advanced":false,"price":285000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuon1g-1.png","name":"Solar Ruby","advanced":false,"price":285000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/taSi-xuong-1.png","name":"Summer Yellow Body - Infinity Blanc Roof","advanced":true,"price":293000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuoDng-1.png","name":"Sky Blue - Infinity Blanc Roof","advanced":true,"price":293000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuonFg-1.png","name":"Rose Pink Body - Infinity Blanc Roof","advanced":true,"price":293000000,"discount":""},{"img":"https://vinfasto2o.com/wp-content/uploads/2026/05/tai-xuoGng-1.png","name":"Urban Mint","advanced":true,"price":293000000,"discount":""}],"discount":""}],"promos":[{"id":"ca_qd","value":"5%","excludes":["o2o","vinclub"],"includes":["o2o_1"],"is_default":false},{"id":"o2o","value":"2%","excludes":["o2o_1"],"includes":[],"is_default":true,"calc_type":"after"},{"id":"o2o_1","value":"1%","excludes":["o2o","vinclub"],"includes":["ca_qd"],"is_default":false},{"id":"vinclub","value":"","excludes":["ca_qd","o2o_1"],"includes":["ca_qd"],"is_default":false,"options":[{"name":"H\u1ea1ng GOLD","value":"0.5%"},{"name":"H\u1ea1ng Platium","value":"1%"},{"name":"H\u1ea1ng Diamond","value":"1.5%%"}],"calc_type":"after"},{"id":"tri_an_xe_xang","value":"","calc_type":"base","priority":0,"excludes":[],"includes":[],"is_default":false,"options":[{"name":"Fadil","value":"30000000"},{"name":"Lux A","value":"60000000"},{"name":"Lux SA","value":"80000000"}]},{"id":"vnpost","value":"","calc_type":"base","priority":0,"excludes":["ca_qd","o2o_1"],"includes":["o2o"],"is_default":false,"options":[{"name":"CBNV","value":"3"},{"name":"CBL\u0110","value":"5%"}]}],"banks":["tpbank","vpb"],"fees":{"custom":[{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 HN/HCM","price":14000000,"binding":"hcm_hn"},{"name":"\u0110\u0103ng k\u00fd bi\u1ec3n s\u1ed1 T\u1ec9nh","price":1000000,"binding":"other"},{"name":"Ph\u00ed \u0111\u01b0\u1eddng b\u1ed9","price":1560000,"binding":"all"},{"name":"Ph\u00ed \u0111\u0103ng ki\u1ec3m","price":340000,"binding":"all"},{"name":"TNDS xe d\u01b0\u1edbi 6 ch\u1ed7","price":480700,"binding":"all"},{"name":"Ph\u00ed d\u1ecbch v\u1ee5 \u0111\u0103ng k\u00fd h\u1ed9","price":3500000,"binding":"none"}]},"exclusive_offer":"\u003Cdiv class=\"tab-left\"\u003E\r\n\u003Cdiv class=\"body\"\u003E\r\n\u003Cdiv class=\"tab-left-box\"\u003E\r\n\u003Cdiv class=\"vf-cars-deposit__product-preview active\" data-modelid=\"Products-Car-VF3\"\u003E\r\n\u003Cdiv id=\"Products-Car-VF3-exterior\" class=\"tab-car-left-content active\"\u003E\r\n\u003Cdiv class=\"tab-car-left-info\" data-modelid=\"Products-Car-VF3\"\u003E\r\n\u003Cul class=\"car-info-list car-edition active\" data-edition=\"default\"\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EC\u00f4ng su\u1ea5t t\u1ed1i \u0111a\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E30 kW\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EDung l\u01b0\u1ee3ng pin kh\u1ea3 d\u1ee5ng\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E18,64 kWh\u003C/p\u003E\r\n\u003C/li\u003E\r\n \t\u003Cli class=\"car-info-item\" data-options=\"\"\u003E\r\n\u003Cp class=\"car-info-item-label\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n\u003C/p\u003E\r\n\u003Cp class=\"car-info-item-no js-info-car-engine\"\u003E215 km\u003C/p\u003E\r\n\u003C/li\u003E\r\n\u003C/ul\u003E\r\n\u003Cdiv class=\"car-info-list car-edition disclaimer active\" data-edition=\"default\"\u003EQu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n \u0111\u01b0\u1ee3c t\u00ednh to\u00e1n d\u1ef1a tr\u00ean k\u1ebft qu\u1ea3 ki\u1ec3m \u0111\u1ecbnh theo quy chu\u1ea9n to\u00e0n c\u1ea7u (NEDC). Qu\u00e3ng \u0111\u01b0\u1eddng di chuy\u1ec3n th\u1ef1c t\u1ebf c\u00f3 th\u1ec3 gi\u1ea3m so v\u1edbi k\u1ebft qu\u1ea3 ki\u1ec3m \u0111\u1ecbnh, ph\u1ee5 thu\u1ed9c v\u00e0o t\u1ed1c \u0111\u1ed9 l\u00e1i xe, nhi\u1ec7t \u0111\u1ed9, \u0111\u1ecba h\u00ecnh, th\u00f3i quen s\u1eed d\u1ee5ng c\u1ee7a ng\u01b0\u1eddi l\u00e1i, ch\u1ebf \u0111\u1ed9 l\u00e1i \u0111\u01b0\u1ee3c c\u00e0i \u0111\u1eb7t, s\u1ed1 l\u01b0\u1ee3ng h\u00e0nh kh\u00e1ch v\u00e0 c\u00e1c \u0111i\u1ec1u ki\u1ec7n giao th\u00f4ng kh\u00e1c.\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003Cp class=\"tab-car-left-info-desc m-0\"\u003E\u003Cspan class=\"common\"\u003EC\u00e1c th\u00f4ng tin s\u1ea3n ph\u1ea9m c\u00f3 th\u1ec3 thay \u0111\u1ed5i\u00a0m\u00e0 kh\u00f4ng c\u1ea7n b\u00e1o tr\u01b0\u1edbc\u003C/span\u003E\u003C/p\u003E\r\n\r\n\u003C/div\u003E\r\n\u003C/div\u003E\r\n\u003C/div\u003E","post_id":82,"car_name":"VF3"}],"promo_dict":{"ca_qd":"C\u00f4ng an / Qu\u00e2n \u0111\u1ed9i","msrp_1":"\u01afu \u0111\u00e3i 3% MSRP (XH\u0110 T6)","giao_vien":"Ch\u01b0\u01a1ng tr\u00ecnh Gi\u00e1o vi\u00ean","vinclub":"VinClub","o2o":"\u01afu \u0111\u00e3i 2% k\u00eanh o2o","tlx":"M\u00e3nh li\u1ec7t v\u00ec t\u01b0\u01a1ng lai xanh","dong_xe":"\u01afu \u0111\u00e3i ri\u00eang","bhtv":"T\u1eb7ng BHTV ( XH\u0110 T6)","o2o_1":"\u01afu \u0111\u00e3i 1% k\u00eanh o2o","coctienphong":"C\u1ecdc Ti\u00ean Phong 15-17/7/2026","msrp":"\u01afu \u0111\u00e3i 2% MSRP (XH\u0110 T6)","tri_an_xe_xang":"Tri \u00e2n xe X\u0103ng VF","vnpost":"CBNV VN POST"},"bank_dict":{"vib":{"name":"VIBBANK","fixed_rate":10.5,"fixed_months":12,"float_rate":12},"tpbank":{"name":"TPBANK","fixed_rate":10,"fixed_months":12,"float_rate":13.6},"vpb":{"name":"VPBANK","fixed_rate":10.5,"fixed_months":12,"float_rate":14}}};
+//# sourceURL=vfe-frontend-js-js-extra
+</script>
+<script id="vfe-frontend-js-js" src="https://vinfasto2o.com/wp-content/plugins/vinfast-o2o/assets/frontend.js?ver=1.4.1"></script>
+<script id="vfe-frontend-installment-js-js" src="https://vinfasto2o.com/wp-content/plugins/vinfast-o2o/assets/frontend-installment.js?ver=1.2"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://vinfasto2o.com/wp-includes/js/wp-emoji-release.min.js?ver=7.0.2"}}
+</script>
+<script type="module">
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://vinfasto2o.com/wp-includes/js/wp-emoji-loader.min.js
+</script>
+
+</body></html>

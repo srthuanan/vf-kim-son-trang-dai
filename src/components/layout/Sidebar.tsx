@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserRound, LogOut, LockKeyhole, User, type LucideIcon } from 'lucide-react';
+import { UserRound, LogOut, LockKeyhole, User, Calculator, type LucideIcon } from 'lucide-react';
 import { TabKey, getVisibleTabs, roleLabels } from '../../constants';
 import { ProfileRow } from '../../types';
 
@@ -64,6 +64,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           );
         })}
+
+        <a
+          href="/tinh-gia-xe"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav-item"
+          style={{ textDecoration: 'none', color: '#003B95', background: '#eff6ff', border: '1px solid #dbeafe', fontWeight: 700, marginTop: '8px' }}
+          title="Mở Công Cụ Tính Giá Xe VinFast"
+        >
+          <Calculator size={18} />
+          <span>Tính Giá Xe VinFast</span>
+        </a>
       </nav>
 
       <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', borderTop: '1px solid #e2e8f0', paddingTop: '20px' }}>
