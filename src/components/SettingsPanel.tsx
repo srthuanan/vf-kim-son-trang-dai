@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Settings, Plus, Trash2, Car, PaintBucket, Armchair, GitBranch, 
-  BadgeDollarSign, Pencil, Check, X, Tag, Calendar, Layers, Search, Sparkles, SlidersHorizontal, Eye
+  Settings, Plus, Trash2, Car, PaintBucket, Armchair, 
+  BadgeDollarSign, Pencil, Check, X, Tag, SlidersHorizontal 
 } from 'lucide-react';
 import { VehicleConfigRow, SalesPolicyRow } from '../types';
 import * as apiService from '../services/apiService';
