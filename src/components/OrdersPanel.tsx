@@ -591,7 +591,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                           </td>
                           <td>
                             <div style={{ color: '#475569', fontSize: '13px' }}>
-                              {order.needDateIso ? new Date(order.needDateIso).toLocaleDateString('vi-VN') : order.needDate ? new Date(order.needDate).toLocaleDateString('vi-VN') : '—'}
+                              {order.invoiceDate ? new Date(order.invoiceDate).toLocaleDateString('vi-VN') : '—'}
                             </div>
                           </td>
                           <td>

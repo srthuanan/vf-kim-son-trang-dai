@@ -38,6 +38,7 @@ export interface Order {
   soTienKhachDaDong?: number | null;
   ngayKyHopDong?: string | null;
   invoiceAddress?: string | null;
+  invoiceDate?: string | null;
   contractCode?: string | null;
   paymentMethod?: string | null;
   linkHopDong?: string | null;

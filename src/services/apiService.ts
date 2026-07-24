@@ -121,6 +121,7 @@ export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRo
     soTienKhachDaDong: row.so_tien_khach_da_dong ?? row.so_tien_coc ?? null,
     ngayKyHopDong: row.ngay_ky_hop_dong ?? null,
     invoiceAddress: row.dia_chi ?? null,
+    invoiceDate: row.ngay_xuat_hoa_don ?? null,
     contractCode: row.so_hop_dong ?? null,
     paymentMethod: row.hinh_thuc_tt ?? null,
     linkHopDong: row.link_hop_dong ?? null,
