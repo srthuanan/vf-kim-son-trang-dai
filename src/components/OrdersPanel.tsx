@@ -586,7 +586,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                           )}
                           <td>
                             <div style={{ color: '#475569', fontSize: '13px' }}>
-                              {order.depositDate ? new Date(order.depositDate).toLocaleDateString('vi-VN') : '—'}
+                              {order.depositDate === 'Chưa có' ? '—' : order.depositDate}
                             </div>
                           </td>
                           <td>
