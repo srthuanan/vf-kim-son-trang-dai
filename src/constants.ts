@@ -233,6 +233,7 @@ export const statusTone: Record<OrderStatus, string> = {
   'Đã bổ sung': 'status preparing',
   'Chờ ký hóa đơn': 'status shipping',
   'Đã xuất hóa đơn': 'status done',
+  'Đã hoàn cọc': 'status canceled',
   'Đã hủy': 'status canceled'
 };
 

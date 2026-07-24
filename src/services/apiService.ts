@@ -739,6 +739,10 @@ export const updateOrderDetails = async (
     ma_amis: input.maAmis?.trim() || null
   };
 
+  if (input.status) {
+    updateData.ket_qua = input.status;
+  }
+
   if (input.newOrderId && input.newOrderId !== input.orderId) {
     updateData.so_don_hang = input.newOrderId.trim();
   }

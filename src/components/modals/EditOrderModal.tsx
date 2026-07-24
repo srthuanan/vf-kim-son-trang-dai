@@ -1,7 +1,7 @@
 import React from 'react';
 import { X, Save, AlertTriangle } from 'lucide-react';
 import { getPolicyNames, parseSmartPolicy } from '../../utils/policyParser';
-import { Order, UpdateOrderInput, VehicleConfigRow, SalesPolicyRow, ProfileRow } from '../../types';
+import { Order, UpdateOrderInput, VehicleConfigRow, SalesPolicyRow, ProfileRow, OrderStatus } from '../../types';
 import {
   staffNames,
   defaultSalesPolicies
@@ -53,6 +53,7 @@ export const EditOrderModal: React.FC<EditOrderModalProps> = ({
   const [exterior, setExterior] = React.useState(order.exterior);
   const [interior, setInterior] = React.useState(order.interior);
   const [staff, setStaff] = React.useState(order.staff);
+  const [status, setStatus] = React.useState<OrderStatus>(order.status);
 
   const dynamicStaffNames = React.useMemo(() => {
     if (!staffProfiles || staffProfiles.length === 0) return staffNames;
@@ -197,6 +198,7 @@ export const EditOrderModal: React.FC<EditOrderModalProps> = ({
       contractCode,
       paymentMethod,
       ngayKyHopDong,
+      status,
       nguonKhach,
       giaCongBo,
       muaBaoHiem,
@@ -235,6 +237,22 @@ export const EditOrderModal: React.FC<EditOrderModalProps> = ({
           <label>
             <span>Mã Amis <span style={{ color: 'red' }}>*</span></span>
             <input value={maAmis} placeholder="Nhập mã Amis..." onChange={(e) => setMaAmis(e.target.value)} required />
+          </label>
+
+          <label>
+            <span>Trạng thái đơn hàng</span>
+            <select value={status} onChange={(e) => setStatus(e.target.value as OrderStatus)}>
+              <option value="Chưa ghép">Chưa ghép</option>
+              <option value="Đã ghép">Đã ghép</option>
+              <option value="Chờ phê duyệt">Chờ phê duyệt</option>
+              <option value="Đã phê duyệt">Đã phê duyệt</option>
+              <option value="Yêu cầu bổ sung">Yêu cầu bổ sung</option>
+              <option value="Đã bổ sung">Đã bổ sung</option>
+              <option value="Chờ ký hóa đơn">Chờ ký hóa đơn</option>
+              <option value="Đã xuất hóa đơn">Đã xuất hóa đơn</option>
+              <option value="Đã hoàn cọc">Đã hoàn cọc</option>
+              <option value="Đã hủy">Đã hủy</option>
+            </select>
           </label>
 
 

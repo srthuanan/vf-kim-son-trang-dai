@@ -9,6 +9,7 @@ export type OrderStatus =
   | 'Đã bổ sung'
   | 'Chờ ký hóa đơn'
   | 'Đã xuất hóa đơn'
+  | 'Đã hoàn cọc'
   | 'Đã hủy';
 export type StockStatus = 'Chưa ghép' | 'Đang giữ' | 'Đã ghép';
 export type SyncState = 'loading' | 'live' | 'sample' | 'error' | 'success' | 'idle';
@@ -317,6 +318,7 @@ export interface SalesPolicyRow {
 export interface UpdateOrderInput {
   orderId: string;
   newOrderId?: string;
+  status?: OrderStatus;
   customer: string;
   line: string;
   version: string;
