@@ -1,7 +1,7 @@
 import React from 'react';
 import { Banknote, X, Save, AlertTriangle, FileText, UploadCloud, CreditCard, UserCircle } from 'lucide-react';
 import { getPolicyNames, parseSmartPolicy } from '../utils/policyParser';
-import { Order, UpdateOrderInput, VehicleConfigRow, SalesPolicyRow } from '../types';
+import { Order, UpdateOrderInput, VehicleConfigRow, SalesPolicyRow, OrderStatus } from '../types';
 import {
   defaultSalesPolicies
 } from '../constants';
@@ -49,6 +49,7 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
   const [newOrderId, setNewOrderId] = React.useState(order.id);
   const [customer, setCustomer] = React.useState(order.customer);
   const [line, setLine] = React.useState(order.line);
+  const [status, setStatus] = React.useState<OrderStatus>(order.status);
   const [version, setVersion] = React.useState(order.version);
   const [exterior, setExterior] = React.useState(order.exterior);
   const [interior, setInterior] = React.useState(order.interior);
@@ -182,6 +183,7 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
       exterior,
       interior,
       staff,
+      status,
       depositDate,
       needDate,
       depositAmount,
@@ -248,8 +250,23 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
           <tbody>
             <tr>
               <td style={{ backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', padding: '8px 12px', fontWeight: 600, color: '#475569', width: '18%' }}>Số hồ sơ <span style={{ color: 'red' }}>*</span></td>
-              <td colSpan={3} style={{ border: '1px solid #cbd5e1', padding: '8px 12px' }}>
+              <td style={{ border: '1px solid #cbd5e1', padding: '8px 12px', width: '32%' }}>
                 <input className="seamless-input" value={newOrderId} onChange={(e) => setNewOrderId(e.target.value)} placeholder="Nhập số hồ sơ mới..." required />
+              </td>
+              <td style={{ backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', padding: '8px 12px', fontWeight: 600, color: '#475569', width: '18%' }}>Trạng thái</td>
+              <td style={{ border: '1px solid #cbd5e1', padding: '8px 12px', width: '32%' }}>
+                <select className="seamless-select" value={status} onChange={(e) => setStatus(e.target.value as OrderStatus)}>
+                  <option value="Chưa ghép">Chưa ghép</option>
+                  <option value="Đã ghép">Đã ghép</option>
+                  <option value="Chờ phê duyệt">Chờ phê duyệt</option>
+                  <option value="Đã phê duyệt">Đã phê duyệt</option>
+                  <option value="Yêu cầu bổ sung">Yêu cầu bổ sung</option>
+                  <option value="Đã bổ sung">Đã bổ sung</option>
+                  <option value="Chờ ký hóa đơn">Chờ ký hóa đơn</option>
+                  <option value="Đã xuất hóa đơn">Đã xuất hóa đơn</option>
+                  <option value="Đã hoàn cọc">Đã hoàn cọc</option>
+                  <option value="Đã hủy">Đã hủy</option>
+                </select>
               </td>
             </tr>
             <tr>
