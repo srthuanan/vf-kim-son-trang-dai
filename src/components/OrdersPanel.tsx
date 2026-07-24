@@ -537,6 +537,8 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                     <th>Mã đơn</th>
                     <th>Khách hàng</th>
                     {showStaffColumn && <th>Tên TVBH</th>}
+                    <th>Ngày cọc</th>
+                    <th>Ngày XHĐ</th>
                     <th>Cấu hình xe</th>
                     <th>VIN ghép</th>
                     <th>Trạng thái</th>
@@ -545,7 +547,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                 <tbody>
                   {displayOrders.length === 0 ? (
                     <tr>
-                      <td colSpan={5} style={{ textAlign: 'center', padding: '30px', color: '#64748b', fontStyle: 'italic' }}>
+                      <td colSpan={7} style={{ textAlign: 'center', padding: '30px', color: '#64748b', fontStyle: 'italic' }}>
                         Không tìm thấy đơn hàng phù hợp.
                       </td>
                     </tr>
@@ -582,6 +584,16 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                               <div style={{ fontWeight: 600, color: '#475569' }}>{order.staff}</div>
                             </td>
                           )}
+                          <td>
+                            <div style={{ color: '#475569', fontSize: '13px' }}>
+                              {order.depositDate ? new Date(order.depositDate).toLocaleDateString('vi-VN') : '—'}
+                            </div>
+                          </td>
+                          <td>
+                            <div style={{ color: '#475569', fontSize: '13px' }}>
+                              {order.needDateIso ? new Date(order.needDateIso).toLocaleDateString('vi-VN') : order.needDate ? new Date(order.needDate).toLocaleDateString('vi-VN') : '—'}
+                            </div>
+                          </td>
                           <td>
                             <div style={{ fontWeight: 600, color: '#334155' }}>{order.line} {order.version}</div>
                             <div style={{ fontSize: '11px', color: '#64748b' }}>{order.exterior} · {order.interior}</div>
