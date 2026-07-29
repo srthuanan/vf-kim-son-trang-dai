@@ -742,6 +742,9 @@ export const updateOrderDetails = async (
 
   if (input.status) {
     updateData.ket_qua = input.status;
+    if (['Đã phê duyệt', 'Chờ ký hóa đơn', 'Đã xuất hóa đơn'].includes(input.status)) {
+      updateData.ngay_xuat_hoa_don = currentOrder.ngay_xuat_hoa_don || new Date().toISOString().split('T')[0];
+    }
   }
 
   if (input.newOrderId && input.newOrderId !== input.orderId) {
@@ -1587,14 +1590,22 @@ export const updateInvoiceRequestStatus = async (requestIds: string[], newStatus
   if (['Đã phê duyệt', 'Chờ ký hóa đơn', 'Đã xuất hóa đơn'].includes(newStatus)) baseStatus = 'approved';
   else if (['Từ chối', 'Đã hủy'].includes(newStatus)) baseStatus = 'rejected';
 
+  const isApprovedStage = ['Đã phê duyệt', 'Chờ ký hóa đơn', 'Đã xuất hóa đơn'].includes(newStatus);
+  const todayStr = new Date().toISOString().split('T')[0];
+
+  const reqUpdatePayload: any = {
+    trang_thai_xu_ly: newStatus,
+    status: baseStatus,
+    updated_at: new Date().toISOString()
+  };
+  if (isApprovedStage) {
+    reqUpdatePayload.ngay_xuat_hoa_don = todayStr;
+  }
+
   // Cập nhật nhiều yêu cầu XHĐ
   const { error: reqError } = await supabase
     .from('yeucauxhd')
-    .update({ 
-      trang_thai_xu_ly: newStatus,
-      status: baseStatus,
-      updated_at: new Date().toISOString()
-    })
+    .update(reqUpdatePayload)
     .in('id', requestIds);
 
   if (reqError) return { error: reqError };
@@ -1604,7 +1615,11 @@ export const updateInvoiceRequestStatus = async (requestIds: string[], newStatus
   if (reqs && reqs.length > 0) {
     const orderIds = reqs.map(r => r.so_don_hang).filter(Boolean);
     if (orderIds.length > 0) {
-      await supabase.from('donhang').update({ ket_qua: newStatus }).in('so_don_hang', orderIds);
+      const orderUpdatePayload: any = { ket_qua: newStatus, updated_at: new Date().toISOString() };
+      if (isApprovedStage) {
+        orderUpdatePayload.ngay_xuat_hoa_don = todayStr;
+      }
+      await supabase.from('donhang').update(orderUpdatePayload).in('so_don_hang', orderIds);
     }
   }
 
