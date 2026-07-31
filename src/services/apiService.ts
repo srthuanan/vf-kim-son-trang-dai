@@ -1849,9 +1849,15 @@ export const submitHrLeaveRequest = async (payload: {
   late_time?: string | null;
   session?: 'sang' | 'chieu' | 'ca_ngay' | null;
   reason: string;
+  status?: string;
 }) => {
   if (!supabase) return { data: null, error: new Error('Supabase chưa cấu hình') };
-  return supabase.from('hr_leave_requests').insert(payload).select().single();
+  const insertPayload = {
+    ...payload,
+    end_date: payload.end_date || payload.start_date,
+    status: payload.status || 'pending'
+  };
+  return supabase.from('hr_leave_requests').insert(insertPayload).select().single();
 };
 
 export const reviewHrLeaveRequest = async (

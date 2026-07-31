@@ -94,6 +94,9 @@ const SubmitModal: React.FC<SubmitModalProps> = ({ profile, username, onClose, o
 
   const handleSubmit = async () => {
     if (!startDate) return setError('Vui lòng chọn ngày.');
+    if (type === 'nghi_phep' && endDate && endDate < startDate) {
+      return setError('Ngày kết thúc không được trước ngày bắt đầu.');
+    }
     if (!reason.trim()) return setError('Vui lòng nhập lý do cụ thể.');
     setLoading(true); setError('');
     const { error: err } = await apiService.submitHrLeaveRequest({
@@ -102,13 +105,13 @@ const SubmitModal: React.FC<SubmitModalProps> = ({ profile, username, onClose, o
       requester_id: profile.id || null,
       type,
       start_date: startDate,
-      end_date: type === 'nghi_phep' ? (endDate || startDate) : null,
+      end_date: type === 'nghi_phep' ? (endDate || startDate) : startDate,
       late_time: type === 'di_tre' ? lateTime : null,
       session: type === 'nghi_phep' ? session : null,
       reason: reason.trim()
     });
     setLoading(false);
-    if (err) return setError('Lỗi gửi yêu cầu: ' + err.message);
+    if (err) return setError('Lỗi gửi yêu cầu: ' + (err.message || 'Không thể tạo đơn xin phép'));
     onSuccess();
     onClose();
   };
@@ -243,15 +246,24 @@ export const HRPanel: React.FC<HRPanelProps> = ({
 
   const visibleRequests = useMemo(() => {
     if (isAdmin) return requests;
+    const lowerUser = currentUsername.trim().toLowerCase();
+    const lowerName = (currentProfile?.full_name || '').trim().toLowerCase();
     if (isTPKD && currentProfile?.department) {
       const deptStaffUsernames = new Set(
         staffProfiles
           .filter(s => s.department === currentProfile.department)
           .map(s => s.email?.trim().toLowerCase() || s.id)
       );
-      return requests.filter(r => deptStaffUsernames.has(r.requester_username.toLowerCase()));
+      deptStaffUsernames.add(lowerUser);
+      return requests.filter(r => 
+        deptStaffUsernames.has(r.requester_username.toLowerCase()) ||
+        r.requester_name.toLowerCase() === lowerName
+      );
     }
-    return requests.filter(r => r.requester_username.toLowerCase() === currentUsername.toLowerCase());
+    return requests.filter(r => 
+      r.requester_username.toLowerCase() === lowerUser ||
+      r.requester_name.toLowerCase() === lowerName
+    );
   }, [requests, isAdmin, isTPKD, currentProfile, staffProfiles, currentUsername]);
 
   const filtered = useMemo(() => {

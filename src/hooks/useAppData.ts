@@ -270,13 +270,23 @@ export function useAppData() {
       setProfiles(visibleProfiles);
       setVehicleConfigs((configsResult.data as VehicleConfigRow[]) || []);
 
-      // HR: admin/staff thấy tất cả, người quản lý thấy của nhân sự mình quản lý, người khác chỉ thấy của mình
+      // HR: admin/staff thấy tất cả, người quản lý thấy của nhân sự mình quản lý + của chính mình, người khác chỉ thấy của mình
       const allHrRequests = (hrResult.data as HrLeaveRequestRow[]) || [];
+      const lowerEmail = currentEmail.toLowerCase();
+      const lowerName = currentFullName.toLowerCase();
       const visibleHrRequests = (isAdminUser || isStaffUser)
         ? allHrRequests
         : isManagerUser
-          ? allHrRequests.filter(r => isManagedByCurrentManager(r.requester_username) || isManagedByCurrentManager(r.requester_name))
-          : allHrRequests.filter(r => r.requester_username === currentEmail || r.requester_name === currentFullName);
+          ? allHrRequests.filter(r => 
+              isManagedByCurrentManager(r.requester_username) || 
+              isManagedByCurrentManager(r.requester_name) ||
+              r.requester_username.toLowerCase() === lowerEmail ||
+              r.requester_name.toLowerCase() === lowerName
+            )
+          : allHrRequests.filter(r => 
+              r.requester_username.toLowerCase() === lowerEmail || 
+              r.requester_name.toLowerCase() === lowerName
+            );
       setHrLeaveRequests(visibleHrRequests);
 
       setSyncState('live');
