@@ -231,6 +231,20 @@ export const HRPanel: React.FC<HRPanelProps> = ({
   const [reviewNote, setReviewNote] = useState('');
   const [processing, setProcessing] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileView, setMobileView] = useState<'list' | 'detail'>('list');
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)');
+    const update = () => setIsMobile(media.matches);
+    update();
+    if (media.addEventListener) {
+      media.addEventListener('change', update);
+      return () => media.removeEventListener('change', update);
+    }
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
 
   const role = currentProfile?.role || 'sales';
   const isAdmin = role === 'admin';
@@ -336,161 +350,192 @@ export const HRPanel: React.FC<HRPanelProps> = ({
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#f8fafc', overflow: 'hidden', padding: '16px 24px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#f8fafc', overflow: 'hidden', padding: isMobile ? '8px' : '16px 24px' }}>
       
-      {/* ── MAIN WORKSPACE MASTER-DETAIL 2-COLUMNS ── */}
-      <div style={{ flex: 1, overflow: 'hidden', display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '20px', minHeight: 0 }}>
+      {/* ── MAIN WORKSPACE MASTER-DETAIL ── */}
+      <div style={{ 
+        flex: 1, 
+        overflow: 'hidden', 
+        display: isMobile ? 'flex' : 'grid', 
+        flexDirection: isMobile ? 'column' : 'row',
+        gridTemplateColumns: isMobile ? '1fr' : '1.5fr 1fr', 
+        gap: isMobile ? '12px' : '20px', 
+        minHeight: 0 
+      }}>
         
         {/* LEFT COLUMN: REQUEST LIST TABLE */}
-        <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-          
-          {/* Toolbar & Filters */}
-          <div style={{ padding: '14px 16px', borderBottom: '1px solid #e2e8f0', background: '#ffffff', display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+        {(!isMobile || mobileView === 'list') && (
+          <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', display: 'flex', flexDirection: 'column', overflow: 'hidden', flex: 1 }}>
             
-            {/* Segmented Filter Pills */}
-            <div style={{ display: 'flex', gap: '3px', background: '#f1f5f9', padding: '3px', borderRadius: '10px' }}>
-              {FILTER_TABS.map(tab => (
-                <button
-                  key={tab.key}
-                  onClick={() => setFilter(tab.key)}
-                  style={{
-                    padding: '5px 10px', borderRadius: '7px', border: 'none', cursor: 'pointer',
-                    fontSize: '12px', fontWeight: filter === tab.key ? 700 : 500,
-                    background: filter === tab.key ? '#ffffff' : 'transparent',
-                    color: filter === tab.key ? '#0f766e' : '#64748b',
-                    boxShadow: filter === tab.key ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
-                    display: 'flex', alignItems: 'center', gap: '4px'
+            {/* Toolbar & Filters */}
+            <div style={{ padding: '12px 14px', borderBottom: '1px solid #e2e8f0', background: '#ffffff', display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+              
+              {/* Segmented Filter Pills */}
+              <div style={{ display: 'flex', gap: '3px', background: '#f1f5f9', padding: '3px', borderRadius: '10px', overflowX: 'auto', maxWidth: '100%' }}>
+                {FILTER_TABS.map(tab => (
+                  <button
+                    key={tab.key}
+                    onClick={() => setFilter(tab.key)}
+                    style={{
+                      padding: '5px 9px', borderRadius: '7px', border: 'none', cursor: 'pointer',
+                      fontSize: '12px', fontWeight: filter === tab.key ? 700 : 500,
+                      background: filter === tab.key ? '#ffffff' : 'transparent',
+                      color: filter === tab.key ? '#0f766e' : '#64748b',
+                      boxShadow: filter === tab.key ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
+                      display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap'
+                    }}
+                  >
+                    <span>{tab.label}</span>
+                    <span style={{ fontSize: '10px', padding: '1px 5px', borderRadius: '999px', background: filter === tab.key ? '#ccfbf1' : '#e2e8f0', color: filter === tab.key ? '#0f766e' : '#64748b', fontWeight: 700 }}>
+                      {tab.count}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Type, Search & Action Buttons */}
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <select 
+                  value={typeFilter} 
+                  onChange={e => setTypeFilter(e.target.value as any)}
+                  style={{ padding: '6px 8px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', background: '#fff', color: '#0f172a', outline: 'none' }}
+                >
+                  <option value="all">Tất cả loại</option>
+                  <option value="nghi_phep">Nghỉ phép</option>
+                  <option value="di_tre">Đi trễ</option>
+                </select>
+
+                {hasPrivilege && (
+                  <div style={{ position: 'relative', width: isMobile ? '120px' : '150px' }}>
+                    <Search size={14} style={{ position: 'absolute', left: '8px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                    <input 
+                      value={searchQ} 
+                      onChange={e => setSearchQ(e.target.value)} 
+                      placeholder="Tìm..." 
+                      style={{ width: '100%', padding: '5px 8px 5px 26px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', background: '#fff', outline: 'none' }} 
+                    />
+                  </div>
+                )}
+
+                <button onClick={handleReload} title="Tải lại dữ liệu" style={{ width: '32px', height: '32px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#fff', color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <RefreshCw size={14} className={isReloading ? "spin-animation" : ""} />
+                </button>
+
+                <button 
+                  onClick={() => setShowSubmit(true)} 
+                  style={{ 
+                    display: 'flex', alignItems: 'center', gap: '4px', padding: '6px 12px', 
+                    borderRadius: '8px', border: 'none', background: '#0f766e', color: '#fff', 
+                    fontSize: '12px', fontWeight: 700, cursor: 'pointer', 
+                    boxShadow: '0 2px 6px rgba(15, 118, 110, 0.2)', whiteSpace: 'nowrap'
                   }}
                 >
-                  <span>{tab.label}</span>
-                  <span style={{ fontSize: '10px', padding: '1px 5px', borderRadius: '999px', background: filter === tab.key ? '#ccfbf1' : '#e2e8f0', color: filter === tab.key ? '#0f766e' : '#64748b', fontWeight: 700 }}>
-                    {tab.count}
-                  </span>
+                  <Plus size={15} strokeWidth={2.5} /> {isMobile ? 'Tạo đơn' : 'Gửi yêu cầu mới'}
                 </button>
-              ))}
-            </div>
-
-            {/* Type, Search & Action Buttons */}
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <select 
-                value={typeFilter} 
-                onChange={e => setTypeFilter(e.target.value as any)}
-                style={{ padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12.5px', background: '#fff', color: '#0f172a', outline: 'none' }}
-              >
-                <option value="all">Tất cả loại</option>
-                <option value="nghi_phep">Nghỉ phép</option>
-                <option value="di_tre">Đi trễ</option>
-              </select>
-
-              {hasPrivilege && (
-                <div style={{ position: 'relative', width: '160px' }}>
-                  <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-                  <input 
-                    value={searchQ} 
-                    onChange={e => setSearchQ(e.target.value)} 
-                    placeholder="Tìm tên, lý do..." 
-                    style={{ width: '100%', padding: '6px 10px 6px 30px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12.5px', background: '#fff', outline: 'none' }} 
-                  />
-                </div>
-              )}
-
-              <button onClick={handleReload} title="Tải lại dữ liệu" style={{ width: '32px', height: '32px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#fff', color: '#475569', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <RefreshCw size={14} className={isReloading ? "spin-animation" : ""} />
-              </button>
-
-              <button 
-                onClick={() => setShowSubmit(true)} 
-                style={{ 
-                  display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', 
-                  borderRadius: '8px', border: 'none', background: '#0f766e', color: '#fff', 
-                  fontSize: '12.5px', fontWeight: 700, cursor: 'pointer', 
-                  boxShadow: '0 2px 6px rgba(15, 118, 110, 0.2)' 
-                }}
-              >
-                <Plus size={15} strokeWidth={2.5} /> Gửi yêu cầu mới
-              </button>
-            </div>
-          </div>
-
-          {/* List Rows */}
-          <div style={{ flex: 1, overflowY: 'auto' }}>
-            {filtered.length === 0 ? (
-              <div style={{ padding: '60px 20px', textAlign: 'center', color: '#64748b' }}>
-                <FileText size={36} style={{ color: '#cbd5e1', marginBottom: '10px' }} />
-                <p style={{ fontWeight: 600, margin: 0, fontSize: '14px' }}>Không có đơn xin phép nào</p>
               </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {filtered.map(req => {
-                  const isSelected = selectedReq?.id === req.id;
-                  const initial = req.requester_name.trim().charAt(0).toUpperCase();
+            </div>
 
-                  return (
-                    <div
-                      key={req.id}
-                      onClick={() => setSelectedId(req.id)}
-                      style={{
-                        padding: '14px 18px', borderBottom: '1px solid #f1f5f9', cursor: 'pointer',
-                        background: isSelected ? '#ecfdf5' : '#ffffff',
-                        borderLeft: isSelected ? '4px solid #0f766e' : '4px solid transparent',
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px',
-                        transition: 'all 0.15s ease'
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: 0 }}>
-                        <div style={{ 
-                          width: '36px', height: '36px', borderRadius: '50%', 
-                          background: isSelected ? '#0f766e' : '#f1f5f9', 
-                          color: isSelected ? '#ffffff' : '#475569',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontWeight: 700, fontSize: '14px', flexShrink: 0
-                        }}>
-                          {initial}
-                        </div>
+            {/* List Rows */}
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+              {filtered.length === 0 ? (
+                <div style={{ padding: '40px 20px', textAlign: 'center', color: '#64748b' }}>
+                  <FileText size={36} style={{ color: '#cbd5e1', marginBottom: '10px' }} />
+                  <p style={{ fontWeight: 600, margin: 0, fontSize: '14px' }}>Không có đơn xin phép nào</p>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  {filtered.map(req => {
+                    const isSelected = selectedReq?.id === req.id;
+                    const initial = req.requester_name.trim().charAt(0).toUpperCase();
 
-                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <strong style={{ fontSize: '14px', color: isSelected ? '#0f766e' : '#0f172a', fontWeight: 700 }}>{req.requester_name}</strong>
-                            <span style={{ fontSize: '11px', background: '#f1f5f9', color: '#475569', padding: '1px 6px', borderRadius: '4px', fontWeight: 600 }}>
-                              {TYPE_LABEL[req.type]}
+                    return (
+                      <div
+                        key={req.id}
+                        onClick={() => {
+                          setSelectedId(req.id);
+                          if (isMobile) setMobileView('detail');
+                        }}
+                        style={{
+                          padding: '12px 14px', borderBottom: '1px solid #f1f5f9', cursor: 'pointer',
+                          background: isSelected ? '#ecfdf5' : '#ffffff',
+                          borderLeft: isSelected ? '4px solid #0f766e' : '4px solid transparent',
+                          display: 'flex', flexDirection: isMobile ? 'column' : 'row', 
+                          alignItems: isMobile ? 'flex-start' : 'center', 
+                          justifyContent: 'space-between', gap: isMobile ? '8px' : '12px',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', minWidth: 0 }}>
+                          <div style={{ 
+                            width: '34px', height: '34px', borderRadius: '50%', 
+                            background: isSelected ? '#0f766e' : '#f1f5f9', 
+                            color: isSelected ? '#ffffff' : '#475569',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontWeight: 700, fontSize: '13px', flexShrink: 0
+                          }}>
+                            {initial}
+                          </div>
+
+                          <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                              <strong style={{ fontSize: '13.5px', color: isSelected ? '#0f766e' : '#0f172a', fontWeight: 700 }}>{req.requester_name}</strong>
+                              <span style={{ fontSize: '10.5px', background: '#f1f5f9', color: '#475569', padding: '1px 6px', borderRadius: '4px', fontWeight: 600 }}>
+                                {TYPE_LABEL[req.type]}
+                              </span>
+                            </div>
+                            <span style={{ fontSize: '12px', color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '2px' }}>
+                              "{req.reason}"
                             </span>
                           </div>
-                          <span style={{ fontSize: '12.5px', color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '2px' }}>
-                            "{req.reason}"
-                          </span>
-                        </div>
-                      </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
-                          <span style={{ fontSize: '12px', fontWeight: 600, color: '#0f172a' }}>
+                          <StatusBadge status={req.status} />
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', fontSize: '11.5px', color: '#64748b', borderTop: isMobile ? '1px dashed #f1f5f9' : 'none', paddingTop: isMobile ? '6px' : 0 }}>
+                          <span style={{ fontWeight: 600, color: '#0f172a' }}>
                             {fmtDate(req.start_date)}
                             {req.end_date && req.end_date !== req.start_date ? ` → ${fmtDate(req.end_date)}` : ''}
                           </span>
-                          <span style={{ fontSize: '11px', color: '#94a3b8' }}>
-                            {req.type === 'di_tre' ? `Đến: ${req.late_time}` : (req.session ? SESSION_LABEL[req.session] : 'Cả ngày')}
-                          </span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ color: '#94a3b8' }}>
+                              {req.type === 'di_tre' ? `Đến: ${req.late_time}` : (req.session ? SESSION_LABEL[req.session] : 'Cả ngày')}
+                            </span>
+                            <ChevronRight size={16} style={{ color: isSelected ? '#0f766e' : '#cbd5e1' }} />
+                          </div>
                         </div>
-
-                        <StatusBadge status={req.status} />
-                        <ChevronRight size={16} style={{ color: isSelected ? '#0f766e' : '#cbd5e1' }} />
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* RIGHT COLUMN: DETAILS & APPROVAL PANEL */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {selectedReq ? (
-            <div style={{ 
-              background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', 
-              boxShadow: '0 2px 4px rgba(0,0,0,0.02)', overflow: 'hidden',
-              display: 'flex', flexDirection: 'column', height: '100%' 
-            }}>
+        {(!isMobile || mobileView === 'detail') && (
+          <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+            {/* Mobile Back Button */}
+            {isMobile && (
+              <button
+                onClick={() => setMobileView('list')}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '6px', padding: '10px 14px',
+                  borderRadius: '12px', border: '1px solid #cbd5e1', background: '#ffffff',
+                  color: '#0f766e', fontWeight: 700, fontSize: '13px', cursor: 'pointer',
+                  marginBottom: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+                }}
+              >
+                ← Quay lại danh sách đơn
+              </button>
+            )}
+
+            {selectedReq ? (
+              <div style={{ 
+                background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', 
+                boxShadow: '0 2px 4px rgba(0,0,0,0.02)', overflow: 'hidden',
+                display: 'flex', flexDirection: 'column', height: '100%' 
+              }}>
               
               {/* Header Banner */}
               <div style={{ 
@@ -642,6 +687,7 @@ export const HRPanel: React.FC<HRPanelProps> = ({
             </div>
           )}
         </div>
+      )}
 
       </div>
 
