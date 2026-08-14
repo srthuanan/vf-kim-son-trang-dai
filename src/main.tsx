@@ -170,7 +170,7 @@ function App() {
   const [requestingSupplement, setRequestingSupplement] = useState<YeucauxhdRow | null>(null);
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
   const [selectingPolicyOrder, setSelectingPolicyOrder] = useState<Order | null>(null);
-  const [staffSubTab, setStaffSubTab] = useState<'system' | 'hr'>('system');
+  const [staffSubTab, setStaffSubTab] = useState<'system' | 'hr'>('hr');
   const isSetPasswordRoute = window.location.pathname === '/set-password';
   const isResetPasswordRoute = window.location.pathname === '/reset-password';
   

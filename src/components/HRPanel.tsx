@@ -646,9 +646,16 @@ export const HRPanel: React.FC<HRPanelProps> = ({
       </div>
 
       {/* ── MODALS ── */}
-      {showSubmit && currentProfile && (
+      {showSubmit && (
         <SubmitModal
-          profile={currentProfile}
+          profile={currentProfile || {
+            id: '',
+            full_name: currentUsername || 'Nhân viên',
+            role: 'sales',
+            department: '',
+            manager_id: null,
+            created_at: new Date().toISOString()
+          }}
           username={currentUsername}
           onClose={() => setShowSubmit(false)}
           onSuccess={onReload}

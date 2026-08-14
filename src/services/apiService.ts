@@ -1852,8 +1852,14 @@ export const submitHrLeaveRequest = async (payload: {
   status?: string;
 }) => {
   if (!supabase) return { data: null, error: new Error('Supabase chưa cấu hình') };
+  const cleanRequesterId = (payload.requester_id && payload.requester_id.trim() && payload.requester_id.trim() !== 'null')
+    ? payload.requester_id.trim()
+    : null;
   const insertPayload = {
     ...payload,
+    requester_name: (payload.requester_name && payload.requester_name.trim()) ? payload.requester_name.trim() : (payload.requester_username || 'Nhân viên'),
+    requester_username: (payload.requester_username && payload.requester_username.trim()) ? payload.requester_username.trim() : 'nhanvien',
+    requester_id: cleanRequesterId,
     end_date: payload.end_date || payload.start_date,
     status: payload.status || 'pending'
   };
