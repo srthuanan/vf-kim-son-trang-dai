@@ -9,7 +9,8 @@ import {
   CarActivityRow,
   SalesPolicyRow,
   VehicleLocationRow,
-  UpdateOrderInput
+  UpdateOrderInput,
+  DeliveryDocStatus
 } from '../types';
 import { defaultSalesPolicies, DEFAULT_ARCHIVE_WEBHOOK_URL } from '../constants';
 
@@ -124,6 +125,51 @@ export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRo
     return undefined;
   })();
 
+  const rawDoc = row.ho_so_giao_xe;
+  const hoSoGiaoXe: DeliveryDocStatus | null = rawDoc && typeof rawDoc === 'object' ? {
+    da_thu_du: Boolean(rawDoc.da_thu_du),
+    bbbg: Boolean(rawDoc.bbbg),
+    dang_ky: Boolean(rawDoc.dang_ky),
+    hop_dong_goc: Boolean(rawDoc.hop_dong_goc),
+    bao_hiem: Boolean(rawDoc.bao_hiem),
+    note: String(rawDoc.note || ''),
+    ngay_cap_nhat: rawDoc.ngay_cap_nhat,
+    nguoi_cap_nhat: rawDoc.nguoi_cap_nhat
+  } : null;
+
+  const invoiceDateStr = row.ngay_xuat_hoa_don ?? invoiceMap?.get(row.so_don_hang)?.ngay_xuat_hoa_don ?? null;
+  const isInvoiceIssued = status === 'Đã xuất hóa đơn' || Boolean(invoiceDateStr);
+
+  let docDebtDays: number | undefined = undefined;
+  let docDebtLevel: 'clean' | 'normal' | 'warning' | 'danger' | undefined = undefined;
+
+  if (isInvoiceIssued) {
+    if (hoSoGiaoXe?.da_thu_du) {
+      docDebtLevel = 'clean';
+      docDebtDays = 0;
+    } else {
+      if (invoiceDateStr) {
+        const invTime = new Date(invoiceDateStr).getTime();
+        if (!isNaN(invTime)) {
+          const now = new Date().getTime();
+          docDebtDays = Math.max(0, Math.floor((now - invTime) / (1000 * 60 * 60 * 24)));
+        } else {
+          docDebtDays = 0;
+        }
+      } else {
+        docDebtDays = 0;
+      }
+
+      if (docDebtDays >= 6) {
+        docDebtLevel = 'danger';
+      } else if (docDebtDays >= 3) {
+        docDebtLevel = 'warning';
+      } else {
+        docDebtLevel = 'normal';
+      }
+    }
+  }
+
   return {
     id: row.so_don_hang,
     customer: row.ten_khach_hang,
@@ -148,7 +194,7 @@ export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRo
     soTienKhachDaDong: row.so_tien_khach_da_dong ?? row.so_tien_coc ?? null,
     ngayKyHopDong: row.ngay_ky_hop_dong ?? null,
     invoiceAddress: row.dia_chi ?? null,
-    invoiceDate: row.ngay_xuat_hoa_don ?? invoiceMap?.get(row.so_don_hang)?.ngay_xuat_hoa_don ?? null,
+    invoiceDate: invoiceDateStr,
     ngayYeuCau: invoiceMap?.get(row.so_don_hang)?.ngay_yeu_cau ?? null,
     contractCode: row.so_hop_dong ?? null,
     paymentMethod: row.hinh_thuc_tt ?? null,
@@ -166,7 +212,10 @@ export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRo
     maAmis: row.ma_amis ?? null,
     isWarning,
     warningMessage,
-    pairedDays
+    pairedDays,
+    hoSoGiaoXe,
+    docDebtDays,
+    docDebtLevel
   };
 }
 
@@ -2157,5 +2206,51 @@ export const syncCurrentOrdersToSheet = async (
     ordersCount: json.ordersCount,
     sheetName: json.sheetName
   };
+};
+
+export const updateDeliveryDocs = async (orderId: string, docs: Partial<DeliveryDocStatus>): Promise<{ success: boolean; error?: any }> => {
+  if (!supabase) return { success: false, error: 'Chưa cấu hình Supabase' };
+  try {
+    const { data: currentOrder, error: fetchErr } = await supabase
+      .from('donhang')
+      .select('ho_so_giao_xe')
+      .eq('so_don_hang', orderId)
+      .single();
+
+    if (fetchErr) {
+      console.error('Fetch ho_so_giao_xe error:', fetchErr);
+    }
+
+    const { data: sessionData } = await supabase.auth.getSession();
+    const updater = sessionData?.session?.user?.user_metadata?.full_name || sessionData?.session?.user?.email || 'Hệ thống';
+
+    const merged: DeliveryDocStatus = {
+      da_thu_du: false,
+      bbbg: false,
+      dang_ky: false,
+      hop_dong_goc: false,
+      bao_hiem: false,
+      note: '',
+      ...(currentOrder?.ho_so_giao_xe || {}),
+      ...docs,
+      ngay_cap_nhat: new Date().toISOString(),
+      nguoi_cap_nhat: updater
+    };
+
+    const { error: updateErr } = await supabase
+      .from('donhang')
+      .update({ ho_so_giao_xe: merged })
+      .eq('so_don_hang', orderId);
+
+    if (updateErr) {
+      return { success: false, error: updateErr };
+    }
+
+    await logSystemActivity('CẬP NHẬT HỒ SƠ GIAO XE', orderId, `Cập nhật hồ sơ giao xe: ${merged.da_thu_du ? 'Đã thu đủ hồ sơ' : 'Còn nợ hồ sơ'}${merged.note ? ' - Note: ' + merged.note : ''}`);
+    triggerAutoSyncCurrentOrders();
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err };
+  }
 };
 

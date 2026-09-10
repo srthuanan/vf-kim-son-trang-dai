@@ -150,7 +150,7 @@ function App() {
   // UI states
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
   const [query, setQuery] = useState('');
-  const [status, setStatus] = useState<OrderStatus | 'Tất cả' | 'Chờ xử lý'>('Tất cả');
+  const [status, setStatus] = useState<OrderStatus | 'Tất cả' | 'Chờ xử lý' | 'Nợ hồ sơ'>('Tất cả');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Modal toggle states
@@ -179,6 +179,7 @@ function App() {
     let result = orders.filter((order) => {
       const matchesStatus = 
         status === 'Tất cả' || 
+        (status === 'Nợ hồ sơ' && order.status === 'Đã xuất hóa đơn' && !order.hoSoGiaoXe?.da_thu_du) ||
         order.status === status ||
         (status === 'Chờ xử lý' && ['Chờ phê duyệt', 'Đã phê duyệt', 'Yêu cầu bổ sung', 'Đã bổ sung', 'Chờ ký hóa đơn'].includes(order.status));
         
@@ -199,11 +200,17 @@ function App() {
       );
     });
     
-    // SLA Warning: Đưa các đơn cảnh báo lên đầu
+    // SLA Warning: Đưa các đơn cảnh báo (chậm XHĐ hoặc quá hạn nợ hồ sơ) lên đầu
     result.sort((a, b) => {
-      if (a.isWarning && !b.isWarning) return -1;
-      if (!a.isWarning && b.isWarning) return 1;
-      return 0; // fallback to original order (often by createdAt)
+      const aDanger = Boolean(a.isWarning || a.docDebtLevel === 'danger');
+      const bDanger = Boolean(b.isWarning || b.docDebtLevel === 'danger');
+      if (aDanger && !bDanger) return -1;
+      if (!aDanger && bDanger) return 1;
+      const aWarn = Boolean(a.docDebtLevel === 'warning');
+      const bWarn = Boolean(b.docDebtLevel === 'warning');
+      if (aWarn && !bWarn) return -1;
+      if (!aWarn && bWarn) return 1;
+      return 0;
     });
 
     return result;
@@ -461,6 +468,7 @@ function App() {
                 isUpdatingOrder={isUpdatingOrder}
                 vehicleConfigs={vehicleConfigs}
                 onSelectPolicy={setSelectingPolicyOrder}
+                onRefresh={() => loadWorkspace({ showLoading: false })}
               />
             )}
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Search, Filter, Eye, PackageCheck, X, FileCheck, Ban, Pencil, ScrollText, User, Car, CreditCard, ArrowLeft, Info, Copy, TriangleAlert, Download } from 'lucide-react';
-import { Order, OrderStatus, InventoryItem, ProfileRow, UpdateOrderInput, VehicleConfigRow } from '../types';
+import { Order, OrderStatus, InventoryItem, ProfileRow, UpdateOrderInput, VehicleConfigRow, DeliveryDocStatus } from '../types';
 import { statusTone, staffNames } from '../constants';
 import { matchesVehicleConfig, canUseVehicleForPair } from '../utils/matching';
 import { copyToClipboard } from '../utils/clipboard';
@@ -9,6 +9,7 @@ import { QueueRankingModal } from './modals/QueueRankingModal';
 import { InlineOrderEditForm } from './InlineOrderEditForm';
 import * as XLSX from 'xlsx';
 import { extractMonthKey, formatMonthDisplay, getDefaultCurrentMonth } from '../utils/dateUtils';
+import { updateDeliveryDocs } from '../services/apiService';
 
 const viDateTimeFormatter = new Intl.DateTimeFormat('vi-VN', {
   day: '2-digit',
@@ -95,9 +96,9 @@ interface OrdersPanelProps {
   isUnpairingOrderId: string;
   isUpdatingPolicy: boolean;
   query: string;
-  status: OrderStatus | 'Tất cả' | 'Chờ xử lý';
+  status: OrderStatus | 'Tất cả' | 'Chờ xử lý' | 'Nợ hồ sơ';
   onQueryChange: (value: string) => void;
-  onStatusChange: (value: OrderStatus | 'Tất cả' | 'Chờ xử lý') => void;
+  onStatusChange: (value: OrderStatus | 'Tất cả' | 'Chờ xử lý' | 'Nợ hồ sơ') => void;
   onViewOrder: (order: Order) => void;
   onPairOrderSubmit: (orderId: string, vin: string) => Promise<boolean>;
   onUnpairOrder: (orderId: string) => void;
@@ -112,6 +113,7 @@ interface OrdersPanelProps {
   isUpdatingOrder: boolean;
   onViewLog?: (orderId: string) => void;
   onDeleteOrderSubmit?: (orderId: string) => Promise<boolean>;
+  onRefresh?: () => void;
 }
 
 export const OrdersPanel: React.FC<OrdersPanelProps> = ({
@@ -137,11 +139,13 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   onEditOrder,
   onUpdateOrder,
   onSelectPolicy,
-  showStaffColumn,
-  isAdmin,
+  showStaffColumn = true,
+  isAdmin = false,
   vehicleConfigs,
   isUpdatingOrder,
-  onDeleteOrderSubmit
+  onViewLog,
+  onDeleteOrderSubmit,
+  onRefresh
 }) => {
   const [knownPolicies, setKnownPolicies] = useState<string[]>([]);
   
@@ -217,6 +221,54 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
     setCancelType('cancel');
     setCancelError('');
   }, [selectedOrder, candidates]);
+
+  const [docState, setDocState] = useState<DeliveryDocStatus>({
+    da_thu_du: false,
+    bbbg: false,
+    dang_ky: false,
+    hop_dong_goc: false,
+    bao_hiem: false,
+    note: ''
+  });
+  const [isSavingDocs, setIsSavingDocs] = useState(false);
+  const [docSaveMessage, setDocSaveMessage] = useState('');
+
+  useEffect(() => {
+    if (selectedOrder) {
+      const d = selectedOrder.hoSoGiaoXe;
+      setDocState({
+        da_thu_du: Boolean(d?.da_thu_du),
+        bbbg: Boolean(d?.bbbg),
+        dang_ky: Boolean(d?.dang_ky),
+        hop_dong_goc: Boolean(d?.hop_dong_goc),
+        bao_hiem: Boolean(d?.bao_hiem),
+        note: String(d?.note || ''),
+        ngay_cap_nhat: d?.ngay_cap_nhat,
+        nguoi_cap_nhat: d?.nguoi_cap_nhat
+      });
+      setDocSaveMessage('');
+    }
+  }, [selectedOrder?.id, selectedOrder?.hoSoGiaoXe]);
+
+  const handleSaveDeliveryDocs = async () => {
+    if (!selectedOrder) return;
+    setIsSavingDocs(true);
+    setDocSaveMessage('');
+    try {
+      const res = await updateDeliveryDocs(selectedOrder.id, docState);
+      if (res.success) {
+        setDocSaveMessage('Đã lưu thành công!');
+        if (onRefresh) onRefresh();
+        setTimeout(() => setDocSaveMessage(''), 3000);
+      } else {
+        setDocSaveMessage('Lỗi khi lưu: ' + (res.error?.message || res.error || ''));
+      }
+    } catch (err: any) {
+      setDocSaveMessage('Lỗi: ' + (err.message || ''));
+    } finally {
+      setIsSavingDocs(false);
+    }
+  };
 
   const handlePairInlineSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -349,6 +401,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   const reviewOrders = queryMatchedOrders.filter((order) => reviewStatuses.includes(order.status)).length;
   const issuedOrders = queryMatchedOrders.filter((order) => order.status === 'Đã xuất hóa đơn').length;
   const canceledOrders = queryMatchedOrders.filter((order) => order.status === 'Đã hủy').length;
+  const debtOrders = queryMatchedOrders.filter((order) => order.status === 'Đã xuất hóa đơn' && !order.hoSoGiaoXe?.da_thu_du).length;
 
   const selectedCandidates = selectedOrder
     ? inventory.filter(
@@ -446,6 +499,9 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
               </button>
               <button onClick={() => onStatusChange('Đã xuất hóa đơn')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Đã xuất hóa đơn' ? '#dbeafe' : '#eff6ff', color: '#1d4ed8', borderRadius: '5px', border: status === 'Đã xuất hóa đơn' ? '1px solid #93c5fd' : '1px solid #bfdbfe', fontWeight: 600, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                 Đã xuất HĐ: <strong>{issuedOrders}</strong>
+              </button>
+              <button onClick={() => onStatusChange('Nợ hồ sơ')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Nợ hồ sơ' ? '#fed7aa' : debtOrders > 0 ? '#fff7ed' : '#f8fafc', color: debtOrders > 0 ? '#c2410c' : '#64748b', borderRadius: '5px', border: status === 'Nợ hồ sơ' ? '1px solid #f97316' : debtOrders > 0 ? '1px solid #fdba74' : '1px solid #e2e8f0', fontWeight: 700, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }} title="Các đơn hàng đã xuất hóa đơn nhưng chưa nộp đủ hồ sơ giao xe">
+                {debtOrders > 0 ? '⚠️' : '📁'} Nợ HS: <strong>{debtOrders}</strong>
               </button>
               <button onClick={() => onStatusChange('Đã hủy')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Đã hủy' ? '#ffe4e6' : '#fff1f2', color: '#be123c', borderRadius: '5px', border: status === 'Đã hủy' ? '1px solid #fda4af' : '1px solid #fecdd3', fontWeight: 600, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                 Đã hủy: <strong>{canceledOrders}</strong>
@@ -551,6 +607,27 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                             <span className={statusTone[order.status]} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '4px 8px', borderRadius: '999px', fontSize: '11px', fontWeight: 700 }}>
                               {order.status}
                             </span>
+                            {Boolean(order.status === 'Đã xuất hóa đơn' || order.invoiceDate) && (
+                              <>
+                                {order.hoSoGiaoXe?.da_thu_du ? (
+                                  <span style={{ fontSize: '10px', background: '#dcfce7', color: '#166534', padding: '2px 6px', borderRadius: '4px', fontWeight: 700 }}>
+                                    ✓ Đủ HS
+                                  </span>
+                                ) : order.docDebtLevel === 'danger' ? (
+                                  <span style={{ fontSize: '10px', background: '#fee2e2', color: '#991b1b', padding: '2px 6px', borderRadius: '4px', fontWeight: 700 }}>
+                                    🚨 Quá hạn ({order.docDebtDays || 0}n)
+                                  </span>
+                                ) : order.docDebtLevel === 'warning' ? (
+                                  <span style={{ fontSize: '10px', background: '#fef3c7', color: '#92400e', padding: '2px 6px', borderRadius: '4px', fontWeight: 700 }}>
+                                    ⚠️ Nợ HS ({order.docDebtDays || 0}n)
+                                  </span>
+                                ) : (
+                                  <span style={{ fontSize: '10px', background: '#e0f2fe', color: '#0369a1', padding: '2px 6px', borderRadius: '4px', fontWeight: 600 }}>
+                                    ⏳ Chờ HS ({order.docDebtDays || 0}n)
+                                  </span>
+                                )}
+                              </>
+                            )}
                             {(() => {
                               if (order.vin) return null;
                               const matchCount = inventory.filter(v => matchesVehicleConfig(order, v) && canUseVehicleForPair(v, currentUsername, canOverrideHeldVehicle)).length;
@@ -667,9 +744,32 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                             })()}
                           </td>
                           <td>
-                            <span className={statusTone[order.status]}>
-                              {order.status}
-                            </span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                              <span className={statusTone[order.status]}>
+                                {order.status}
+                              </span>
+                              {Boolean(order.status === 'Đã xuất hóa đơn' || order.invoiceDate) && (
+                                <>
+                                  {order.hoSoGiaoXe?.da_thu_du ? (
+                                    <span style={{ fontSize: '10px', background: '#dcfce7', color: '#166534', padding: '2px 6px', borderRadius: '4px', fontWeight: 700, width: 'fit-content' }}>
+                                      ✓ Đủ HS
+                                    </span>
+                                  ) : order.docDebtLevel === 'danger' ? (
+                                    <span style={{ fontSize: '10px', background: '#fee2e2', color: '#991b1b', padding: '2px 6px', borderRadius: '4px', fontWeight: 700, width: 'fit-content' }}>
+                                      🚨 Quá hạn ({order.docDebtDays || 0}n)
+                                    </span>
+                                  ) : order.docDebtLevel === 'warning' ? (
+                                    <span style={{ fontSize: '10px', background: '#fef3c7', color: '#92400e', padding: '2px 6px', borderRadius: '4px', fontWeight: 700, width: 'fit-content' }}>
+                                      ⚠️ Nợ HS ({order.docDebtDays || 0}n)
+                                    </span>
+                                  ) : (
+                                    <span style={{ fontSize: '10px', background: '#e0f2fe', color: '#0369a1', padding: '2px 6px', borderRadius: '4px', fontWeight: 600, width: 'fit-content' }}>
+                                      ⏳ Chờ HS ({order.docDebtDays || 0}n)
+                                    </span>
+                                  )}
+                                </>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       );
@@ -854,6 +954,121 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                               </tr>
                             </tbody>
                           </table>
+
+                          {/* Hồ sơ giao xe bổ sung (Sau XHĐ) */}
+                          {(selectedOrder.status === 'Đã xuất hóa đơn' || Boolean(selectedOrder.invoiceDate)) && (
+                            <div style={{
+                              marginTop: '16px',
+                              padding: '14px',
+                              borderRadius: '8px',
+                              border: docState.da_thu_du ? '1px solid #bbf7d0' : selectedOrder.docDebtLevel === 'danger' ? '1px solid #fecaca' : selectedOrder.docDebtLevel === 'warning' ? '1px solid #fde68a' : '1px solid #cbd5e1',
+                              background: docState.da_thu_du ? '#f0fdf4' : selectedOrder.docDebtLevel === 'danger' ? '#fef2f2' : selectedOrder.docDebtLevel === 'warning' ? '#fffbeb' : '#f8fafc'
+                            }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '8px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0f172a' }}>📁 Hồ sơ giao xe bổ sung (Sau XHĐ)</span>
+                                  {docState.da_thu_du ? (
+                                    <span style={{ fontSize: '11px', background: '#22c55e', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 700 }}>✓ Đã thu đủ hồ sơ</span>
+                                  ) : selectedOrder.docDebtLevel === 'danger' ? (
+                                    <span style={{ fontSize: '11px', background: '#dc2626', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 700 }}>🚨 Quá hạn {selectedOrder.docDebtDays || 0} ngày</span>
+                                  ) : selectedOrder.docDebtLevel === 'warning' ? (
+                                    <span style={{ fontSize: '11px', background: '#d97706', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 700 }}>⚠️ Nợ HS {selectedOrder.docDebtDays || 0} ngày</span>
+                                  ) : (
+                                    <span style={{ fontSize: '11px', background: '#0284c7', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 600 }}>⏳ {selectedOrder.docDebtDays || 0} ngày kể từ XHĐ</span>
+                                  )}
+                                </div>
+                                {docSaveMessage && (
+                                  <span style={{ fontSize: '12px', fontWeight: 600, color: docSaveMessage.includes('thành công') ? '#16a34a' : '#dc2626' }}>
+                                    {docSaveMessage}
+                                  </span>
+                                )}
+                              </div>
+
+                              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px', marginBottom: '12px' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', cursor: 'pointer', userSelect: 'none' }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={docState.bbbg}
+                                    onChange={(e) => setDocState(prev => ({ ...prev, bbbg: e.target.checked }))}
+                                  />
+                                  <span style={{ color: docState.bbbg ? '#15803d' : '#334155', fontWeight: docState.bbbg ? 600 : 400 }}>Biên bản bàn giao xe (BBBG)</span>
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', cursor: 'pointer', userSelect: 'none' }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={docState.dang_ky}
+                                    onChange={(e) => setDocState(prev => ({ ...prev, dang_ky: e.target.checked }))}
+                                  />
+                                  <span style={{ color: docState.dang_ky ? '#15803d' : '#334155', fontWeight: docState.dang_ky ? 600 : 400 }}>Giấy hẹn / Đăng ký xe</span>
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', cursor: 'pointer', userSelect: 'none' }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={docState.hop_dong_goc}
+                                    onChange={(e) => setDocState(prev => ({ ...prev, hop_dong_goc: e.target.checked }))}
+                                  />
+                                  <span style={{ color: docState.hop_dong_goc ? '#15803d' : '#334155', fontWeight: docState.hop_dong_goc ? 600 : 400 }}>Hợp đồng gốc</span>
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', cursor: 'pointer', userSelect: 'none' }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={docState.bao_hiem}
+                                    onChange={(e) => setDocState(prev => ({ ...prev, bao_hiem: e.target.checked }))}
+                                  />
+                                  <span style={{ color: docState.bao_hiem ? '#15803d' : '#334155', fontWeight: docState.bao_hiem ? 600 : 400 }}>Bảo hiểm vật chất / TNDS</span>
+                                </label>
+                              </div>
+
+                              <div style={{ marginBottom: '12px' }}>
+                                <input
+                                  type="text"
+                                  placeholder="Ghi chú hồ sơ nợ (ví dụ: Chờ khách bổ sung ĐKKD, hẹn ngày 15/09 nộp lại...)"
+                                  value={docState.note}
+                                  onChange={(e) => setDocState(prev => ({ ...prev, note: e.target.value }))}
+                                  style={{ width: '100%', padding: '7px 10px', fontSize: '12px', border: '1px solid #cbd5e1', borderRadius: '4px', background: '#fff' }}
+                                />
+                              </div>
+
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #e2e8f0', flexWrap: 'wrap', gap: '8px' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 700, color: docState.da_thu_du ? '#15803d' : '#475569', cursor: 'pointer' }}>
+                                  <input
+                                    type="checkbox"
+                                    checked={docState.da_thu_du}
+                                    onChange={(e) => {
+                                      const checked = e.target.checked;
+                                      setDocState(prev => ({
+                                        ...prev,
+                                        da_thu_du: checked,
+                                        bbbg: checked ? true : prev.bbbg,
+                                        dang_ky: checked ? true : prev.dang_ky,
+                                        hop_dong_goc: checked ? true : prev.hop_dong_goc,
+                                        bao_hiem: checked ? true : prev.bao_hiem
+                                      }));
+                                    }}
+                                    style={{ width: '16px', height: '16px' }}
+                                  />
+                                  <span>ĐÃ THU ĐỦ TOÀN BỘ HỒ SƠ</span>
+                                </label>
+                                <button
+                                  type="button"
+                                  onClick={handleSaveDeliveryDocs}
+                                  disabled={isSavingDocs}
+                                  style={{
+                                    padding: '7px 16px',
+                                    fontSize: '12.5px',
+                                    fontWeight: 600,
+                                    background: '#0284c7',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: isSavingDocs ? 'not-allowed' : 'pointer'
+                                  }}
+                                >
+                                  {isSavingDocs ? 'Đang lưu...' : 'Lưu tình trạng hồ sơ'}
+                                </button>
+                              </div>
+                            </div>
+                          )}
                           </div>
 
                           <div style={{ paddingTop: '16px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>

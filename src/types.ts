@@ -57,6 +57,20 @@ export interface Order {
   isWarning?: boolean;
   warningMessage?: string;
   pairedDays?: number;
+  hoSoGiaoXe?: DeliveryDocStatus | null;
+  docDebtDays?: number;
+  docDebtLevel?: 'clean' | 'normal' | 'warning' | 'danger';
+}
+
+export interface DeliveryDocStatus {
+  da_thu_du: boolean;
+  bbbg: boolean;
+  dang_ky: boolean;
+  hop_dong_goc: boolean;
+  bao_hiem: boolean;
+  note: string;
+  ngay_cap_nhat?: string;
+  nguoi_cap_nhat?: string;
 }
 
 export interface InventoryItem {
@@ -159,6 +173,7 @@ export interface DonhangRow {
   ma_amis: string | null;
   ma_hop_dong: string | null;
   tm_vay: string | null;
+  ho_so_giao_xe?: any | null;
 }
 
 export interface KhoxeRow {
