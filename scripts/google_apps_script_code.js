@@ -34,7 +34,6 @@ function doPost(e) {
       var res = executeSyncCurrentOrders(requestData.month, requestData.orders || []);
       return jsonResponse(res);
     }
-    }
 
     // =========================================================================
     // HÀNH ĐỘNG 2: LƯU TRỮ ĐÓNG SỔ THÁNG CŨ (CHUYỂN FILE SANG DRIVE & XÓA SUPABASE)
