@@ -1,0 +1,6 @@
+﻿backup_*
+.deploy_tmp*
+node_modules
+*.pdf
+scratch
+dist
