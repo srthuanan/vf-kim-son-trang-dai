@@ -5,6 +5,7 @@ import { copyToClipboard } from '../utils/clipboard';
 import * as apiService from '../services/apiService';
 import { supabase } from '../services/supabaseClient';
 import * as XLSX from 'xlsx';
+import { extractMonthKey, formatMonthDisplay } from '../utils/dateUtils';
 
 const toEmbeddableUrl = (url: string) => {
   if (!url) return '';
@@ -77,6 +78,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
   isAdmin
 }) => {
   const [selectedFolder, setSelectedFolder] = useState('pending_approval');
+  const [monthFilter, setMonthFilter] = useState<string>('all');
   const [query, setQuery] = useState('');
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
   const [selectedRequestIds, setSelectedRequestIds] = useState<string[]>([]);
@@ -170,6 +172,22 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
     r.status === 'approved' ? 'Đã phê duyệt' : r.status === 'rejected' ? 'Từ chối' : 'Chờ phê duyệt'
   );
 
+  const availableMonths = useMemo(() => {
+    const map = new Map<string, number>();
+    requests.forEach(r => {
+      const m = extractMonthKey(r);
+      if (m && m !== 'Khác') {
+        map.set(m, (map.get(m) || 0) + 1);
+      }
+    });
+    return Array.from(map.keys()).sort().reverse();
+  }, [requests]);
+
+  const monthFilteredRequests = useMemo(() => {
+    if (monthFilter === 'all') return requests;
+    return requests.filter(r => extractMonthKey(r) === monthFilter);
+  }, [requests, monthFilter]);
+
   const counts = useMemo(() => {
     const c: Record<string, number> = {
       pending_approval: 0,
@@ -178,10 +196,10 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
       supplemented: 0,
       pending_signature: 0,
       completed: 0,
-      all: requests.length
+      all: monthFilteredRequests.length
     };
 
-    requests.forEach(r => {
+    monthFilteredRequests.forEach(r => {
       const s = getWorkflowStatus(r).toLowerCase();
       if (s === 'chờ phê duyệt') c.pending_approval++;
       else if (s === 'đã phê duyệt') c.approved++;
@@ -192,7 +210,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
     });
 
     return c;
-  }, [requests]);
+  }, [monthFilteredRequests]);
 
   const folders = [
     { id: 'pending_approval', label: 'Chờ Duyệt', icon: Clock, count: counts.pending_approval, color: '#f59e0b', bg: '#fffbeb', border: '#fde68a' },
@@ -205,7 +223,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
   ];
 
   const filtered = useMemo(() => {
-    return requests.filter(r => {
+    return monthFilteredRequests.filter(r => {
       const s = getWorkflowStatus(r).toLowerCase();
       const folderMatches = selectedFolder === 'all' || 
         (selectedFolder === 'pending_approval' && s === 'chờ phê duyệt') ||
@@ -227,7 +245,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
         (r.tvbh || '').toLowerCase().includes(norm)
       );
     });
-  }, [requests, selectedFolder, query]);
+  }, [monthFilteredRequests, selectedFolder, query]);
 
   const selectedRequest = useMemo(() => {
     return filtered.find(r => r.id === selectedRequestId) || filtered[0] || null;
@@ -335,6 +353,34 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
         </div>
         {/* RIGHT CONTROLS */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <select
+            value={monthFilter}
+            onChange={(e) => setMonthFilter(e.target.value)}
+            style={{
+              fontSize: '12px',
+              border: '1px solid #047857',
+              borderRadius: '20px',
+              height: '34px',
+              minWidth: '160px',
+              background: '#ecfdf5',
+              color: '#047857',
+              outline: 'none',
+              padding: '0 12px',
+              fontWeight: 700,
+              cursor: 'pointer'
+            }}
+          >
+            <option value="all">📅 Tất cả các tháng ({requests.length})</option>
+            {availableMonths.map(m => {
+              const c = requests.filter(r => extractMonthKey(r) === m).length;
+              return (
+                <option key={m} value={m}>
+                  📅 {formatMonthDisplay(m)} ({c} hồ sơ)
+                </option>
+              );
+            })}
+          </select>
+
           {isAdmin && (
             <button
               className="ghost-button"

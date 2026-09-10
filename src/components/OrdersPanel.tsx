@@ -9,6 +9,7 @@ import { QueueRankingModal } from './modals/QueueRankingModal';
 import { InlineOrderEditForm } from './InlineOrderEditForm';
 import { VehicleConfigRow, UpdateOrderInput } from '../types';
 import * as XLSX from 'xlsx';
+import { extractMonthKey, formatMonthDisplay } from '../utils/dateUtils';
 
 const viDateTimeFormatter = new Intl.DateTimeFormat('vi-VN', {
   day: '2-digit',
@@ -167,6 +168,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   }, [allOrders]);
 
   const [staffFilter, setStaffFilter] = useState('Tất cả');
+  const [monthFilter, setMonthFilter] = useState<string>('all');
   const [isDetailPanelOpen, setIsDetailPanelOpen] = useState(false);
   const [isEditingInline, setIsEditingInline] = useState(false);
   const [mobileView, setMobileView] = useState<'list' | 'detail'>('list');
@@ -272,10 +274,28 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
     return () => media.removeListener(update);
   }, []);
 
+  const availableMonths = useMemo(() => {
+    const pool = allOrders && allOrders.length > 0 ? allOrders : orders;
+    const monthMap = new Map<string, number>();
+    pool.forEach(o => {
+      const m = extractMonthKey(o);
+      if (m && m !== 'Khác') {
+        monthMap.set(m, (monthMap.get(m) || 0) + 1);
+      }
+    });
+    return Array.from(monthMap.keys()).sort().reverse();
+  }, [allOrders, orders]);
+
   const displayOrders = useMemo(() => {
-    if (staffFilter === 'Tất cả') return orders;
-    return orders.filter(o => o.staff === staffFilter);
-  }, [orders, staffFilter]);
+    let list = orders;
+    if (staffFilter !== 'Tất cả') {
+      list = list.filter(o => o.staff === staffFilter);
+    }
+    if (monthFilter !== 'all') {
+      list = list.filter(o => extractMonthKey(o) === monthFilter);
+    }
+    return list;
+  }, [orders, staffFilter, monthFilter]);
 
   useEffect(() => {
     if (!displayOrders.length) {
@@ -292,10 +312,12 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   }, [displayOrders, selectedOrderId]);
 
   const queryMatchedOrders = useMemo(() => {
-    if (!allOrders) return displayOrders;
-    let base = allOrders;
+    let base = allOrders && allOrders.length > 0 ? allOrders : orders;
     if (staffFilter !== 'Tất cả') {
       base = base.filter(o => o.staff === staffFilter);
+    }
+    if (monthFilter !== 'all') {
+      base = base.filter(o => extractMonthKey(o) === monthFilter);
     }
     const normQuery = query.trim().toLowerCase();
     if (!normQuery) return base;
@@ -309,7 +331,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
       order.exterior.toLowerCase().includes(normQuery) ||
       order.interior.toLowerCase().includes(normQuery)
     ));
-  }, [allOrders, displayOrders, query, staffFilter]);
+  }, [allOrders, orders, query, staffFilter, monthFilter]);
 
   const totalOrders = queryMatchedOrders.length;
   const unpairedOrders = queryMatchedOrders.filter((order) => order.status === 'Chưa ghép').length;
@@ -419,6 +441,23 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
 
             {/* 2. Thanh công cụ tìm kiếm & nút */}
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', flex: '1 1 auto', justifyContent: 'flex-end' }}>
+              <select
+                className="seamless-select"
+                value={monthFilter}
+                onChange={(e) => setMonthFilter(e.target.value)}
+                style={{ fontSize: '12px', border: '1px solid #047857', borderRadius: '6px', height: '32px', minWidth: '160px', background: '#ecfdf5', color: '#047857', outline: 'none', padding: '0 8px', fontWeight: 700 }}
+              >
+                <option value="all">📅 Tất cả các tháng ({(allOrders || orders).length})</option>
+                {availableMonths.map(m => {
+                  const c = (allOrders || orders).filter(o => extractMonthKey(o) === m).length;
+                  return (
+                    <option key={m} value={m}>
+                      📅 {formatMonthDisplay(m)} ({c} đơn)
+                    </option>
+                  );
+                })}
+              </select>
+
               <select
                 className="seamless-select"
                 value={staffFilter}
