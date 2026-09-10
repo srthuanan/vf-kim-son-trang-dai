@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   HardDrive, Cloud, ExternalLink, RefreshCw, CheckCircle2, 
   AlertTriangle, FileSpreadsheet, FolderCheck, Loader2, ArrowRight, Save, ShieldCheck,
@@ -10,7 +10,11 @@ import { supabase } from '../services/supabaseClient';
 
 export const DriveArchiveTab: React.FC = () => {
   const [webhookUrl, setWebhookUrl] = useState<string>(() => {
-    return localStorage.getItem('archive_webhook_url') || DEFAULT_ARCHIVE_WEBHOOK_URL;
+    const saved = localStorage.getItem('archive_webhook_url');
+    if (!saved || saved.includes('AKfycbwAjr7xXZz3')) {
+      return DEFAULT_ARCHIVE_WEBHOOK_URL;
+    }
+    return saved;
   });
   const [isUrlSaved, setIsUrlSaved] = useState(false);
   const [isTesting, setIsTesting] = useState(false);

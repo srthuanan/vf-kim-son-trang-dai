@@ -11,7 +11,7 @@ import {
 import { OrderStatus, StockStatus, ProfileRow } from './types';
 
 export const API_URL = 'https://script.google.com/macros/s/AKfycbwC_Xw8YcudogtxpPJztqjFdttcL4tgDaHIdgFWqGcnZ0M44oH6KVb-2r52OKPtLex0Fg/exec';
-export const DEFAULT_ARCHIVE_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwAjr7xXZz3-HrXiF5jKFgrTqKsy-m_1Y69fRJ0Caop6dKsX4_qNpykult5HSmCtBh55w/exec';
+export const DEFAULT_ARCHIVE_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbx1vuElUOj26CJno4HTFY5Y28YHrd5M92fJDTSla55Mu48um3vASktGru7F0EvernC52w/exec';
 export const ADMIN_USER = 'PHẠM THÀNH NHÂN';
 
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
