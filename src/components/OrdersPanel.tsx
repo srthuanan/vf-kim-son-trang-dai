@@ -965,7 +965,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                           </table>
 
                           {/* Hồ sơ giao xe bổ sung (Sau XHĐ) */}
-                          {Boolean(selectedOrder.docDebtLevel !== undefined || (selectedOrder.hoSoGiaoXe && (selectedOrder.hoSoGiaoXe.note || selectedOrder.hoSoGiaoXe.bbbg || selectedOrder.hoSoGiaoXe.dang_ky || selectedOrder.hoSoGiaoXe.hop_dong_goc || selectedOrder.hoSoGiaoXe.bao_hiem))) && (
+                          {Boolean(selectedOrder.docDebtLevel !== undefined || (selectedOrder.hoSoGiaoXe && (selectedOrder.hoSoGiaoXe.note || selectedOrder.hoSoGiaoXe.da_thu_du))) && (
                             <div style={{
                               marginTop: '16px',
                               padding: '14px',
@@ -993,58 +993,24 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                                 )}
                               </div>
 
-                              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px', marginBottom: '12px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', cursor: 'pointer', userSelect: 'none' }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={docState.bbbg}
-                                    onChange={(e) => setDocState(prev => ({ ...prev, bbbg: e.target.checked }))}
-                                  />
-                                  <span style={{ color: docState.bbbg ? '#15803d' : '#334155', fontWeight: docState.bbbg ? 600 : 400 }}>Biên bản bàn giao xe (BBBG)</span>
-                                </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', cursor: 'pointer', userSelect: 'none' }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={docState.dang_ky}
-                                    onChange={(e) => setDocState(prev => ({ ...prev, dang_ky: e.target.checked }))}
-                                  />
-                                  <span style={{ color: docState.dang_ky ? '#15803d' : '#334155', fontWeight: docState.dang_ky ? 600 : 400 }}>Giấy hẹn / Đăng ký xe</span>
-                                </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', cursor: 'pointer', userSelect: 'none' }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={docState.hop_dong_goc}
-                                    onChange={(e) => setDocState(prev => ({ ...prev, hop_dong_goc: e.target.checked }))}
-                                  />
-                                  <span style={{ color: docState.hop_dong_goc ? '#15803d' : '#334155', fontWeight: docState.hop_dong_goc ? 600 : 400 }}>Hợp đồng gốc</span>
-                                </label>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', cursor: 'pointer', userSelect: 'none' }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={docState.bao_hiem}
-                                    onChange={(e) => setDocState(prev => ({ ...prev, bao_hiem: e.target.checked }))}
-                                  />
-                                  <span style={{ color: docState.bao_hiem ? '#15803d' : '#334155', fontWeight: docState.bao_hiem ? 600 : 400 }}>Bảo hiểm vật chất / TNDS</span>
-                                </label>
-                              </div>
-
                               <div style={{ marginBottom: '12px' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                                  <span style={{ fontSize: '12px', fontWeight: 600, color: '#475569' }}>
-                                    Ghi chú hồ sơ nợ / thiếu:
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>
+                                    📝 Hồ sơ còn thiếu & Ghi chú chỉ đạo của Admin:
                                   </span>
                                   {isAdmin && (
-                                    <span style={{ fontSize: '11px', background: '#fef3c7', color: '#92400e', padding: '1px 6px', borderRadius: '4px', fontWeight: 600 }}>
-                                      Admin có quyền chỉnh sửa note của TVBH
+                                    <span style={{ fontSize: '11px', background: '#fef3c7', color: '#92400e', padding: '2px 8px', borderRadius: '4px', fontWeight: 600 }}>
+                                      Admin nhập trực tiếp hồ sơ thiếu
                                     </span>
                                   )}
                                 </div>
                                 <textarea
-                                  rows={2}
-                                  placeholder="Nhập hoặc chỉnh sửa ghi chú hồ sơ nợ (ví dụ: Chờ khách bổ sung ĐKKD, hẹn ngày 15/09 nộp lại...)"
+                                  rows={3}
+                                  disabled={!isAdmin}
+                                  placeholder={isAdmin ? "Nhập chi tiết các hồ sơ còn thiếu cần TVBH bổ sung (ví dụ: Thiếu BBBG, thiếu Đăng ký xe gốc, hẹn nộp trước 15/09...)" : "Chưa có ghi chú hồ sơ thiếu từ Admin."}
                                   value={docState.note}
                                   onChange={(e) => setDocState(prev => ({ ...prev, note: e.target.value }))}
-                                  style={{ width: '100%', padding: '7px 10px', fontSize: '12.5px', border: '1px solid #cbd5e1', borderRadius: '4px', background: '#fff', resize: 'vertical' }}
+                                  style={{ width: '100%', padding: '8px 12px', fontSize: '13px', border: '1px solid #cbd5e1', borderRadius: '6px', background: isAdmin ? '#fff' : '#f8fafc', resize: 'vertical' }}
                                 />
                                 {docState.nguoi_cap_nhat && (
                                   <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px' }}>
@@ -1056,19 +1022,15 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
 
                               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', paddingTop: '10px', borderTop: '1px solid #e2e8f0' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-                                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 700, color: docState.da_thu_du ? '#15803d' : '#475569', cursor: 'pointer' }}>
+                                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 700, color: docState.da_thu_du ? '#15803d' : '#475569', cursor: isAdmin ? 'pointer' : 'default' }}>
                                     <input
                                       type="checkbox"
+                                      disabled={!isAdmin}
                                       checked={docState.da_thu_du}
                                       onChange={(e) => {
-                                        const checked = e.target.checked;
                                         setDocState(prev => ({
                                           ...prev,
-                                          da_thu_du: checked,
-                                          bbbg: checked ? true : prev.bbbg,
-                                          dang_ky: checked ? true : prev.dang_ky,
-                                          hop_dong_goc: checked ? true : prev.hop_dong_goc,
-                                          bao_hiem: checked ? true : prev.bao_hiem
+                                          da_thu_du: e.target.checked
                                         }));
                                       }}
                                       style={{ width: '16px', height: '16px' }}

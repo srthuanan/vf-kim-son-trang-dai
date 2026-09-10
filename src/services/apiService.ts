@@ -2283,12 +2283,6 @@ export const sendDeliveryDocsWarningEmail = async (
       return { success: false, error: `Không tìm thấy địa chỉ email của TVBH ${order.staff}` };
     }
 
-    const missingDocs: string[] = [];
-    if (!docs.bbbg) missingDocs.push('Biên bản bàn giao xe (BBBG)');
-    if (!docs.dang_ky) missingDocs.push('Giấy hẹn / Đăng ký xe');
-    if (!docs.hop_dong_goc) missingDocs.push('Hợp đồng gốc');
-    if (!docs.bao_hiem) missingDocs.push('Bảo hiểm vật chất / TNDS');
-
     const debtDays = order.docDebtDays || 0;
     const isOverdue = debtDays >= 6;
     const statusBadgeText = docs.da_thu_du
@@ -2345,21 +2339,12 @@ export const sendDeliveryDocsWarningEmail = async (
             </tbody>
           </table>
 
-          <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 14px; margin-bottom: 16px;">
-            <div style="font-size: 13.5px; font-weight: 700; color: #991b1b; margin-bottom: 8px;">📌 Tình trạng hồ sơ còn nợ:</div>
-            ${missingDocs.length > 0 ? `
-              <ul style="margin: 0; padding-left: 20px; color: #b91c1c; font-size: 13px; font-weight: 600;">
-                ${missingDocs.map(d => `<li style="margin-bottom: 4px;">${d}</li>`).join('')}
-              </ul>
-            ` : `<p style="margin: 0; color: #15803d; font-size: 13px; font-weight: 600;">Đã thu đủ các loại hồ sơ</p>`}
-          </div>
-
           <div style="background: #fffbeb; border: 2px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
             <div style="font-size: 13px; font-weight: 800; color: #b45309; text-transform: uppercase; margin-bottom: 6px;">
-              📝 Ghi chú chỉ đạo từ Admin (${adminName}):
+              📝 Hồ sơ còn thiếu & Ghi chú chỉ đạo từ Admin (${adminName}):
             </div>
             <div style="font-size: 14px; font-weight: 600; color: #78350f; white-space: pre-wrap; line-height: 1.6;">
-              ${docs.note ? docs.note : '(Admin yêu cầu TVBH nhanh chóng nộp đầy đủ hồ sơ còn thiếu theo quy định)'}
+              ${docs.note ? docs.note : '(Admin yêu cầu TVBH nhanh chóng nộp đầy đủ hồ sơ giao xe còn thiếu theo quy định)'}
             </div>
           </div>
 

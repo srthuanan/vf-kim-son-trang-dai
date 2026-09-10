@@ -64,10 +64,10 @@ export interface Order {
 
 export interface DeliveryDocStatus {
   da_thu_du: boolean;
-  bbbg: boolean;
-  dang_ky: boolean;
-  hop_dong_goc: boolean;
-  bao_hiem: boolean;
+  bbbg?: boolean;
+  dang_ky?: boolean;
+  hop_dong_goc?: boolean;
+  bao_hiem?: boolean;
   note: string;
   ngay_cap_nhat?: string;
   nguoi_cap_nhat?: string;
