@@ -11,7 +11,34 @@ import {
   VehicleLocationRow,
   UpdateOrderInput
 } from '../types';
-import { defaultSalesPolicies } from '../constants';
+import { defaultSalesPolicies, DEFAULT_ARCHIVE_WEBHOOK_URL } from '../constants';
+
+let autoSyncDebounceTimer: any = null;
+let lastAutoSyncTimestamp = 0;
+
+/**
+ * Tự động đồng bộ ngầm đơn hàng tháng hiện tại sang Google Sheet
+ * Có cơ chế Debounce 3s và chống spam (tối thiểu 15s giữa 2 lần)
+ */
+export const triggerAutoSyncCurrentOrders = (force = false) => {
+  if (typeof window === 'undefined') return;
+  const now = Date.now();
+  if (!force && now - lastAutoSyncTimestamp < 15000) {
+    return;
+  }
+  if (autoSyncDebounceTimer) clearTimeout(autoSyncDebounceTimer);
+  autoSyncDebounceTimer = setTimeout(async () => {
+    try {
+      const webhookUrl = localStorage.getItem('archive_webhook_url') || DEFAULT_ARCHIVE_WEBHOOK_URL;
+      if (!webhookUrl) return;
+      lastAutoSyncTimestamp = Date.now();
+      await syncCurrentOrdersToSheet(webhookUrl);
+      console.log('[AutoSync] Đã tự động đồng bộ đơn hàng tháng hiện tại sang Google Sheet');
+    } catch (e) {
+      console.warn('[AutoSync] Lỗi đồng bộ ngầm đơn hàng:', e);
+    }
+  }, 2500);
+};
 
 export const logSystemActivity = async (action: string, orderId: string | null, detail: string) => {
   if (!supabase) return;
@@ -459,6 +486,7 @@ export const createOrder = async (order: any) => {
   if (!result.error) {
     await notifyAdminAction(`vừa tạo đơn hàng mới cho khách ${order.ten_khach_hang || ''}.`);
     await logSystemActivity('create_order', order.so_don_hang, `Khách hàng: ${order.ten_khach_hang || ''}`);
+    triggerAutoSyncCurrentOrders();
   }
   return result;
 };
@@ -509,6 +537,7 @@ export const cancelOrder = async (
       link: orderId
     });
     if (notifyErr) console.warn('Lỗi tạo thông báo hủy đơn:', notifyErr);
+    triggerAutoSyncCurrentOrders();
   }
 
   return result;
@@ -660,6 +689,7 @@ export const updateOrderPolicy = async (orderId: string, policy: string) => {
     .eq('so_don_hang', orderId);
 
   await logSystemActivity('update_order', orderId, `Cập nhật chính sách đơn hàng thành: ${policy}`);
+  triggerAutoSyncCurrentOrders();
 
   return { data: { status: 'SUCCESS' }, error: null };
 };
@@ -843,6 +873,7 @@ export const updateOrderDetails = async (
   }
 
   await logSystemActivity('update_order', input.orderId, `Cập nhật thông tin cho khách hàng: ${input.customer}`);
+  triggerAutoSyncCurrentOrders();
 
   return {
     data: {
@@ -873,6 +904,7 @@ export const updateInvoiceInfo = async (
     .eq('so_don_hang', orderId);
 
   if (!result.error) {
+    triggerAutoSyncCurrentOrders();
     await logSystemActivity('update_order', orderId, 'Cập nhật TT xuất hóa đơn');
   }
   return result;
@@ -985,6 +1017,7 @@ export const pairVehicle = async (orderId: string, vin: string) => {
 
   if (!result.error) {
     await notifyAdminAction(`vừa ghép xe số VIN ${vin} vào đơn hàng ${orderId}.`);
+    triggerAutoSyncCurrentOrders();
     const { data: fullOrder } = await supabase.from('donhang').select('*').eq('so_don_hang', orderId).single();
     supabase.functions.invoke('send-email', {
       body: { 
@@ -1016,6 +1049,7 @@ export const unpairVehicle = async (orderId: string) => {
 
   if (!result.error) {
     await notifyAdminAction(`vừa hủy ghép xe khỏi đơn hàng ${orderId}.`);
+    triggerAutoSyncCurrentOrders();
   }
   return result;
 };
@@ -1044,6 +1078,7 @@ export const deleteOrder = async (orderId: string) => {
 
   if (!result.error) {
     await notifyAdminAction(`vừa xóa vĩnh viễn đơn hàng ${orderId}.`);
+    triggerAutoSyncCurrentOrders();
   }
   return result;
 };
@@ -1485,6 +1520,7 @@ export const requestInvoiceDonhang = async (input: RequestInvoiceInput) => {
     }
   }).catch(e => console.warn('Lỗi gọi gửi email yêu cầu XHĐ:', e));
 
+  triggerAutoSyncCurrentOrders();
   return { data: { status: 'SUCCESS' }, error: null };
 };
 
@@ -1623,6 +1659,7 @@ export const updateInvoiceRequestStatus = async (requestIds: string[], newStatus
     }
   }
 
+  triggerAutoSyncCurrentOrders();
   return { error: null };
 };
 
@@ -1662,7 +1699,9 @@ export const deleteMultipleInvoiceRequests = async (requestIds: string[]) => {
   }
 
   // 2. Xóa các yêu cầu
-  return await supabase.from('yeucauxhd').delete().in('id', requestIds);
+  const delRes = await supabase.from('yeucauxhd').delete().in('id', requestIds);
+  triggerAutoSyncCurrentOrders();
+  return delRes;
 };
 
 export const requestInvoiceSupplement = async (requestId: string, reason: string) => {
@@ -1689,10 +1728,14 @@ export const requestInvoiceSupplement = async (requestId: string, reason: string
 
 export const markInvoicePendingSignature = async (requestId: string, invoiceDate?: string) => {
   if (!supabase) throw new Error('Supabase chưa được cấu hình');
-  return await supabase.rpc('mark_invoice_pending_signature', {
+  const res = await supabase.rpc('mark_invoice_pending_signature', {
     p_request_id: requestId,
     p_ngay_xuat_hoa_don: invoiceDate || null
   });
+  if (!res.error) {
+    triggerAutoSyncCurrentOrders();
+  }
+  return res;
 };
 
 export const uploadIssuedInvoice = async (requestId: string, orderId: string, customerName: string, file: File) => {
@@ -1713,6 +1756,7 @@ export const uploadIssuedInvoice = async (requestId: string, orderId: string, cu
   });
 
   if (!result.error) {
+    triggerAutoSyncCurrentOrders();
     const { data: reqData } = await supabase.from('yeucauxhd').select('*').eq('id', requestId).single();
     if (reqData) {
       supabase.functions.invoke('send-email', {
