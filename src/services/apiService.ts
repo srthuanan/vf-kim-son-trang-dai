@@ -2070,3 +2070,47 @@ export const executeMonthArchive = async (
   };
 };
 
+export const syncCurrentOrdersToSheet = async (
+  webhookUrl: string,
+  targetMonth?: string
+): Promise<{ success: boolean; message: string; ordersCount?: number; sheetName?: string }> => {
+  if (!supabase) throw new Error('Supabase chưa cấu hình');
+
+  const now = new Date();
+  const currentMonth = targetMonth || `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+  const { data: allOrders, error: orderErr } = await supabase.from('donhang').select('*');
+  if (orderErr) throw orderErr;
+
+  const monthOrders = (allOrders || []).filter(o => {
+    const d = o.ngay_xuat_hoa_don || o.ngay_coc || o.thoi_gian_nhap || o.created_at || '';
+    return d.includes(currentMonth) || (o.so_don_hang && o.so_don_hang.includes(`-${currentMonth.split('-')[1]}-`));
+  });
+
+  if (monthOrders.length === 0) {
+    return { success: false, message: `Không có đơn hàng nào trong tháng ${currentMonth} để đồng bộ.` };
+  }
+
+  const res = await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'SYNC_CURRENT_ORDERS',
+      month: currentMonth,
+      orders: monthOrders
+    })
+  });
+
+  const json = await res.json();
+  if (!json.success) {
+    throw new Error(json.error || 'Lỗi khi gửi dữ liệu sang Google Sheet');
+  }
+
+  return {
+    success: true,
+    message: `Đồng bộ thành công ${json.ordersCount} đơn hàng vào tab "${json.sheetName}"!`,
+    ordersCount: json.ordersCount,
+    sheetName: json.sheetName
+  };
+};
+

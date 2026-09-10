@@ -1,7 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { 
   HardDrive, Cloud, ExternalLink, RefreshCw, CheckCircle2, 
-  AlertTriangle, FileSpreadsheet, FolderCheck, Loader2, ArrowRight, Save, ShieldCheck
+  AlertTriangle, FileSpreadsheet, FolderCheck, Loader2, ArrowRight, Save, ShieldCheck,
+  Zap, Table
 } from 'lucide-react';
 import * as apiService from '../services/apiService';
 import { DEFAULT_ARCHIVE_WEBHOOK_URL } from '../constants';
@@ -19,6 +20,12 @@ export const DriveArchiveTab: React.FC = () => {
   const [storageUsage, setStorageUsage] = useState<apiService.StorageUsageResult | null>(null);
 
   const [loadingMonths, setLoadingMonths] = useState(true);
+  const [currentMonthOrderCount, setCurrentMonthOrderCount] = useState<number>(0);
+  const [isSyncingCurrent, setIsSyncingCurrent] = useState(false);
+  const [lastSyncResult, setLastSyncResult] = useState<string | null>(() => {
+    return localStorage.getItem('last_sync_current_result') || null;
+  });
+
   const [monthList, setMonthList] = useState<Array<{
     month: string;
     label: string;
@@ -32,6 +39,10 @@ export const DriveArchiveTab: React.FC = () => {
   const [archivingMonth, setArchivingMonth] = useState<string | null>(null);
   const [progressMsg, setProgressMsg] = useState<string>('');
 
+  const now = new Date();
+  const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const currentMonthLabel = `Tháng ${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+
   const loadData = async () => {
     setLoadingUsage(true);
     setLoadingMonths(true);
@@ -40,6 +51,17 @@ export const DriveArchiveTab: React.FC = () => {
       setStorageUsage(usage);
 
       if (supabase) {
+        // Đếm đơn hàng tháng hiện tại trong donhang
+        const { data: allOrders } = await supabase.from('donhang').select('id, so_don_hang, ngay_xuat_hoa_don, ngay_coc, thoi_gian_nhap, created_at');
+        if (allOrders) {
+          const mPart = currentMonthStr.split('-')[1];
+          const cnt = allOrders.filter(o => {
+            const d = o.ngay_xuat_hoa_don || o.ngay_coc || o.thoi_gian_nhap || o.created_at || '';
+            return d.includes(currentMonthStr) || (o.so_don_hang && o.so_don_hang.includes(`-${mPart}-`));
+          }).length;
+          setCurrentMonthOrderCount(cnt);
+        }
+
         const { data: requests } = await supabase.from('yeucauxhd').select('*');
         if (requests) {
           const map: Record<string, { totalOrders: number; supabaseFiles: number; driveFiles: number }> = {};
@@ -47,7 +69,7 @@ export const DriveArchiveTab: React.FC = () => {
           for (const r of requests) {
             const d = r.ngay_xuat_hoa_don || r.created_at;
             if (!d) continue;
-            const m = d.substring(0, 7); // YYYY-MM
+            const m = d.substring(0, 7);
             if (!map[m]) {
               map[m] = { totalOrders: 0, supabaseFiles: 0, driveFiles: 0 };
             }
@@ -125,6 +147,32 @@ export const DriveArchiveTab: React.FC = () => {
     }
   };
 
+  // Đồng bộ đơn hàng tháng hiện tại sang tab riêng trên Google Sheet
+  const handleSyncCurrentMonth = async () => {
+    setIsSyncingCurrent(true);
+    try {
+      const result = await apiService.syncCurrentOrdersToSheet(webhookUrl.trim(), currentMonthStr);
+      if (result.success) {
+        const timeStr = Utilities_formatTime();
+        const msg = `✓ Đã đồng bộ ${result.ordersCount} đơn vào tab "${result.sheetName}" lúc ${timeStr}`;
+        setLastSyncResult(msg);
+        localStorage.setItem('last_sync_current_result', msg);
+        alert(`🎉 ${result.message}\n\nSheet đã được ghi đè danh sách đơn mới nhất với đầy đủ 32 cột thông tin.`);
+      } else {
+        alert(result.message);
+      }
+    } catch (err: any) {
+      alert(`Lỗi khi đồng bộ đơn hàng: ${err.message}\n\n(Lưu ý: Hãy đảm bảo bạn đã cập nhật đoạn mã mới nhất vào Google Apps Script).`);
+    } finally {
+      setIsSyncingCurrent(false);
+    }
+  };
+
+  const Utilities_formatTime = () => {
+    const d = new Date();
+    return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')} ngày ${d.getDate().toString().padStart(2, '0')}/${(d.getMonth()+1).toString().padStart(2, '0')}`;
+  };
+
   const handleArchiveMonth = async (month: string, label: string) => {
     const confirmMsg = `Bạn có chắc chắn muốn Đóng sổ và chuyển toàn bộ hồ sơ của ${label} sang Google Drive & Google Sheet?\n\n- File sẽ được chuyển vào Google Drive của Showroom\n- Dòng dữ liệu được điền vào Google Sheet\n- File trên Supabase Storage sẽ được xóa để giải phóng dung lượng.`;
     if (!window.confirm(confirmMsg)) return;
@@ -193,6 +241,66 @@ export const DriveArchiveTab: React.FC = () => {
           <RefreshCw size={15} className={loadingUsage ? 'animate-spin' : ''} />
           Làm mới
         </button>
+      </div>
+
+      {/* FEATURE 1: ĐỒNG BỘ ĐƠN HÀNG THÁNG HIỆN TẠI VÀO 1 SHEET RIÊNG */}
+      <div style={{ 
+        background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', 
+        borderRadius: '16px', border: '1px solid #86efac', 
+        padding: '20px 24px', boxShadow: '0 4px 12px rgba(16, 185, 129, 0.08)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+          <div style={{ display: 'flex', gap: '14px' }}>
+            <div style={{ 
+              width: '42px', height: '42px', borderRadius: '10px', 
+              background: '#059669', color: '#fff', display: 'flex', 
+              alignItems: 'center', justifyContent: 'center', flexShrink: 0 
+            }}>
+              <Table size={22} />
+            </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#0f172a' }}>
+                  Đồng Bộ Đơn Hàng {currentMonthLabel} Sang Google Sheet
+                </h3>
+                <span style={{ fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '999px', background: '#059669', color: '#fff' }}>
+                  Đầy đủ 32 cột
+                </span>
+              </div>
+              <p style={{ margin: '4px 0 0 0', fontSize: '13px', color: '#475569' }}>
+                Tự động tạo hoặc ghi đè tab <strong>"Đơn Hàng Hiện Tại ({currentMonthStr})"</strong> trên Google Sheet với toàn bộ <strong>{currentMonthOrderCount} đơn hàng</strong> của tháng (Khách hàng, VIN, Giá, Tiền cọc, Hợp đồng, AMIS...).
+              </p>
+              {lastSyncResult && (
+                <div style={{ marginTop: '8px', fontSize: '12px', color: '#15803d', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <CheckCircle2 size={14} /> {lastSyncResult}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <button
+            onClick={handleSyncCurrentMonth}
+            disabled={isSyncingCurrent}
+            style={{ 
+              padding: '10px 18px', borderRadius: '10px', border: 'none',
+              background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+              color: '#fff', fontSize: '13.5px', fontWeight: 700, cursor: isSyncingCurrent ? 'not-allowed' : 'pointer',
+              display: 'flex', alignItems: 'center', gap: '8px',
+              boxShadow: '0 4px 10px rgba(16, 185, 129, 0.3)',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {isSyncingCurrent ? (
+              <>
+                <Loader2 size={16} className="animate-spin" /> Đang đồng bộ...
+              </>
+            ) : (
+              <>
+                <Zap size={16} /> Đồng bộ sang Google Sheet ngay
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* STORAGE USAGE STATUS BAR */}
@@ -326,7 +434,7 @@ export const DriveArchiveTab: React.FC = () => {
       }}>
         <div style={{ marginBottom: '16px' }}>
           <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#0f172a' }}>
-            Danh sách các tháng & Trạng thái lưu trữ
+            Danh sách các tháng & Trạng thái lưu trữ đóng sổ
           </h3>
           <span style={{ fontSize: '12.5px', color: '#64748b' }}>
             Khi một tháng đã hoàn tất xuất hóa đơn, bấm "Đóng sổ & Chuyển sang Drive" để tự động giải phóng bộ nhớ.
