@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Search, Filter, Eye, PackageCheck, X, FileCheck, Ban, Pencil, ScrollText, User, Car, CreditCard, ArrowLeft, Info, Copy, TriangleAlert, Download } from 'lucide-react';
-import { Order, OrderStatus, InventoryItem, ProfileRow } from '../types';
+import { Order, OrderStatus, InventoryItem, ProfileRow, UpdateOrderInput, VehicleConfigRow } from '../types';
 import { statusTone, staffNames } from '../constants';
 import { matchesVehicleConfig, canUseVehicleForPair } from '../utils/matching';
 import { copyToClipboard } from '../utils/clipboard';
