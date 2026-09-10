@@ -407,52 +407,55 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
       <div className="orders-modular-workspace" style={{ display: 'flex', flexDirection: 'column' }}>
         {/* Cánh trái: Bảng dữ liệu đơn hàng & Bộ lọc */}
         <div className="orders-data-side">
-          {/* Header: Metrics và Controls ngang hàng */}
+          {/* Header: Metrics và Controls trên 1 hàng ngang duy nhất */}
           <div style={{ 
-            padding: '4px 0 8px 0', 
+            padding: '4px 0 6px 0', 
             background: '#ffffff', 
             display: 'flex', 
-            flexWrap: 'wrap', 
+            flexWrap: 'nowrap', 
             alignItems: 'center', 
             justifyContent: 'space-between',
-            gap: '12px' 
+            gap: '8px',
+            overflowX: 'auto',
+            whiteSpace: 'nowrap',
+            width: '100%'
           }}>
             {/* 1. Hàng Metrics */}
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', flex: '1 1 auto' }}>
-              <button onClick={() => onStatusChange('Tất cả')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Tất cả' ? '#e2e8f0' : '#f1f5f9', color: '#334155', borderRadius: '6px', border: status === 'Tất cả' ? '1px solid #cbd5e1' : '1px solid #e2e8f0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+            <div style={{ display: 'flex', gap: '4px', flexWrap: 'nowrap', flexShrink: 0, alignItems: 'center' }}>
+              <button onClick={() => onStatusChange('Tất cả')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Tất cả' ? '#e2e8f0' : '#f1f5f9', color: '#334155', borderRadius: '5px', border: status === 'Tất cả' ? '1px solid #cbd5e1' : '1px solid #e2e8f0', fontWeight: 600, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                 Tổng: <strong>{totalOrders}</strong>
               </button>
-              <button onClick={() => onStatusChange('Chưa ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chưa ghép' ? '#d1fae5' : '#ecfdf5', color: '#047857', borderRadius: '6px', border: status === 'Chưa ghép' ? '1px solid #6ee7b7' : '1px solid #a7f3d0', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+              <button onClick={() => onStatusChange('Chưa ghép')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Chưa ghép' ? '#d1fae5' : '#ecfdf5', color: '#047857', borderRadius: '5px', border: status === 'Chưa ghép' ? '1px solid #6ee7b7' : '1px solid #a7f3d0', fontWeight: 600, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                 Chưa ghép: <strong>{unpairedOrders}</strong>
               </button>
-              <button onClick={() => onStatusChange('Đã ghép')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã ghép' ? '#e0e7ff' : '#eef2ff', color: '#4338ca', borderRadius: '6px', border: status === 'Đã ghép' ? '1px solid #818cf8' : '1px solid #c7d2fe', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+              <button onClick={() => onStatusChange('Đã ghép')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Đã ghép' ? '#e0e7ff' : '#eef2ff', color: '#4338ca', borderRadius: '5px', border: status === 'Đã ghép' ? '1px solid #818cf8' : '1px solid #c7d2fe', fontWeight: 600, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                 Đã ghép: <strong>{pairedOrders}</strong>
               </button>
-              <button onClick={() => onStatusChange('Chờ xử lý')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Chờ xử lý' ? '#fef3c7' : '#fffbeb', color: '#b45309', borderRadius: '6px', border: status === 'Chờ xử lý' ? '1px solid #fcd34d' : '1px solid #fde68a', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+              <button onClick={() => onStatusChange('Chờ xử lý')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Chờ xử lý' ? '#fef3c7' : '#fffbeb', color: '#b45309', borderRadius: '5px', border: status === 'Chờ xử lý' ? '1px solid #fcd34d' : '1px solid #fde68a', fontWeight: 600, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                 Chờ xử lý: <strong>{reviewOrders}</strong>
               </button>
-              <button onClick={() => onStatusChange('Đã xuất hóa đơn')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã xuất hóa đơn' ? '#dbeafe' : '#eff6ff', color: '#1d4ed8', borderRadius: '6px', border: status === 'Đã xuất hóa đơn' ? '1px solid #93c5fd' : '1px solid #bfdbfe', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+              <button onClick={() => onStatusChange('Đã xuất hóa đơn')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Đã xuất hóa đơn' ? '#dbeafe' : '#eff6ff', color: '#1d4ed8', borderRadius: '5px', border: status === 'Đã xuất hóa đơn' ? '1px solid #93c5fd' : '1px solid #bfdbfe', fontWeight: 600, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                 Đã xuất HĐ: <strong>{issuedOrders}</strong>
               </button>
-              <button onClick={() => onStatusChange('Đã hủy')} className="tag hover-bg-slate" style={{ fontSize: '10.5px', padding: '3px 8px', background: status === 'Đã hủy' ? '#ffe4e6' : '#fff1f2', color: '#be123c', borderRadius: '6px', border: status === 'Đã hủy' ? '1px solid #fda4af' : '1px solid #fecdd3', fontWeight: 600, cursor: 'pointer', outline: 'none' }}>
+              <button onClick={() => onStatusChange('Đã hủy')} className="tag hover-bg-slate" style={{ fontSize: '10px', height: '28px', padding: '0 6px', background: status === 'Đã hủy' ? '#ffe4e6' : '#fff1f2', color: '#be123c', borderRadius: '5px', border: status === 'Đã hủy' ? '1px solid #fda4af' : '1px solid #fecdd3', fontWeight: 600, cursor: 'pointer', outline: 'none', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                 Đã hủy: <strong>{canceledOrders}</strong>
               </button>
             </div>
 
             {/* 2. Thanh công cụ tìm kiếm & nút */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', flex: '1 1 auto', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center', gap: '6px', flexShrink: 0, justifyContent: 'flex-end' }}>
               <select
                 className="seamless-select"
                 value={monthFilter}
                 onChange={(e) => setMonthFilter(e.target.value)}
-                style={{ fontSize: '12px', border: '1px solid #047857', borderRadius: '6px', height: '32px', minWidth: '160px', background: '#ecfdf5', color: '#047857', outline: 'none', padding: '0 8px', fontWeight: 700 }}
+                style={{ fontSize: '11px', border: '1px solid #047857', borderRadius: '5px', height: '28px', minWidth: '135px', background: '#ecfdf5', color: '#047857', outline: 'none', padding: '0 6px', fontWeight: 700, whiteSpace: 'nowrap' }}
               >
-                <option value="all">📅 Tất cả các tháng ({(allOrders || orders).length})</option>
+                <option value="all">📅 Tất cả tháng ({(allOrders || orders).length})</option>
                 {availableMonths.map(m => {
                   const c = (allOrders || orders).filter(o => extractMonthKey(o) === m).length;
                   return (
                     <option key={m} value={m}>
-                      📅 {formatMonthDisplay(m)} ({c} đơn)
+                      📅 {formatMonthDisplay(m)} ({c})
                     </option>
                   );
                 })}
@@ -462,7 +465,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                 className="seamless-select"
                 value={staffFilter}
                 onChange={(e) => setStaffFilter(e.target.value)}
-                style={{ fontSize: '12px', border: '1px solid #cbd5e1', borderRadius: '6px', height: '32px', minWidth: '150px', background: '#fff', color: '#1e293b', outline: 'none', padding: '0 8px' }}
+                style={{ fontSize: '11px', border: '1px solid #cbd5e1', borderRadius: '5px', height: '28px', minWidth: '105px', maxWidth: '120px', background: '#fff', color: '#1e293b', outline: 'none', padding: '0 6px', whiteSpace: 'nowrap' }}
               >
                 <option value="Tất cả">Tất cả TVBH</option>
                 {activeStaffNames.map(name => (
@@ -470,39 +473,40 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                 ))}
               </select>
 
-              <label className="search-box" style={{ flex: '1 1 200px', maxWidth: '300px', minHeight: '32px', height: '32px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '6px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Search size={14} style={{ color: '#64748b' }} />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => onQueryChange(e.target.value)}
-                placeholder="Tìm nhanh số đơn, KH, VIN..."
-                style={{ fontSize: '12px', border: 'none', outline: 'none', width: '100%', color: '#1e293b' }}
-              />
-            </label>
+              <label className="search-box" style={{ width: '145px', height: '28px', minHeight: '28px', padding: '0 6px', border: '1px solid #cbd5e1', borderRadius: '5px', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
+                <Search size={13} style={{ color: '#64748b', flexShrink: 0 }} />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => onQueryChange(e.target.value)}
+                  placeholder="Tìm số đơn, KH, VIN..."
+                  style={{ fontSize: '11px', border: 'none', outline: 'none', width: '100%', color: '#1e293b', background: 'transparent' }}
+                />
+              </label>
 
-            {isAdmin && (
+              {isAdmin && (
+                <button
+                  type="button"
+                  className="ghost-button hover-bg-slate"
+                  onClick={handleExportOrders}
+                  style={{ flexShrink: 0, height: '28px', padding: '0 8px', border: '1px solid #e2e8f0', borderRadius: '5px', background: '#ffffff', color: '#059669', fontWeight: 600, fontSize: '11px', display: 'flex', alignItems: 'center', gap: '4px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'all 0.2s', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                  title="Xuất danh sách ra file Excel"
+                >
+                  <Download size={12} />
+                  <span>Xuất Excel</span>
+                </button>
+              )}
+
               <button
                 type="button"
                 className="ghost-button hover-bg-slate"
-                onClick={handleExportOrders}
-                style={{ flex: '0 0 auto', height: '32px', padding: '0 12px', border: '1px solid #e2e8f0', borderRadius: '6px', background: '#ffffff', color: '#059669', fontWeight: 500, fontSize: '11.5px', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'all 0.2s', cursor: 'pointer' }}
-                title="Xuất danh sách ra file Excel"
+                onClick={() => setShowQueueModal(true)}
+                style={{ flexShrink: 0, height: '28px', padding: '0 8px', border: '1px solid #e2e8f0', borderRadius: '5px', background: '#ffffff', color: '#2563eb', fontWeight: 600, fontSize: '11px', display: 'flex', alignItems: 'center', gap: '4px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'all 0.2s', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                title="Xếp hạng chờ ghép xe"
               >
-                <Download size={13} />
-                <span className="hide-on-mobile">Xuất Excel</span>
+                <Car size={12} />
+                <span>Chờ ghép xe</span>
               </button>
-            )}
-
-            <button
-              type="button"
-              className="ghost-button hover-bg-slate"
-              onClick={() => setShowQueueModal(true)}
-              style={{ flex: '0 0 auto', height: '32px', padding: '0 12px', border: '1px solid #e2e8f0', borderRadius: '6px', background: '#ffffff', color: '#2563eb', fontWeight: 500, fontSize: '11.5px', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', transition: 'all 0.2s', cursor: 'pointer' }}
-            >
-              <Car size={13} />
-              Xếp hạng chờ ghép xe
-            </button>
             </div>
           </div>
 
