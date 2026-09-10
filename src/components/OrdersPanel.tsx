@@ -401,7 +401,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   const reviewOrders = queryMatchedOrders.filter((order) => reviewStatuses.includes(order.status)).length;
   const issuedOrders = queryMatchedOrders.filter((order) => order.status === 'Đã xuất hóa đơn').length;
   const canceledOrders = queryMatchedOrders.filter((order) => order.status === 'Đã hủy').length;
-  const debtOrders = queryMatchedOrders.filter((order) => order.status === 'Đã xuất hóa đơn' && !order.hoSoGiaoXe?.da_thu_du).length;
+  const debtOrders = queryMatchedOrders.filter((order) => Boolean(order.docDebtLevel && order.docDebtLevel !== 'clean' && !order.hoSoGiaoXe?.da_thu_du)).length;
 
   const selectedCandidates = selectedOrder
     ? inventory.filter(
@@ -607,7 +607,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                             <span className={statusTone[order.status]} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '4px 8px', borderRadius: '999px', fontSize: '11px', fontWeight: 700 }}>
                               {order.status}
                             </span>
-                            {Boolean(order.status === 'Đã xuất hóa đơn' || order.invoiceDate) && (
+                            {Boolean(order.docDebtLevel) && (
                               <>
                                 {order.hoSoGiaoXe?.da_thu_du ? (
                                   <span style={{ fontSize: '10px', background: '#dcfce7', color: '#166534', padding: '2px 6px', borderRadius: '4px', fontWeight: 700 }}>
@@ -748,7 +748,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                               <span className={statusTone[order.status]}>
                                 {order.status}
                               </span>
-                              {Boolean(order.status === 'Đã xuất hóa đơn' || order.invoiceDate) && (
+                              {Boolean(order.docDebtLevel) && (
                                 <>
                                   {order.hoSoGiaoXe?.da_thu_du ? (
                                     <span style={{ fontSize: '10px', background: '#dcfce7', color: '#166534', padding: '2px 6px', borderRadius: '4px', fontWeight: 700, width: 'fit-content' }}>
@@ -956,7 +956,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                           </table>
 
                           {/* Hồ sơ giao xe bổ sung (Sau XHĐ) */}
-                          {(selectedOrder.status === 'Đã xuất hóa đơn' || Boolean(selectedOrder.invoiceDate)) && (
+                          {Boolean(selectedOrder.docDebtLevel !== undefined || (selectedOrder.hoSoGiaoXe && (selectedOrder.hoSoGiaoXe.note || selectedOrder.hoSoGiaoXe.bbbg || selectedOrder.hoSoGiaoXe.dang_ky || selectedOrder.hoSoGiaoXe.hop_dong_goc || selectedOrder.hoSoGiaoXe.bao_hiem))) && (
                             <div style={{
                               marginTop: '16px',
                               padding: '14px',
@@ -973,9 +973,9 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                                     <span style={{ fontSize: '11px', background: '#dc2626', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 700 }}>🚨 Quá hạn {selectedOrder.docDebtDays || 0} ngày</span>
                                   ) : selectedOrder.docDebtLevel === 'warning' ? (
                                     <span style={{ fontSize: '11px', background: '#d97706', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 700 }}>⚠️ Nợ HS {selectedOrder.docDebtDays || 0} ngày</span>
-                                  ) : (
+                                  ) : selectedOrder.docDebtDays !== undefined ? (
                                     <span style={{ fontSize: '11px', background: '#0284c7', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 600 }}>⏳ {selectedOrder.docDebtDays || 0} ngày kể từ XHĐ</span>
-                                  )}
+                                  ) : null}
                                 </div>
                                 {docSaveMessage && (
                                   <span style={{ fontSize: '12px', fontWeight: 600, color: docSaveMessage.includes('thành công') ? '#16a34a' : '#dc2626' }}>
@@ -1020,13 +1020,29 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                               </div>
 
                               <div style={{ marginBottom: '12px' }}>
-                                <input
-                                  type="text"
-                                  placeholder="Ghi chú hồ sơ nợ (ví dụ: Chờ khách bổ sung ĐKKD, hẹn ngày 15/09 nộp lại...)"
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                                  <span style={{ fontSize: '12px', fontWeight: 600, color: '#475569' }}>
+                                    Ghi chú hồ sơ nợ / thiếu:
+                                  </span>
+                                  {isAdmin && (
+                                    <span style={{ fontSize: '11px', background: '#fef3c7', color: '#92400e', padding: '1px 6px', borderRadius: '4px', fontWeight: 600 }}>
+                                      Admin có quyền chỉnh sửa note của TVBH
+                                    </span>
+                                  )}
+                                </div>
+                                <textarea
+                                  rows={2}
+                                  placeholder="Nhập hoặc chỉnh sửa ghi chú hồ sơ nợ (ví dụ: Chờ khách bổ sung ĐKKD, hẹn ngày 15/09 nộp lại...)"
                                   value={docState.note}
                                   onChange={(e) => setDocState(prev => ({ ...prev, note: e.target.value }))}
-                                  style={{ width: '100%', padding: '7px 10px', fontSize: '12px', border: '1px solid #cbd5e1', borderRadius: '4px', background: '#fff' }}
+                                  style={{ width: '100%', padding: '7px 10px', fontSize: '12.5px', border: '1px solid #cbd5e1', borderRadius: '4px', background: '#fff', resize: 'vertical' }}
                                 />
+                                {docState.nguoi_cap_nhat && (
+                                  <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px' }}>
+                                    Lần cập nhật gần nhất bởi: <strong>{docState.nguoi_cap_nhat}</strong>
+                                    {docState.ngay_cap_nhat ? ` (${formatDetailDate(docState.ngay_cap_nhat)})` : ''}
+                                  </div>
+                                )}
                               </div>
 
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #e2e8f0', flexWrap: 'wrap', gap: '8px' }}>
@@ -1057,14 +1073,14 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                                     padding: '7px 16px',
                                     fontSize: '12.5px',
                                     fontWeight: 600,
-                                    background: '#0284c7',
+                                    background: isAdmin ? '#0f766e' : '#0284c7',
                                     color: '#fff',
                                     border: 'none',
                                     borderRadius: '4px',
                                     cursor: isSavingDocs ? 'not-allowed' : 'pointer'
                                   }}
                                 >
-                                  {isSavingDocs ? 'Đang lưu...' : 'Lưu tình trạng hồ sơ'}
+                                  {isSavingDocs ? 'Đang lưu...' : isAdmin ? 'Admin lưu cập nhật hồ sơ' : 'Lưu tình trạng hồ sơ'}
                                 </button>
                               </div>
                             </div>

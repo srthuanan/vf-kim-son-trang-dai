@@ -179,7 +179,7 @@ function App() {
     let result = orders.filter((order) => {
       const matchesStatus = 
         status === 'Tất cả' || 
-        (status === 'Nợ hồ sơ' && order.status === 'Đã xuất hóa đơn' && !order.hoSoGiaoXe?.da_thu_du) ||
+        (status === 'Nợ hồ sơ' && Boolean(order.docDebtLevel && order.docDebtLevel !== 'clean' && !order.hoSoGiaoXe?.da_thu_du)) ||
         order.status === status ||
         (status === 'Chờ xử lý' && ['Chờ phê duyệt', 'Đã phê duyệt', 'Yêu cầu bổ sung', 'Đã bổ sung', 'Chờ ký hóa đơn'].includes(order.status));
         

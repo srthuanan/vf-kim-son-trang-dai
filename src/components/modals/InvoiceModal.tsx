@@ -10,7 +10,7 @@ import {
 import * as apiService from '../../services/apiService';
 import { supabase } from '../../services/supabaseClient';
 import { defaultSalesPolicies } from '../../constants';
-import { Order } from '../../types';
+import { Order, DeliveryDocStatus } from '../../types';
 
 interface InvoiceRequestModalProps {
   order: Order;
@@ -37,6 +37,7 @@ interface InvoiceRequestModalProps {
     dangKyXe?: boolean;
     giaCongBo?: string;
     ghiChu?: string;
+    hoSoGiaoXe?: Partial<DeliveryDocStatus>;
   }) => Promise<boolean>;
 }
 
@@ -62,6 +63,15 @@ export const InvoiceRequestModal: React.FC<InvoiceRequestModalProps> = ({ order,
   const [xeXangVin, setXeXangVin] = useState(() => order.xeXangVin || '');
   const [xeXangHang, setXeXangHang] = useState(() => order.xeXangHang || '');
   const [xeXangModel, setXeXangModel] = useState(() => order.xeXangModel || '');
+
+  const existingDoc = order.hoSoGiaoXe;
+  const [docDaThuDu, setDocDaThuDu] = useState(() => Boolean(existingDoc?.da_thu_du));
+  const [docBbbg, setDocBbbg] = useState(() => Boolean(existingDoc?.bbbg));
+  const [docDangKy, setDocDangKy] = useState(() => Boolean(existingDoc?.dang_ky));
+  const [docHopDongGoc, setDocHopDongGoc] = useState(() => Boolean(existingDoc?.hop_dong_goc));
+  const [docBaoHiem, setDocBaoHiem] = useState(() => Boolean(existingDoc?.bao_hiem));
+  const [docNote, setDocNote] = useState(() => String(existingDoc?.note || ''));
+
   const [hsXhdFile, setHsXhdFile] = useState<File | null>(null);
   const [cdxFile, setCdxFile] = useState<File | null>(null);
   const [transactionImages, setTransactionImages] = useState<File[]>([]);
@@ -162,6 +172,14 @@ export const InvoiceRequestModal: React.FC<InvoiceRequestModalProps> = ({ order,
       muaBaoHiem, dangKyXe,
       giaCongBo: raw(giaCongBo),
       ghiChu: ghiChu || aiNote,
+      hoSoGiaoXe: {
+        da_thu_du: docDaThuDu,
+        bbbg: docBbbg,
+        dang_ky: docDangKy,
+        hop_dong_goc: docHopDongGoc,
+        bao_hiem: docBaoHiem,
+        note: docNote
+      }
     });
     if (ok) { setProcessingStage(4); setTimeout(onClose, 1800); }
     else { 
@@ -408,6 +426,59 @@ export const InvoiceRequestModal: React.FC<InvoiceRequestModalProps> = ({ order,
                   <div style={{ fontSize: '13px', fontWeight: 600, color: '#334155' }}>Ảnh giao dịch *</div>
                 </>
               )}
+            </div>
+          </div>
+
+          {/* TÌNH TRẠNG HỒ SƠ GIAO XE BỔ SUNG (TVBH KÊ KHAI) */}
+          <div style={{ marginTop: '16px', padding: '14px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#f8fafc' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', flexWrap: 'wrap', gap: '8px' }}>
+              <span style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>
+                📋 Tình trạng hồ sơ giao xe bổ sung (Sau XHĐ)
+              </span>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: docDaThuDu ? '#15803d' : '#475569', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={docDaThuDu}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setDocDaThuDu(checked);
+                    if (checked) {
+                      setDocBbbg(true);
+                      setDocDangKy(true);
+                      setDocHopDongGoc(true);
+                      setDocBaoHiem(true);
+                    }
+                  }}
+                />
+                <span>Đã có đủ toàn bộ hồ sơ</span>
+              </label>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '8px', marginBottom: '10px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', cursor: 'pointer' }}>
+                <input type="checkbox" checked={docBbbg} onChange={e => setDocBbbg(e.target.checked)} />
+                <span>Biên bản bàn giao (BBBG)</span>
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', cursor: 'pointer' }}>
+                <input type="checkbox" checked={docDangKy} onChange={e => setDocDangKy(e.target.checked)} />
+                <span>Giấy hẹn / Đăng ký xe</span>
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', cursor: 'pointer' }}>
+                <input type="checkbox" checked={docHopDongGoc} onChange={e => setDocHopDongGoc(e.target.checked)} />
+                <span>Hợp đồng gốc</span>
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', cursor: 'pointer' }}>
+                <input type="checkbox" checked={docBaoHiem} onChange={e => setDocBaoHiem(e.target.checked)} />
+                <span>Bảo hiểm vật chất / TNDS</span>
+              </label>
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Ghi chú hồ sơ còn nợ / thiếu (nếu có, VD: Thiếu HĐ gốc khách chưa ký, hẹn ngày 15/9 nộp...)"
+                value={docNote}
+                onChange={e => setDocNote(e.target.value)}
+                style={{ width: '100%', padding: '7px 10px', fontSize: '12px', border: '1px solid #cbd5e1', borderRadius: '4px', background: '#fff' }}
+              />
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import * as apiService from '../services/apiService';
-import { NewOrderInput, Order, UpdateOrderInput } from '../types';
+import { NewOrderInput, Order, UpdateOrderInput, DeliveryDocStatus } from '../types';
 
 export function useOrderOperations({
   session,
@@ -542,6 +542,7 @@ export function useOrderOperations({
     giaCongBo?: string | number | null;
     ghiChu?: string;
     diaChi?: string;
+    hoSoGiaoXe?: Partial<DeliveryDocStatus>;
   }) {
     setIsRequestingInvoice(true);
     try {

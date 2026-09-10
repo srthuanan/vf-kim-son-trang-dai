@@ -85,6 +85,42 @@ export function formatLocalDateTime(date: Date) {
   }).format(date);
 }
 
+export function isInvoiceFromSept2026(invoiceDateStr?: string | null): boolean {
+  if (!invoiceDateStr) return false;
+  const str = invoiceDateStr.trim();
+  if (!str || str === 'Chưa có' || str === '—') return false;
+
+  // Check ISO format YYYY-MM-DD...
+  if (/^\d{4}-\d{2}/.test(str)) {
+    const year = parseInt(str.slice(0, 4), 10);
+    const month = parseInt(str.slice(5, 7), 10);
+    if (year > 2026) return true;
+    if (year === 2026 && month >= 9) return true;
+    return false;
+  }
+
+  // Check DD/MM/YYYY format
+  if (/^\d{1,2}\/\d{1,2}\/\d{4}/.test(str)) {
+    const parts = str.split('/');
+    const year = parseInt(parts[2], 10);
+    const month = parseInt(parts[1], 10);
+    if (year > 2026) return true;
+    if (year === 2026 && month >= 9) return true;
+    return false;
+  }
+
+  // Fallback to Date parse
+  const d = new Date(str);
+  if (!isNaN(d.getTime())) {
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1; // 1-indexed: 9 = Sept
+    if (year > 2026) return true;
+    if (year === 2026 && month >= 9) return true;
+  }
+
+  return false;
+}
+
 export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRow>, invoiceMap?: Map<string, any>): Order {
   const customer = customerMap.get(row.ten_khach_hang.toLowerCase());
   const normalized = row.ket_qua.trim().toLowerCase();
@@ -138,24 +174,23 @@ export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRo
   } : null;
 
   const invoiceDateStr = row.ngay_xuat_hoa_don ?? invoiceMap?.get(row.so_don_hang)?.ngay_xuat_hoa_don ?? null;
-  const isInvoiceIssued = status === 'Đã xuất hóa đơn' || Boolean(invoiceDateStr);
+  const isInvoiceIssued = Boolean(invoiceDateStr);
 
   let docDebtDays: number | undefined = undefined;
   let docDebtLevel: 'clean' | 'normal' | 'warning' | 'danger' | undefined = undefined;
 
-  if (isInvoiceIssued) {
+  // Yêu cầu:
+  // 1. Đối với đơn hàng ghi nhận ngày xuất hóa đơn thì mới tính (phải có invoiceDateStr)
+  // 2. Đối với các đơn hàng từ tháng 8 về trước bỏ phần này đi, tính từ tháng 9 thôi (>= 2026-09-01)
+  if (isInvoiceIssued && isInvoiceFromSept2026(invoiceDateStr)) {
     if (hoSoGiaoXe?.da_thu_du) {
       docDebtLevel = 'clean';
       docDebtDays = 0;
     } else {
-      if (invoiceDateStr) {
-        const invTime = new Date(invoiceDateStr).getTime();
-        if (!isNaN(invTime)) {
-          const now = new Date().getTime();
-          docDebtDays = Math.max(0, Math.floor((now - invTime) / (1000 * 60 * 60 * 24)));
-        } else {
-          docDebtDays = 0;
-        }
+      const invTime = new Date(invoiceDateStr!).getTime();
+      if (!isNaN(invTime)) {
+        const now = new Date().getTime();
+        docDebtDays = Math.max(0, Math.floor((now - invTime) / (1000 * 60 * 60 * 24)));
       } else {
         docDebtDays = 0;
       }
@@ -1289,6 +1324,7 @@ type RequestInvoiceInput = {
   ghiChu?: string;
   requesterName: string;
   requesterUsername: string;
+  hoSoGiaoXe?: Partial<DeliveryDocStatus>;
 };
 
 function serviceError(message: string) {
@@ -1515,6 +1551,17 @@ export const requestInvoiceDonhang = async (input: RequestInvoiceInput) => {
     link: orderId
   });
 
+  const initialDocStatus: DeliveryDocStatus | undefined = input.hoSoGiaoXe ? {
+    da_thu_du: Boolean(input.hoSoGiaoXe.da_thu_du),
+    bbbg: Boolean(input.hoSoGiaoXe.bbbg),
+    dang_ky: Boolean(input.hoSoGiaoXe.dang_ky),
+    hop_dong_goc: Boolean(input.hoSoGiaoXe.hop_dong_goc),
+    bao_hiem: Boolean(input.hoSoGiaoXe.bao_hiem),
+    note: String(input.hoSoGiaoXe.note || '').trim(),
+    ngay_cap_nhat: new Date().toISOString(),
+    nguoi_cap_nhat: input.requesterName || input.requesterUsername || 'TVBH'
+  } : undefined;
+
   const { error: orderUpdateError } = await supabase
     .from('donhang')
     .update({
@@ -1538,6 +1585,7 @@ export const requestInvoiceDonhang = async (input: RequestInvoiceInput) => {
       ma_amis: input.order.maAmis?.trim() || null,
       gia_cong_bo: giaCongBo,
       ghi_chu: ghiChu,
+      ...(initialDocStatus ? { ho_so_giao_xe: initialDocStatus } : {}),
       updated_at: new Date().toISOString()
     })
     .eq('so_don_hang', orderId);
