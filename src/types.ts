@@ -39,6 +39,7 @@ export interface Order {
   ngayKyHopDong?: string | null;
   invoiceAddress?: string | null;
   invoiceDate?: string | null;
+  ngayYeuCau?: string | null;
   contractCode?: string | null;
   paymentMethod?: string | null;
   linkHopDong?: string | null;

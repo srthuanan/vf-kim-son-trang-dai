@@ -84,7 +84,7 @@ export function formatLocalDateTime(date: Date) {
   }).format(date);
 }
 
-export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRow>): Order {
+export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRow>, invoiceMap?: Map<string, any>): Order {
   const customer = customerMap.get(row.ten_khach_hang.toLowerCase());
   const normalized = row.ket_qua.trim().toLowerCase();
   const status: Order['status'] = normalized.includes('hủy')
@@ -148,7 +148,8 @@ export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRo
     soTienKhachDaDong: row.so_tien_khach_da_dong ?? row.so_tien_coc ?? null,
     ngayKyHopDong: row.ngay_ky_hop_dong ?? null,
     invoiceAddress: row.dia_chi ?? null,
-    invoiceDate: row.ngay_xuat_hoa_don ?? null,
+    invoiceDate: row.ngay_xuat_hoa_don ?? invoiceMap?.get(row.so_don_hang)?.ngay_xuat_hoa_don ?? null,
+    ngayYeuCau: invoiceMap?.get(row.so_don_hang)?.ngay_yeu_cau ?? null,
     contractCode: row.so_hop_dong ?? null,
     paymentMethod: row.hinh_thuc_tt ?? null,
     linkHopDong: row.link_hop_dong ?? null,

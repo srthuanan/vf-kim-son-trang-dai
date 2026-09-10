@@ -1,36 +1,62 @@
+export function parseMonthFromAnyDate(val: any): string | null {
+  if (!val) return null;
+  const s = String(val).trim();
+  if (!s || s === 'Chưa có' || s === '—' || s === 'null' || s === 'undefined') return null;
+
+  // ISO: 2026-09-04 or 2026-09-04T08:14:46...
+  const isoMatch = s.match(/(\d{4})-(\d{2})/);
+  if (isoMatch) {
+    return `${isoMatch[1]}-${isoMatch[2]}`;
+  }
+
+  // Định dạng VN: d/m/yyyy hoặc dd/mm/yyyy (ví dụ: 4/9/2026, 29/8/2026)
+  const vnMatch = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (vnMatch) {
+    const month = vnMatch[2].padStart(2, '0');
+    const year = vnMatch[3];
+    return `${year}-${month}`;
+  }
+
+  return null;
+}
+
+export function normalizeToOperatingMonth(monthKey: string): string {
+  if (!monthKey) return '2026-06';
+  // Các tháng chuẩn vận hành thực tế
+  if (['2026-06', '2026-07', '2026-08', '2026-09'].includes(monthKey)) {
+    return monthKey;
+  }
+  // Các đơn cọc sớm trước tháng 6 hoặc gõ nhầm năm đều quy về kỳ khai trương tháng 06/2026
+  if (monthKey.startsWith('2026-')) {
+    const mNum = parseInt(monthKey.split('-')[1], 10);
+    if (mNum < 6) return '2026-06';
+    return monthKey;
+  }
+  return '2026-06';
+}
+
 export function extractMonthKey(item: any): string {
   if (!item) return '2026-06';
-  const code = String(item.contractCode || item.id || item.so_don_hang || '').trim();
-  const invoiceDate = String(item.invoiceDate || item.ngay_xuat_hoa_don || '').trim();
-  const depositDate = String(item.depositDate || item.ngay_coc || '').trim();
-  const createdAt = String(item.createdAt || item.created_at || '').trim();
 
-  // 1. Don co ho so/coc trong thang 9
-  if (code.includes('VSO-25-06-0009') || code.includes('26-09') || invoiceDate.includes('2026-09') || depositDate.includes('2026-09')) {
-    if (depositDate.includes('2026-09') || invoiceDate.includes('2026-09') || code.includes('26-09')) {
-      return '2026-09';
-    }
-  }
+  // 1. Tính theo Ngày yêu cầu (yêu cầu XHĐ)
+  const yeuCauVal = item.ngayYeuCau || item.ngay_yeu_cau;
+  const mYeuCau = parseMonthFromAnyDate(yeuCauVal);
+  if (mYeuCau) return normalizeToOperatingMonth(mYeuCau);
 
-  // 2. Kiem tra ma VSO chuan (VSO-26-09, VSO-26-08, VSO-26-07, VSO-26-06)
-  const vsoMatch = code.match(/VSO-26-(\d{2})/i);
-  if (vsoMatch) {
-    const monthNum = vsoMatch[1];
-    if (['06', '07', '08', '09'].includes(monthNum)) {
-      return '2026-' + monthNum;
-    }
-    // Cac don tien khoi tao truoc do (thang 5 hoac go nham 95) deu thuoc ky ban giao thang 6
-    return '2026-06';
-  }
+  // 2. Tính theo Ngày xuất hóa đơn
+  const xhdVal = item.invoiceDate || item.ngay_xuat_hoa_don;
+  const mXhd = parseMonthFromAnyDate(xhdVal);
+  if (mXhd) return normalizeToOperatingMonth(mXhd);
 
-  // 3. Theo cac moc thoi gian
-  for (const dateVal of [invoiceDate, depositDate, createdAt]) {
-    if (!dateVal) continue;
-    if (dateVal.includes('2026-09')) return '2026-09';
-    if (dateVal.includes('2026-08')) return '2026-08';
-    if (dateVal.includes('2026-07')) return '2026-07';
-    if (dateVal.includes('2026-06') || dateVal.includes('2026-05') || dateVal.includes('2026-03')) return '2026-06';
-  }
+  // 3. Tính theo Ngày cọc
+  const cocVal = item.depositDate || item.ngay_coc;
+  const mCoc = parseMonthFromAnyDate(cocVal);
+  if (mCoc) return normalizeToOperatingMonth(mCoc);
+
+  // Fallback theo ngày tạo hệ thống nếu có
+  const createdAtVal = item.createdAt || item.created_at;
+  const mCreated = parseMonthFromAnyDate(createdAtVal);
+  if (mCreated) return normalizeToOperatingMonth(mCreated);
 
   return '2026-06';
 }

@@ -194,7 +194,14 @@ export function useAppData() {
         );
       };
 
-      const mappedOrders = ordersResult.data.map((row) => apiService.mapOrderRow(row, customerMap));
+      const invoiceMap = new Map<string, any>();
+      (invoicesResult.data || []).forEach((inv: any) => {
+        if (inv.so_don_hang) {
+          invoiceMap.set(inv.so_don_hang, inv);
+        }
+      });
+
+      const mappedOrders = ordersResult.data.map((row) => apiService.mapOrderRow(row, customerMap, invoiceMap));
       
       const obscuredAllOrders = (isAdminUser || isManagerUser || isDeliveryUser) 
         ? mappedOrders 
