@@ -5,7 +5,7 @@ import { copyToClipboard } from '../utils/clipboard';
 import * as apiService from '../services/apiService';
 import { supabase } from '../services/supabaseClient';
 import * as XLSX from 'xlsx';
-import { extractMonthKey, formatMonthDisplay } from '../utils/dateUtils';
+import { extractMonthKey, formatMonthDisplay, getDefaultCurrentMonth } from '../utils/dateUtils';
 
 const toEmbeddableUrl = (url: string) => {
   if (!url) return '';
@@ -78,7 +78,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
   isAdmin
 }) => {
   const [selectedFolder, setSelectedFolder] = useState('pending_approval');
-  const [monthFilter, setMonthFilter] = useState<string>('all');
+  const [monthFilter, setMonthFilter] = useState<string>(() => getDefaultCurrentMonth());
   const [query, setQuery] = useState('');
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
   const [selectedRequestIds, setSelectedRequestIds] = useState<string[]>([]);
@@ -182,6 +182,17 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
     });
     return Array.from(map.keys()).sort().reverse();
   }, [requests]);
+
+  useEffect(() => {
+    if (availableMonths.length > 0) {
+      setMonthFilter(prev => {
+        if (prev && (availableMonths.includes(prev) || prev === 'all')) {
+          return prev;
+        }
+        return getDefaultCurrentMonth(availableMonths);
+      });
+    }
+  }, [availableMonths]);
 
   const monthFilteredRequests = useMemo(() => {
     if (monthFilter === 'all') return requests;

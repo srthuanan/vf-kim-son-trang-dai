@@ -7,9 +7,8 @@ import { copyToClipboard } from '../utils/clipboard';
 import { getPolicyNames, parseSmartPolicy } from '../utils/policyParser';
 import { QueueRankingModal } from './modals/QueueRankingModal';
 import { InlineOrderEditForm } from './InlineOrderEditForm';
-import { VehicleConfigRow, UpdateOrderInput } from '../types';
 import * as XLSX from 'xlsx';
-import { extractMonthKey, formatMonthDisplay } from '../utils/dateUtils';
+import { extractMonthKey, formatMonthDisplay, getDefaultCurrentMonth } from '../utils/dateUtils';
 
 const viDateTimeFormatter = new Intl.DateTimeFormat('vi-VN', {
   day: '2-digit',
@@ -168,7 +167,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   }, [allOrders]);
 
   const [staffFilter, setStaffFilter] = useState('Tất cả');
-  const [monthFilter, setMonthFilter] = useState<string>('all');
+  const [monthFilter, setMonthFilter] = useState<string>(() => getDefaultCurrentMonth());
   const [isDetailPanelOpen, setIsDetailPanelOpen] = useState(false);
   const [isEditingInline, setIsEditingInline] = useState(false);
   const [mobileView, setMobileView] = useState<'list' | 'detail'>('list');
@@ -285,6 +284,17 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
     });
     return Array.from(monthMap.keys()).sort().reverse();
   }, [allOrders, orders]);
+
+  useEffect(() => {
+    if (availableMonths.length > 0) {
+      setMonthFilter(prev => {
+        if (prev && (availableMonths.includes(prev) || prev === 'all')) {
+          return prev;
+        }
+        return getDefaultCurrentMonth(availableMonths);
+      });
+    }
+  }, [availableMonths]);
 
   const displayOrders = useMemo(() => {
     let list = orders;

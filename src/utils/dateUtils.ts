@@ -43,3 +43,19 @@ export function formatMonthDisplay(monthKey: string): string {
   }
   return monthKey;
 }
+
+export function getDefaultCurrentMonth(availableMonths?: string[]): string {
+  const now = new Date();
+  const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  if (availableMonths && availableMonths.length > 0) {
+    if (availableMonths.includes(currentKey)) {
+      return currentKey;
+    }
+    return availableMonths[0];
+  }
+  if (currentKey.startsWith('2026-')) {
+    return currentKey;
+  }
+  return '2026-09';
+}
+
