@@ -1324,7 +1324,6 @@ type RequestInvoiceInput = {
   ghiChu?: string;
   requesterName: string;
   requesterUsername: string;
-  hoSoGiaoXe?: Partial<DeliveryDocStatus>;
 };
 
 function serviceError(message: string) {
@@ -1551,17 +1550,6 @@ export const requestInvoiceDonhang = async (input: RequestInvoiceInput) => {
     link: orderId
   });
 
-  const initialDocStatus: DeliveryDocStatus | undefined = input.hoSoGiaoXe ? {
-    da_thu_du: Boolean(input.hoSoGiaoXe.da_thu_du),
-    bbbg: Boolean(input.hoSoGiaoXe.bbbg),
-    dang_ky: Boolean(input.hoSoGiaoXe.dang_ky),
-    hop_dong_goc: Boolean(input.hoSoGiaoXe.hop_dong_goc),
-    bao_hiem: Boolean(input.hoSoGiaoXe.bao_hiem),
-    note: String(input.hoSoGiaoXe.note || '').trim(),
-    ngay_cap_nhat: new Date().toISOString(),
-    nguoi_cap_nhat: input.requesterName || input.requesterUsername || 'TVBH'
-  } : undefined;
-
   const { error: orderUpdateError } = await supabase
     .from('donhang')
     .update({
@@ -1585,7 +1573,6 @@ export const requestInvoiceDonhang = async (input: RequestInvoiceInput) => {
       ma_amis: input.order.maAmis?.trim() || null,
       gia_cong_bo: giaCongBo,
       ghi_chu: ghiChu,
-      ...(initialDocStatus ? { ho_so_giao_xe: initialDocStatus } : {}),
       updated_at: new Date().toISOString()
     })
     .eq('so_don_hang', orderId);
@@ -2256,7 +2243,173 @@ export const syncCurrentOrdersToSheet = async (
   };
 };
 
-export const updateDeliveryDocs = async (orderId: string, docs: Partial<DeliveryDocStatus>): Promise<{ success: boolean; error?: any }> => {
+export const sendDeliveryDocsWarningEmail = async (
+  order: Order,
+  docs: DeliveryDocStatus,
+  adminName: string
+): Promise<{ success: boolean; tvbhEmail?: string; error?: any }> => {
+  if (!supabase) return { success: false, error: 'Chưa cấu hình Supabase' };
+
+  try {
+    let tvbhEmail = '';
+    const staffName = (order.staff || '').trim();
+
+    if (staffName) {
+      const { data: staffList } = await supabase.rpc('get_staff_directory');
+      if (staffList && Array.isArray(staffList)) {
+        const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim();
+        const target = norm(staffName);
+        for (const s of staffList) {
+          if (norm(s.full_name || '') === target || String(s.email || '').toLowerCase() === staffName.toLowerCase()) {
+            tvbhEmail = s.email;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!tvbhEmail) {
+      const { data: reqData } = await supabase
+        .from('yeucauxhd')
+        .select('requested_by_username')
+        .eq('so_don_hang', order.id)
+        .maybeSingle();
+      if (reqData?.requested_by_username && reqData.requested_by_username.includes('@')) {
+        tvbhEmail = reqData.requested_by_username;
+      }
+    }
+
+    if (!tvbhEmail) {
+      return { success: false, error: `Không tìm thấy địa chỉ email của TVBH ${order.staff}` };
+    }
+
+    const missingDocs: string[] = [];
+    if (!docs.bbbg) missingDocs.push('Biên bản bàn giao xe (BBBG)');
+    if (!docs.dang_ky) missingDocs.push('Giấy hẹn / Đăng ký xe');
+    if (!docs.hop_dong_goc) missingDocs.push('Hợp đồng gốc');
+    if (!docs.bao_hiem) missingDocs.push('Bảo hiểm vật chất / TNDS');
+
+    const debtDays = order.docDebtDays || 0;
+    const isOverdue = debtDays >= 6;
+    const statusBadgeText = docs.da_thu_du
+      ? 'ĐÃ THU ĐỦ HỒ SƠ'
+      : isOverdue
+        ? `🚨 QUÁ HẠN NỘP HỒ SƠ (${debtDays} NGÀY)`
+        : `⚠️ CẢNH BÁO NỢ HỒ SƠ (${debtDays} NGÀY)`;
+
+    const subject = `[CẢNH BÁO NỢ HỒ SƠ] Đơn hàng ${order.id} - KH ${order.customer} (${order.staff})`;
+
+    const htmlContent = `
+      <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 640px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; color: #1e293b;">
+        <div style="background: ${isOverdue ? '#b91c1c' : '#d97706'}; padding: 20px 24px; color: #ffffff;">
+          <h2 style="margin: 0 0 6px 0; font-size: 20px; font-weight: 800; text-transform: uppercase;">
+            ${isOverdue ? '🚨 Cảnh Báo Quá Hạn Hồ Sơ Giao Xe' : '⚠️ Cảnh Báo Nợ Hồ Sơ Giao Xe'}
+          </h2>
+          <p style="margin: 0; font-size: 13px; opacity: 0.95;">Hệ thống Điều Hành Bán Hàng VinFast Kim Sơn - Trảng Dài</p>
+        </div>
+
+        <div style="padding: 24px;">
+          <p style="font-size: 14px; margin-top: 0;">Kính gửi Tư vấn bán hàng <strong>${order.staff}</strong>,</p>
+          <p style="font-size: 13.5px; line-height: 1.5; color: #334155;">
+            Ban Quản Trị gửi thông báo cảnh báo và đôn đốc hoàn thiện hồ sơ giao xe bổ sung sau khi xuất hóa đơn đối với đơn hàng sau:
+          </p>
+
+          <table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; border: 1px solid #e2e8f0;">
+            <tbody>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 9px 12px; font-weight: 600; color: #64748b; width: 35%; background: #f8fafc;">Mã đơn hàng:</td>
+                <td style="padding: 9px 12px; font-weight: 700; color: #0f172a;">${order.id} ${order.contractCode ? `(${order.contractCode})` : ''}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 9px 12px; font-weight: 600; color: #64748b; background: #f8fafc;">Khách hàng:</td>
+                <td style="padding: 9px 12px; font-weight: 700; color: #0f172a;">${order.customer}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 9px 12px; font-weight: 600; color: #64748b; background: #f8fafc;">Dòng xe:</td>
+                <td style="padding: 9px 12px; color: #0f172a;">${order.line} / ${order.version}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 9px 12px; font-weight: 600; color: #64748b; background: #f8fafc;">Số VIN:</td>
+                <td style="padding: 9px 12px; font-weight: 700; font-family: monospace; color: #0369a1;">${order.vin || 'Chưa cấp'}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 9px 12px; font-weight: 600; color: #64748b; background: #f8fafc;">Ngày xuất HĐ:</td>
+                <td style="padding: 9px 12px; color: #0f172a; font-weight: 600;">${order.invoiceDate ? new Date(order.invoiceDate).toLocaleDateString('vi-VN') : '—'}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 9px 12px; font-weight: 600; color: #64748b; background: #f8fafc;">Thời gian nợ hồ sơ:</td>
+                <td style="padding: 9px 12px; font-weight: 700; color: ${isOverdue ? '#b91c1c' : '#d97706'}; font-size: 14px;">
+                  ${debtDays} ngày (${statusBadgeText})
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 14px; margin-bottom: 16px;">
+            <div style="font-size: 13.5px; font-weight: 700; color: #991b1b; margin-bottom: 8px;">📌 Tình trạng hồ sơ còn nợ:</div>
+            ${missingDocs.length > 0 ? `
+              <ul style="margin: 0; padding-left: 20px; color: #b91c1c; font-size: 13px; font-weight: 600;">
+                ${missingDocs.map(d => `<li style="margin-bottom: 4px;">${d}</li>`).join('')}
+              </ul>
+            ` : `<p style="margin: 0; color: #15803d; font-size: 13px; font-weight: 600;">Đã thu đủ các loại hồ sơ</p>`}
+          </div>
+
+          <div style="background: #fffbeb; border: 2px solid #f59e0b; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+            <div style="font-size: 13px; font-weight: 800; color: #b45309; text-transform: uppercase; margin-bottom: 6px;">
+              📝 Ghi chú chỉ đạo từ Admin (${adminName}):
+            </div>
+            <div style="font-size: 14px; font-weight: 600; color: #78350f; white-space: pre-wrap; line-height: 1.6;">
+              ${docs.note ? docs.note : '(Admin yêu cầu TVBH nhanh chóng nộp đầy đủ hồ sơ còn thiếu theo quy định)'}
+            </div>
+          </div>
+
+          <p style="font-size: 13px; color: #475569; line-height: 1.5; margin-bottom: 24px;">
+            Đề nghị TVBH khẩn trương liên hệ khách hàng để hoàn tất các chứng từ trên và nộp về Kế Toán / Ban Quản Trị showroom để khóa hồ sơ giao xe đúng hạn quy định.
+          </p>
+
+          <div style="text-align: center; margin: 24px 0 12px 0;">
+            <a href="https://ordermanagement-three.vercel.app" style="background: #0284c7; color: #ffffff; padding: 12px 28px; text-decoration: none; font-size: 13.5px; font-weight: 700; border-radius: 6px; display: inline-block;">
+              Xem chi tiết đơn hàng
+            </a>
+          </div>
+        </div>
+
+        <div style="background: #f8fafc; padding: 14px 24px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; text-align: center;">
+          Email tự động được gửi từ Hệ thống Điều Hành Bán Hàng VinFast Kim Sơn - Trảng Dài.<br/>
+          Người thực hiện cảnh báo: <strong>${adminName}</strong>
+        </div>
+      </div>
+    `;
+
+    const res = await supabase.functions.invoke('send-email', {
+      body: {
+        actionId: 'raw',
+        recipient_email: tvbhEmail,
+        subject,
+        html: htmlContent
+      }
+    });
+
+    if (res.error) {
+      console.warn('Lỗi gọi send-email cảnh báo nợ hồ sơ:', res.error);
+      return { success: false, tvbhEmail, error: res.error };
+    }
+
+    return { success: true, tvbhEmail };
+  } catch (err: any) {
+    console.error('Error in sendDeliveryDocsWarningEmail:', err);
+    return { success: false, error: err?.message || err };
+  }
+};
+
+export const updateDeliveryDocs = async (
+  orderId: string,
+  docs: Partial<DeliveryDocStatus>,
+  options?: {
+    order?: Order;
+    sendEmailAlert?: boolean;
+  }
+): Promise<{ success: boolean; emailSent?: boolean; tvbhEmail?: string; error?: any }> => {
   if (!supabase) return { success: false, error: 'Chưa cấu hình Supabase' };
   try {
     const { data: currentOrder, error: fetchErr } = await supabase
@@ -2270,7 +2423,7 @@ export const updateDeliveryDocs = async (orderId: string, docs: Partial<Delivery
     }
 
     const { data: sessionData } = await supabase.auth.getSession();
-    const updater = sessionData?.session?.user?.user_metadata?.full_name || sessionData?.session?.user?.email || 'Hệ thống';
+    const updater = sessionData?.session?.user?.user_metadata?.full_name || sessionData?.session?.user?.email || 'Admin';
 
     const merged: DeliveryDocStatus = {
       da_thu_du: false,
@@ -2294,11 +2447,26 @@ export const updateDeliveryDocs = async (orderId: string, docs: Partial<Delivery
       return { success: false, error: updateErr };
     }
 
-    await logSystemActivity('CẬP NHẬT HỒ SƠ GIAO XE', orderId, `Cập nhật hồ sơ giao xe: ${merged.da_thu_du ? 'Đã thu đủ hồ sơ' : 'Còn nợ hồ sơ'}${merged.note ? ' - Note: ' + merged.note : ''}`);
+    let emailSent = false;
+    let tvbhEmail: string | undefined = undefined;
+
+    if (options?.sendEmailAlert && options?.order && !merged.da_thu_du) {
+      const mailRes = await sendDeliveryDocsWarningEmail(options.order, merged, updater);
+      if (mailRes.success) {
+        emailSent = true;
+        tvbhEmail = mailRes.tvbhEmail;
+      }
+    }
+
+    await logSystemActivity(
+      'CẬP NHẬT HỒ SƠ GIAO XE',
+      orderId,
+      `Cập nhật hồ sơ giao xe: ${merged.da_thu_du ? 'Đã thu đủ hồ sơ' : 'Còn nợ hồ sơ'}${merged.note ? ' - Note: ' + merged.note : ''}${emailSent ? ` (Đã gửi mail cảnh báo tới ${tvbhEmail})` : ''}`
+    );
     triggerAutoSyncCurrentOrders();
-    return { success: true };
-  } catch (err) {
-    return { success: false, error: err };
+    return { success: true, emailSent, tvbhEmail };
+  } catch (err: any) {
+    return { success: false, error: err?.message || err };
   }
 };
 

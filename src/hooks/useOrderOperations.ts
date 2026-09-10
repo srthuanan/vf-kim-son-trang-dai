@@ -542,7 +542,6 @@ export function useOrderOperations({
     giaCongBo?: string | number | null;
     ghiChu?: string;
     diaChi?: string;
-    hoSoGiaoXe?: Partial<DeliveryDocStatus>;
   }) {
     setIsRequestingInvoice(true);
     try {

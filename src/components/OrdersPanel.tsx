@@ -232,6 +232,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   });
   const [isSavingDocs, setIsSavingDocs] = useState(false);
   const [docSaveMessage, setDocSaveMessage] = useState('');
+  const [sendEmailAlert, setSendEmailAlert] = useState(true);
 
   useEffect(() => {
     if (selectedOrder) {
@@ -247,6 +248,7 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
         nguoi_cap_nhat: d?.nguoi_cap_nhat
       });
       setDocSaveMessage('');
+      setSendEmailAlert(true);
     }
   }, [selectedOrder?.id, selectedOrder?.hoSoGiaoXe]);
 
@@ -255,11 +257,18 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
     setIsSavingDocs(true);
     setDocSaveMessage('');
     try {
-      const res = await updateDeliveryDocs(selectedOrder.id, docState);
+      const res = await updateDeliveryDocs(selectedOrder.id, docState, {
+        order: selectedOrder,
+        sendEmailAlert: !docState.da_thu_du && sendEmailAlert
+      });
       if (res.success) {
-        setDocSaveMessage('Đã lưu thành công!');
+        if (res.emailSent) {
+          setDocSaveMessage(`Đã lưu & gửi email cảnh báo tới TVBH (${res.tvbhEmail || selectedOrder.staff})!`);
+        } else {
+          setDocSaveMessage('Đã lưu thành công!');
+        }
         if (onRefresh) onRefresh();
-        setTimeout(() => setDocSaveMessage(''), 3000);
+        setTimeout(() => setDocSaveMessage(''), 5000);
       } else {
         setDocSaveMessage('Lỗi khi lưu: ' + (res.error?.message || res.error || ''));
       }
@@ -1045,43 +1054,68 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
                                 )}
                               </div>
 
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #e2e8f0', flexWrap: 'wrap', gap: '8px' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 700, color: docState.da_thu_du ? '#15803d' : '#475569', cursor: 'pointer' }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={docState.da_thu_du}
-                                    onChange={(e) => {
-                                      const checked = e.target.checked;
-                                      setDocState(prev => ({
-                                        ...prev,
-                                        da_thu_du: checked,
-                                        bbbg: checked ? true : prev.bbbg,
-                                        dang_ky: checked ? true : prev.dang_ky,
-                                        hop_dong_goc: checked ? true : prev.hop_dong_goc,
-                                        bao_hiem: checked ? true : prev.bao_hiem
-                                      }));
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', paddingTop: '10px', borderTop: '1px solid #e2e8f0' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 700, color: docState.da_thu_du ? '#15803d' : '#475569', cursor: 'pointer' }}>
+                                    <input
+                                      type="checkbox"
+                                      checked={docState.da_thu_du}
+                                      onChange={(e) => {
+                                        const checked = e.target.checked;
+                                        setDocState(prev => ({
+                                          ...prev,
+                                          da_thu_du: checked,
+                                          bbbg: checked ? true : prev.bbbg,
+                                          dang_ky: checked ? true : prev.dang_ky,
+                                          hop_dong_goc: checked ? true : prev.hop_dong_goc,
+                                          bao_hiem: checked ? true : prev.bao_hiem
+                                        }));
+                                      }}
+                                      style={{ width: '16px', height: '16px' }}
+                                    />
+                                    <span>ĐÃ THU ĐỦ TOÀN BỘ HỒ SƠ</span>
+                                  </label>
+
+                                  {!docState.da_thu_du && (
+                                    <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 600, color: sendEmailAlert ? '#b91c1c' : '#64748b', cursor: 'pointer' }}>
+                                      <input
+                                        type="checkbox"
+                                        checked={sendEmailAlert}
+                                        onChange={(e) => setSendEmailAlert(e.target.checked)}
+                                      />
+                                      <span>✉️ Gửi email cảnh báo TVBH ({selectedOrder.staff})</span>
+                                    </label>
+                                  )}
+                                </div>
+
+                                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '10px' }}>
+                                  <button
+                                    type="button"
+                                    onClick={handleSaveDeliveryDocs}
+                                    disabled={isSavingDocs}
+                                    style={{
+                                      padding: '8px 20px',
+                                      fontSize: '13px',
+                                      fontWeight: 700,
+                                      background: isAdmin ? '#0f766e' : '#0284c7',
+                                      color: '#fff',
+                                      border: 'none',
+                                      borderRadius: '6px',
+                                      cursor: isSavingDocs ? 'not-allowed' : 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: '6px'
                                     }}
-                                    style={{ width: '16px', height: '16px' }}
-                                  />
-                                  <span>ĐÃ THU ĐỦ TOÀN BỘ HỒ SƠ</span>
-                                </label>
-                                <button
-                                  type="button"
-                                  onClick={handleSaveDeliveryDocs}
-                                  disabled={isSavingDocs}
-                                  style={{
-                                    padding: '7px 16px',
-                                    fontSize: '12.5px',
-                                    fontWeight: 600,
-                                    background: isAdmin ? '#0f766e' : '#0284c7',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: isSavingDocs ? 'not-allowed' : 'pointer'
-                                  }}
-                                >
-                                  {isSavingDocs ? 'Đang lưu...' : isAdmin ? 'Admin lưu cập nhật hồ sơ' : 'Lưu tình trạng hồ sơ'}
-                                </button>
+                                  >
+                                    {isSavingDocs
+                                      ? 'Đang lưu & gửi email...'
+                                      : docState.da_thu_du
+                                        ? 'Lưu tình trạng hồ sơ'
+                                        : sendEmailAlert
+                                          ? (isAdmin ? 'Admin Lưu & Gửi mail cảnh báo TVBH' : 'Lưu & Gửi mail cảnh báo')
+                                          : (isAdmin ? 'Admin lưu cập nhật hồ sơ' : 'Lưu tình trạng hồ sơ')}
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           )}
