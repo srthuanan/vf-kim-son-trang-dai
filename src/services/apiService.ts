@@ -1943,3 +1943,130 @@ export const deleteInvoiceRequest = async (id: string) => {
   return updateResult;
 };
 
+export interface StorageUsageResult {
+  totalFiles: number;
+  totalBytes: number;
+  totalMB: number;
+  percentUsed: number;
+}
+
+export const getStorageUsage = async (): Promise<StorageUsageResult> => {
+  if (!supabase) return { totalFiles: 0, totalBytes: 0, totalMB: 0, percentUsed: 0 };
+  const BUCKET = 'yeucauxhd-files';
+  let totalFiles = 0;
+  let totalBytes = 0;
+
+  async function listRecursive(folder = '') {
+    if (!supabase) return;
+    const { data } = await supabase.storage.from(BUCKET).list(folder, { limit: 500 });
+    if (!data) return;
+    for (const item of data) {
+      const fullPath = folder ? `${folder}/${item.name}` : item.name;
+      if (item.id === null) {
+        await listRecursive(fullPath);
+      } else {
+        totalFiles++;
+        totalBytes += (item.metadata?.size || 0);
+      }
+    }
+  }
+
+  await listRecursive('');
+  const totalMB = Number((totalBytes / (1024 * 1024)).toFixed(2));
+  const percentUsed = Math.min(100, Number(((totalMB / 1024) * 100).toFixed(1)));
+  return { totalFiles, totalBytes, totalMB, percentUsed };
+};
+
+export const executeMonthArchive = async (
+  month: string,
+  webhookUrl: string,
+  onProgress?: (status: string) => void
+): Promise<{ success: boolean; message: string; ordersCount?: number; filesCount?: number }> => {
+  if (!supabase) throw new Error('Supabase chưa cấu hình');
+  const BUCKET = 'yeucauxhd-files';
+
+  onProgress?.(`Đang lấy danh sách đơn hàng tháng ${month}...`);
+  const { data: allRequests, error: reqErr } = await supabase.from('yeucauxhd').select('*');
+  if (reqErr) throw reqErr;
+
+  const targetRequests = (allRequests || []).filter(r => {
+    const d = r.ngay_xuat_hoa_don || r.created_at;
+    return d && d.startsWith(month);
+  });
+
+  if (targetRequests.length === 0) {
+    return { success: false, message: `Không tìm thấy đơn hàng nào trong tháng ${month}.` };
+  }
+
+  const batchSize = 5;
+  const allArchivedFiles: any[] = [];
+  const totalBatches = Math.ceil(targetRequests.length / batchSize);
+
+  for (let i = 0; i < targetRequests.length; i += batchSize) {
+    const batch = targetRequests.slice(i, i + batchSize);
+    const batchIndex = Math.floor(i / batchSize) + 1;
+    onProgress?.(`Đang lưu đợt ${batchIndex}/${totalBatches} (${i + 1}-${Math.min(i + batchSize, targetRequests.length)}/${targetRequests.length} đơn) lên Google Drive...`);
+
+    const archiveRes = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'ARCHIVE_ORDERS',
+        month,
+        orders: batch
+      })
+    });
+
+    const archiveJson = await archiveRes.json();
+    if (!archiveJson.success) {
+      throw new Error(`Lỗi từ Google Apps Script: ${archiveJson.error || 'Không rõ nguyên nhân'}`);
+    }
+
+    if (archiveJson.archivedFiles) {
+      allArchivedFiles.push(...archiveJson.archivedFiles);
+    }
+  }
+
+  onProgress?.(`Đang cập nhật link Google Drive vào CSDL và xóa file Supabase...`);
+  const filesToDeleteFromSupabase: string[] = [];
+  const ghiChuAiByOrder: Record<string, string[]> = {};
+
+  for (const item of allArchivedFiles) {
+    const marker = 'yeucauxhd-files/';
+    const idx = item.supabaseUrl.indexOf(marker);
+    if (idx !== -1) {
+      const storagePath = decodeURIComponent(item.supabaseUrl.substring(idx + marker.length).split('?')[0]);
+      filesToDeleteFromSupabase.push(storagePath);
+    }
+
+    if (item.field === 'url_hop_dong') {
+      await supabase.from('yeucauxhd').update({ url_hop_dong: item.driveUrl }).eq('so_don_hang', item.orderId);
+      await supabase.from('donhang').update({ link_hop_dong: item.driveUrl }).eq('so_don_hang', item.orderId);
+    } else if (item.field === 'url_de_nghi_xhd') {
+      await supabase.from('yeucauxhd').update({ url_de_nghi_xhd: item.driveUrl }).eq('so_don_hang', item.orderId);
+      await supabase.from('donhang').update({ link_de_nghi_xhd: item.driveUrl }).eq('so_don_hang', item.orderId);
+    } else if (item.field === 'ghi_chu_ai') {
+      if (!ghiChuAiByOrder[item.orderId]) ghiChuAiByOrder[item.orderId] = [];
+      ghiChuAiByOrder[item.orderId].push(item.driveUrl);
+    }
+  }
+
+  for (const [orderId, driveUrls] of Object.entries(ghiChuAiByOrder)) {
+    await supabase.from('yeucauxhd').update({ ghi_chu_ai: driveUrls.join(',') }).eq('so_don_hang', orderId);
+  }
+
+  if (filesToDeleteFromSupabase.length > 0) {
+    for (let i = 0; i < filesToDeleteFromSupabase.length; i += 50) {
+      const chunk = filesToDeleteFromSupabase.slice(i, i + 50);
+      await supabase.storage.from(BUCKET).remove(chunk);
+    }
+  }
+
+  return {
+    success: true,
+    message: `Đã lưu trữ thành công tháng ${month}!`,
+    ordersCount: targetRequests.length,
+    filesCount: allArchivedFiles.length
+  };
+};
+

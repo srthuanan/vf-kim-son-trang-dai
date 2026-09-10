@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { 
   Settings, Plus, Trash2, Car, PaintBucket, Armchair, 
-  BadgeDollarSign, Pencil, Check, X, Tag, ChevronRight, Search
+  BadgeDollarSign, Pencil, Check, X, Tag, ChevronRight, Search, Cloud
 } from 'lucide-react';
 import { VehicleConfigRow, SalesPolicyRow } from '../types';
 import * as apiService from '../services/apiService';
+import { DriveArchiveTab } from './DriveArchiveTab';
 
 interface SettingsPanelProps {
   configs: VehicleConfigRow[];
@@ -13,7 +14,7 @@ interface SettingsPanelProps {
 
 export const SettingsPanel: React.FC<SettingsPanelProps> = ({ configs, onRefresh }) => {
   // Main Tab Navigation
-  const [activeTab, setActiveTab] = useState<'lines' | 'exteriors' | 'interiors' | 'policies'>('lines');
+  const [activeTab, setActiveTab] = useState<'lines' | 'exteriors' | 'interiors' | 'policies' | 'archive'>('lines');
 
   // Car lines master-detail state
   const [selectedLine, setSelectedLine] = useState<string>('');
@@ -277,6 +278,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ configs, onRefresh
             { key: 'exteriors', label: 'Màu ngoại thất', icon: PaintBucket, count: exteriors.length },
             { key: 'interiors', label: 'Màu nội thất', icon: Armchair, count: interiors.length },
             { key: 'policies', label: 'Chính sách bán hàng', icon: BadgeDollarSign, count: policies.length },
+            { key: 'archive', label: 'Lưu trữ Drive & Sheet', icon: Cloud, count: 'Mới' },
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.key;
@@ -843,6 +845,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ configs, onRefresh
             </div>
           </div>
         )}
+
+        {/* ================= TAB 5: LƯU TRỮ GOOGLE DRIVE & SHEET ================= */}
+        {activeTab === 'archive' && <DriveArchiveTab />}
       </div>
     </div>
   );
