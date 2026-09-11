@@ -288,6 +288,8 @@ export interface ProfileRow {
   activated_at?: string | null;
   canceled_at?: string | null;
   last_message?: string | null;
+  kpi_rank?: 'gold' | 'silver' | 'bronze' | null;
+  kpi_month?: string | null;
   created_at: string;
 }
 

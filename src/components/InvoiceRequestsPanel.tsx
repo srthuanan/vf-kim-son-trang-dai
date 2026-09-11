@@ -121,6 +121,25 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
     if (!isMobile) setMobileView('list');
   }, [isMobile]);
 
+  useEffect(() => {
+    const handleSelectRequest = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const { orderId, folder } = customEvent.detail || {};
+      if (folder) setSelectedFolder(folder);
+      else setSelectedFolder('all');
+      if (orderId) {
+        setQuery(orderId);
+        const match = requests.find(r => r.so_don_hang.toLowerCase().includes(orderId.toLowerCase()));
+        if (match) {
+          setSelectedRequestId(match.id);
+          if (isMobile) setMobileView('detail');
+        }
+      }
+    };
+    window.addEventListener('select-invoice-request', handleSelectRequest);
+    return () => window.removeEventListener('select-invoice-request', handleSelectRequest);
+  }, [requests, isMobile]);
+
   const [isSyncing, setIsSyncing] = useState(false);
   const [showPolicyTooltip, setShowPolicyTooltip] = useState(false);
 

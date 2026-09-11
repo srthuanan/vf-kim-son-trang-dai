@@ -1,6 +1,6 @@
-import React, { Suspense, lazy, useMemo, useState } from 'react';
+import React, { Suspense, lazy, useMemo, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { X, Users, CalendarDays, UserRound, ShieldCheck, TriangleAlert } from 'lucide-react';
+import { X, Users, CalendarDays, UserRound, ShieldCheck, TriangleAlert, Bell, FileText, ExternalLink, Sparkles } from 'lucide-react';
 
 // Lớp Dữ liệu & API
 import { supabase } from './services/supabaseClient';
@@ -227,6 +227,88 @@ function App() {
     [inventory]
   );
 
+  // Đếm số yêu cầu xuất hóa đơn đang chờ duyệt
+  const pendingInvoicesCount = useMemo(() => {
+    return invoiceRequests.filter((r) => {
+      const s = (r.trang_thai_xu_ly || (r.status === 'approved' ? 'Đã phê duyệt' : r.status === 'rejected' ? 'Từ chối' : 'Chờ phê duyệt')).toLowerCase();
+      return s === 'chờ phê duyệt' || r.status === 'pending';
+    }).length;
+  }, [invoiceRequests]);
+
+  // Realtime Toast Alert khi có Yêu cầu XHĐ mới
+  const [invoiceToast, setInvoiceToast] = useState<{
+    id: string;
+    orderId: string;
+    customer: string;
+    tvbh?: string;
+    carLine?: string;
+    time: string;
+  } | null>(null);
+
+  // Phát âm thanh nhẹ bằng Web Audio API khi có thông báo mới (không cần file âm thanh ngoài)
+  const playNotificationSound = () => {
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      // Chuông 2 nốt ấm áp (C5 -> E5)
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(659.25, ctx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.18, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.36);
+    } catch {
+      // Ignored if browser blocks audio autoplay
+    }
+  };
+
+  useEffect(() => {
+    const handleNewInvoiceRequest = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const req = customEvent.detail;
+      if (!req) return;
+
+      // TVBH chỉ nhận thông báo đơn của mình, Admin/TPKD nhận tất cả
+      if (userRole === 'sales') {
+        const myName = (profile?.full_name || '').toLowerCase();
+        const reqTvbh = (req.tvbh || req.requested_by_name || '').toLowerCase();
+        if (myName && reqTvbh && !reqTvbh.includes(myName) && !myName.includes(reqTvbh)) {
+          return;
+        }
+      }
+
+      const toastData = {
+        id: req.id || String(Date.now()),
+        orderId: req.so_don_hang || 'Chưa rõ',
+        customer: req.ten_khach_hang || 'Khách hàng',
+        tvbh: req.tvbh || req.requested_by_name || '',
+        carLine: req.dong_xe ? `${req.dong_xe} ${req.phien_ban || ''}`.trim() : undefined,
+        time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })
+      };
+
+      setInvoiceToast(toastData);
+      playNotificationSound();
+    };
+
+    window.addEventListener('new-invoice-request', handleNewInvoiceRequest);
+    return () => window.removeEventListener('new-invoice-request', handleNewInvoiceRequest);
+  }, [userRole, profile]);
+
+  // Tự động tắt toast sau 7.5 giây
+  useEffect(() => {
+    if (!invoiceToast) return;
+    const timer = setTimeout(() => {
+      setInvoiceToast(null);
+    }, 7500);
+    return () => clearTimeout(timer);
+  }, [invoiceToast]);
+
   // Đăng xuất
   const handleSignOut = async () => {
     if (supabase) {
@@ -234,13 +316,13 @@ function App() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!canAccessTab(userRole, activeTab)) {
       setActiveTab(visibleTabs[0]?.key ?? 'dashboard');
     }
   }, [activeTab, userRole, visibleTabs]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleNavigate = (e: Event) => {
       const customEvent = e as CustomEvent;
       const { tab, search } = customEvent.detail;
@@ -381,6 +463,7 @@ function App() {
         profile={profile}
         visibleTabs={visibleTabs}
         userEmail={session.user.email}
+        pendingInvoicesCount={pendingInvoicesCount}
         onSignOut={handleSignOut}
         onChangePassword={() => setChangePasswordOpen(true)}
         onEditProfile={() => setEditProfileOpen(true)}
@@ -412,9 +495,26 @@ function App() {
                   setActiveTab(tab.key);
                   setSidebarOpen(false);
                 }}
+                style={{ position: 'relative' }}
               >
                 <Icon size={16} />
                 <span>{tab.label}</span>
+                {tab.key === 'invoices' && pendingInvoicesCount > 0 && (
+                  <span
+                    style={{
+                      background: '#ef4444',
+                      color: '#fff',
+                      fontSize: '10px',
+                      fontWeight: 800,
+                      padding: '1px 5px',
+                      borderRadius: '10px',
+                      lineHeight: '1.2',
+                      marginLeft: '3px'
+                    }}
+                  >
+                    {pendingInvoicesCount > 99 ? '99+' : pendingInvoicesCount}
+                  </span>
+                )}
               </button>
             );
           })}
@@ -604,6 +704,8 @@ function App() {
                       currentUsername={currentUsername}
                       staffProfiles={profiles}
                       onReload={() => loadWorkspace({ showLoading: false })}
+                      orders={allOrders.length ? allOrders : orders}
+                      invoiceRequests={invoiceRequests}
                     />
                   )}
                 </div>
@@ -784,6 +886,142 @@ function App() {
           />
         )}
       </Suspense>
+
+      {/* REALTIME TOAST NOTIFICATION: Yêu cầu xuất hóa đơn mới */}
+      {invoiceToast && (
+        <aside
+          role="status"
+          aria-live="polite"
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            zIndex: 99999,
+            maxWidth: '380px',
+            width: 'calc(100vw - 32px)',
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+            border: '1px solid rgba(245, 158, 11, 0.4)',
+            borderRadius: '16px',
+            boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.2)',
+            padding: '16px',
+            color: '#fff',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            animation: 'slideUpToast 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff',
+                  boxShadow: '0 2px 8px rgba(245, 158, 11, 0.4)'
+                }}
+              >
+                <FileText size={18} strokeWidth={2.4} />
+              </div>
+              <div>
+                <div style={{ fontSize: '11px', fontWeight: 800, color: '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Sparkles size={11} />
+                  Yêu Cầu Xuất Hóa Đơn Mới
+                </div>
+                <div style={{ fontSize: '11px', color: '#94a3b8' }}>
+                  Lúc {invoiceToast.time}
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => setInvoiceToast(null)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: 'none',
+                color: '#cbd5e1',
+                width: '26px',
+                height: '26px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'background 0.2s'
+              }}
+              title="Đóng thông báo"
+            >
+              <X size={14} />
+            </button>
+          </div>
+
+          <div style={{ background: 'rgba(255, 255, 255, 0.05)', padding: '10px 12px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#f8fafc', marginBottom: '2px' }}>
+              {invoiceToast.customer}
+            </div>
+            <div style={{ fontSize: '12px', color: '#cbd5e1', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div>Đơn hàng: <strong style={{ color: '#38bdf8' }}>{invoiceToast.orderId}</strong></div>
+              {invoiceToast.carLine && <div>Dòng xe: <span style={{ color: '#fed7aa' }}>{invoiceToast.carLine}</span></div>}
+              {invoiceToast.tvbh && <div>TVBH phụ trách: <span style={{ color: '#86efac' }}>{invoiceToast.tvbh}</span></div>}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
+            <button
+              onClick={() => {
+                const targetOrder = invoiceToast.orderId;
+                setInvoiceToast(null);
+                setActiveTab('invoices');
+                setTimeout(() => {
+                  window.dispatchEvent(new CustomEvent('select-invoice-request', {
+                    detail: { orderId: targetOrder, folder: 'pending_approval' }
+                  }));
+                }, 100);
+              }}
+              style={{
+                flex: 1,
+                background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '8px 12px',
+                fontSize: '12px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                boxShadow: '0 2px 8px rgba(2, 132, 199, 0.35)'
+              }}
+            >
+              <span>Xem & Duyệt ngay</span>
+              <ExternalLink size={13} />
+            </button>
+            <button
+              onClick={() => setInvoiceToast(null)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#94a3b8',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '8px',
+                padding: '8px 12px',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              Bỏ qua
+            </button>
+          </div>
+        </aside>
+      )}
     </div>
   );
 }

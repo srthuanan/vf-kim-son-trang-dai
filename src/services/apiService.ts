@@ -2029,6 +2029,101 @@ export const deleteHrLeaveRequest = async (id: string) => {
   return supabase.from('hr_leave_requests').delete().eq('id', id);
 };
 
+export const getStoredKpiAwards = (monthKey: string): Record<string, 'gold' | 'silver' | 'bronze'> => {
+  try {
+    const raw = localStorage.getItem(`kpi_awards_${monthKey}`);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    const result: Record<string, 'gold' | 'silver' | 'bronze'> = {};
+    Object.keys(parsed).forEach(k => {
+      if (parsed[k]?.rank) {
+        result[k] = parsed[k].rank;
+      }
+    });
+    return result;
+  } catch {
+    return {};
+  }
+};
+
+export const awardStaffKpiRank = async (
+  staffId: string,
+  staffName: string,
+  rank: 'gold' | 'silver' | 'bronze' | null,
+  monthKey: string,
+  awardedByName: string
+) => {
+  const rankTitles: Record<string, string> = {
+    gold: '🥇 Hạng Vàng Xuất Sắc',
+    silver: '🥈 Hạng Bạc Chuyên Cần',
+    bronze: '🥉 Hạng Đồng Tiêu Biểu'
+  };
+
+  const title = rank ? (rankTitles[rank] || 'Danh hiệu Chuyên cần') : '';
+
+  // 1. Lưu dự phòng vào localStorage để tính năng hoạt động ngay lập tức kể cả khi database chưa chạy SQL migration
+  try {
+    const localStoreKey = `kpi_awards_${monthKey}`;
+    const stored = JSON.parse(localStorage.getItem(localStoreKey) || '{}');
+    if (rank) {
+      stored[staffId] = {
+        rank,
+        month: monthKey,
+        awardedByName,
+        updatedAt: new Date().toISOString()
+      };
+    } else {
+      delete stored[staffId];
+    }
+    localStorage.setItem(localStoreKey, JSON.stringify(stored));
+    // Thông báo cho các component trong trang cập nhật tức thời
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('kpi-rank-updated', { detail: { staffId, rank, monthKey } }));
+    }
+  } catch (err) {
+    console.warn('Lỗi lưu KPI cache:', err);
+  }
+
+  if (!supabase) return { data: null, error: null };
+
+  // 2. Thử cập nhật vào bảng profiles trên Supabase
+  let updatedProfile = null;
+  try {
+    const { data, error: profileErr } = await supabase
+      .from('profiles')
+      .update({
+        kpi_rank: rank ? rank : null,
+        kpi_month: rank ? monthKey : null
+      })
+      .eq('id', staffId)
+      .select()
+      .maybeSingle();
+
+    if (!profileErr) {
+      updatedProfile = data;
+    } else {
+      console.warn('Lưu vào Supabase profiles chưa có cột kpi_rank/kpi_month (đã lưu cache):', profileErr.message);
+    }
+  } catch (err) {
+    console.warn('Lỗi cập nhật profile Supabase:', err);
+  }
+
+  // 3. Tạo thông báo vinh danh gửi đến chuông thông báo hệ thống (nếu có trao giải)
+  if (rank) {
+    try {
+      await supabase.from('admin_notifications').insert({
+        type: 'kpi_award',
+        message: `🎉 Chúc mừng ${staffName} đã được ${awardedByName} trao tặng ${title} - Thi đua chuyên cần ${monthKey}!`,
+        link: staffId
+      });
+    } catch (e) {
+      console.warn('Lỗi ghi admin_notifications:', e);
+    }
+  }
+
+  return { data: updatedProfile, error: null };
+};
+
 export const deleteInvoiceRequest = async (id: string) => {
   if (!supabase) throw new Error('Supabase chưa cấu hình');
   

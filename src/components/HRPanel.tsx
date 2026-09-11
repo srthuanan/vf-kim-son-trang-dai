@@ -3,9 +3,10 @@ import {
   CalendarDays, Clock, CheckCircle2, XCircle, Clock3,
   Plus, Trash2, RefreshCw, User,
   FileText, AlertCircle, Search, Info, X, Users, CheckSquare,
-  ChevronRight, Calendar, UserCheck, ShieldAlert, Send, FileCheck, ArrowRight
+  ChevronRight, Calendar, UserCheck, ShieldAlert, Send, FileCheck, ArrowRight,
+  Trophy, Award, Medal, Sparkles, Filter
 } from 'lucide-react';
-import { HrLeaveRequestRow, ProfileRow } from '../types';
+import { HrLeaveRequestRow, ProfileRow, Order, YeucauxhdRow } from '../types';
 import * as apiService from '../services/apiService';
 
 // ─── Constants ──────────────────────────────────────────────────────────────
@@ -55,6 +56,8 @@ interface HRPanelProps {
   currentUsername: string;
   onReload: () => void;
   staffProfiles: ProfileRow[];
+  orders?: Order[];
+  invoiceRequests?: YeucauxhdRow[];
 }
 
 // ─── StatusBadge ─────────────────────────────────────────────────────────────
@@ -221,7 +224,9 @@ export const HRPanel: React.FC<HRPanelProps> = ({
   currentProfile,
   currentUsername,
   onReload,
-  staffProfiles
+  staffProfiles,
+  orders = [],
+  invoiceRequests = []
 }) => {
   const [filter, setFilter] = useState<string>('all');
   const [typeFilter, setTypeFilter] = useState<'all' | 'nghi_phep' | 'di_tre'>('all');
@@ -294,6 +299,313 @@ export const HRPanel: React.FC<HRPanelProps> = ({
     });
   }, [visibleRequests, filter, typeFilter, searchQ]);
 
+  const [subView, setSubView] = useState<'requests' | 'kpi'>('requests');
+  const [kpiMonth, setKpiMonth] = useState<string>(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  });
+  const [kpiDept, setKpiDept] = useState<string>('all');
+  const [kpiSearch, setKpiSearch] = useState<string>('');
+  const [kpiCacheVersion, setKpiCacheVersion] = useState(0);
+
+  useEffect(() => {
+    const handleRankUpdate = () => {
+      setKpiCacheVersion(v => v + 1);
+    };
+    window.addEventListener('kpi-rank-updated', handleRankUpdate);
+    return () => window.removeEventListener('kpi-rank-updated', handleRankUpdate);
+  }, []);
+
+  // Danh sách các tháng có dữ liệu yêu cầu
+  const availableKpiMonths = useMemo(() => {
+    const set = new Set<string>();
+    const now = new Date();
+    const curM = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    set.add(curM);
+    requests.forEach(r => {
+      const d = r.start_date || r.created_at;
+      if (d) {
+        const dateObj = new Date(d);
+        if (!isNaN(dateObj.getTime())) {
+          set.add(`${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`);
+        }
+      }
+    });
+    return Array.from(set).sort().reverse();
+  }, [requests]);
+
+  // Danh sách nhân sự thi đua chuyên cần: Bỏ giám đốc và admin ra
+  const kpiStaffProfiles = useMemo(() => {
+    return staffProfiles.filter(staff => {
+      // 1. Bỏ role admin
+      if (staff.role === 'admin') return false;
+
+      // 2. Bỏ Ban Giám Đốc, Sale Admin, Phòng IT hoặc không có phòng ban
+      const dept = (staff.department || '').trim().toLowerCase();
+      if (!dept || dept.includes('giám đốc') || dept.includes('giam doc') ||
+          dept.includes('ban giám đốc') || dept.includes('sale admin') || dept.includes('it')) {
+        return false;
+      }
+
+      // 3. Bỏ theo tên nếu có Giám Đốc hoặc Admin
+      const name = staff.full_name.trim().toLowerCase();
+      if (name.includes('giám đốc') || name.includes('giam doc') || name.includes('admin')) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [staffProfiles]);
+
+  // Danh sách các phòng ban tham gia thi đua (ưu tiên các phòng kinh doanh lên trước)
+  const availableDepts = useMemo(() => {
+    const depts = new Set<string>();
+    kpiStaffProfiles.forEach(s => {
+      if (s.department?.trim()) depts.add(s.department.trim());
+    });
+    return Array.from(depts).sort((a, b) => {
+      const aIsPkd = a.toLowerCase().includes('pkd') || a.toLowerCase().includes('kinh doanh');
+      const bIsPkd = b.toLowerCase().includes('pkd') || b.toLowerCase().includes('kinh doanh');
+      if (aIsPkd && !bIsPkd) return -1;
+      if (!aIsPkd && bIsPkd) return 1;
+      return a.localeCompare(b, 'vi');
+    });
+  }, [kpiStaffProfiles]);
+
+  // Tính toán bảng thống kê KPI chuyên cần theo tháng đã chọn - TÍNH RIÊNG THEO TỪNG PHÒNG KINH DOANH
+  const kpiStats = useMemo(() => {
+    const mappedList = kpiStaffProfiles.map(staff => {
+      const staffEmail = (staff.email || '').trim().toLowerCase();
+      const staffName = staff.full_name.trim().toLowerCase();
+
+      // Lọc các đơn của nhân viên này trong tháng đã chọn và đã được duyệt
+      const approvedMonthRequests = requests.filter(r => {
+        if (r.status !== 'approved') return false;
+        const rUser = r.requester_username.trim().toLowerCase();
+        const rName = r.requester_name.trim().toLowerCase();
+        const matchesStaff = (staffEmail && rUser === staffEmail) || (staffName && rName === staffName);
+        if (!matchesStaff) return false;
+
+        const d = r.start_date || r.created_at;
+        if (!d) return false;
+        const mKey = d.substring(0, 7);
+        return mKey === kpiMonth;
+      });
+
+      let leaveDays = 0;
+      let lateCount = 0;
+
+      approvedMonthRequests.forEach(r => {
+        if (r.type === 'di_tre') {
+          lateCount += 1;
+        } else if (r.type === 'nghi_phep') {
+          const days = daysBetween(r.start_date, r.end_date);
+          if (r.session === 'sang' || r.session === 'chieu') {
+            leaveDays += 0.5;
+          } else {
+            leaveDays += days;
+          }
+        }
+      });
+
+      // Tiêu chuẩn chấm điểm chuyên cần:
+      // Tối đa 100 điểm: mỗi ngày nghỉ phép trừ 5 điểm, mỗi lần đi trễ trừ 3 điểm
+      const score = Math.max(0, 100 - (leaveDays * 5) - (lateCount * 3));
+
+      // Đếm số đơn Xuất Hóa Đơn (XHĐ) và Đơn Cọc của nhân sự trong tháng đã chọn
+      const invoicedOrderIds = new Set<string>();
+      const depositOrderIds = new Set<string>();
+
+      (orders || []).forEach(o => {
+        const oStaff = (o.staff || '').trim().toLowerCase();
+        const matchesStaff = (staffEmail && oStaff.includes(staffEmail)) ||
+                             (staffName && (oStaff.includes(staffName) || staffName.includes(oStaff)));
+        if (!matchesStaff) return;
+
+        // 1. Kiểm tra đơn Xuất Hóa Đơn
+        const invDate = o.invoiceDate || '';
+        const createdDate = o.createdAt || '';
+        const isInvThisMonth = invDate.substring(0, 7) === kpiMonth ||
+          (o.status === 'Đã xuất hóa đơn' && createdDate.substring(0, 7) === kpiMonth);
+
+        if (isInvThisMonth && (o.status === 'Đã xuất hóa đơn' || o.linkHoaDonDaXuat || o.invoiceDate)) {
+          invoicedOrderIds.add(o.id || o.customer);
+        }
+
+        // 2. Kiểm tra đơn Cọc trong tháng
+        let isDepositThisMonth = false;
+        if (o.depositDate && o.depositDate !== 'Chưa có') {
+          if (o.depositDate.includes('/')) {
+            const parts = o.depositDate.split('/');
+            if (parts.length === 3) {
+              const dMonth = `${parts[2]}-${parts[1].padStart(2, '0')}`;
+              if (dMonth === kpiMonth) isDepositThisMonth = true;
+            }
+          } else if (o.depositDate.substring(0, 7) === kpiMonth) {
+            isDepositThisMonth = true;
+          }
+        }
+        if (!isDepositThisMonth && createdDate && createdDate.substring(0, 7) === kpiMonth) {
+          isDepositThisMonth = true;
+        }
+
+        if (isDepositThisMonth) {
+          depositOrderIds.add(o.id || o.customer);
+        }
+      });
+
+      (invoiceRequests || []).forEach(r => {
+        const rStaff = (r.tvbh || '').trim().toLowerCase();
+        const matchesStaff = (staffEmail && rStaff.includes(staffEmail)) ||
+                             (staffName && (rStaff.includes(staffName) || staffName.includes(rStaff)));
+        if (!matchesStaff) return;
+
+        const invDate = r.ngay_xuat_hoa_don || r.ngay_yeu_cau || '';
+        if (invDate.substring(0, 7) === kpiMonth) {
+          if (r.trang_thai_xu_ly === 'Đã xuất hóa đơn' || r.url_hoa_don_da_xuat || r.ngay_xuat_hoa_don) {
+            invoicedOrderIds.add(r.so_don_hang || r.id);
+          }
+        }
+
+        const cocDate = r.ngay_coc || r.ngay_yeu_cau || '';
+        if (cocDate.substring(0, 7) === kpiMonth) {
+          depositOrderIds.add(r.so_don_hang || r.id);
+        }
+      });
+
+      const xhdCount = invoicedOrderIds.size;
+      const depositCount = depositOrderIds.size;
+
+      return {
+        staff,
+        department: staff.department?.trim() || 'Chưa phân bổ',
+        leaveDays,
+        lateCount,
+        xhdCount,
+        depositCount,
+        approvedRequestsCount: approvedMonthRequests.length,
+        score
+      };
+    });
+
+    // Sắp xếp thứ tự ưu tiên:
+    // 1. Điểm chuyên cần (Score)
+    // 2. NẾU TRÙNG ĐIỂM -> SO SÁNH AI CÓ NHIỀU ĐƠN XUẤT HÓA ĐƠN (XHĐ) HƠN!
+    // 3. NẾU VẪN TRÙNG ĐƠN XHĐ -> SO SÁNH AI CÓ NHIỀU ĐƠN CỌC HƠN!
+    // 4. Số lần đi trễ ít hơn
+    // 5. Số ngày nghỉ phép ít hơn
+    // 6. Theo thứ tự họ tên A-Z
+    const sortFn = (a: any, b: any) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (b.xhdCount !== a.xhdCount) return b.xhdCount - a.xhdCount;
+      if (b.depositCount !== a.depositCount) return b.depositCount - a.depositCount;
+      if (a.lateCount !== b.lateCount) return a.lateCount - b.lateCount;
+      if (a.leaveDays !== b.leaveDays) return a.leaveDays - b.leaveDays;
+      return a.staff.full_name.localeCompare(b.staff.full_name, 'vi');
+    };
+
+    // Phân nhóm theo từng phòng ban
+    const deptMap: Record<string, typeof mappedList> = {};
+    mappedList.forEach(item => {
+      const d = item.department;
+      if (!deptMap[d]) deptMap[d] = [];
+      deptMap[d].push(item);
+    });
+
+    const sortedDeptNames = Object.keys(deptMap).sort((a, b) => {
+      const aIsPkd = a.toLowerCase().includes('pkd') || a.toLowerCase().includes('kinh doanh');
+      const bIsPkd = b.toLowerCase().includes('pkd') || b.toLowerCase().includes('kinh doanh');
+      if (aIsPkd && !bIsPkd) return -1;
+      if (!aIsPkd && bIsPkd) return 1;
+      return a.localeCompare(b, 'vi');
+    });
+
+    const finalStats: ((typeof mappedList)[0] & { rankInDept: number; autoRank: 'gold' | 'silver' | 'bronze' | null; currentAward: 'gold' | 'silver' | 'bronze' | null })[] = [];
+    const autoAwardsMap: Record<string, { rank: 'gold' | 'silver' | 'bronze'; month: string; dept?: string }> = {};
+
+    sortedDeptNames.forEach(deptName => {
+      const group = deptMap[deptName].sort(sortFn);
+      const isSalesDept = deptName.toLowerCase().includes('pkd') || deptName.toLowerCase().includes('kinh doanh');
+
+      group.forEach((item, idx) => {
+        let currentAward: 'gold' | 'silver' | 'bronze' | null = null;
+        // Gán Top 1 (🥇 Vàng), Top 2 (🥈 Bạc), Top 3 (🥉 Đồng) riêng cho từng phòng kinh doanh
+        if (item.score > 0 && (isSalesDept || group.length >= 3)) {
+          if (idx === 0) currentAward = 'gold';
+          else if (idx === 1) currentAward = 'silver';
+          else if (idx === 2) currentAward = 'bronze';
+        }
+
+        const enriched = {
+          ...item,
+          rankInDept: idx + 1,
+          autoRank: currentAward,
+          currentAward
+        };
+
+        if (currentAward) {
+          autoAwardsMap[item.staff.id] = { rank: currentAward, month: kpiMonth, dept: deptName };
+        }
+
+        finalStats.push(enriched);
+      });
+    });
+
+    // Tự động lưu cache Top 3 của từng phòng kinh doanh vào localStorage để hiển thị trên thẻ Profile / Sidebar của TVBH
+    try {
+      localStorage.setItem(`kpi_awards_${kpiMonth}`, JSON.stringify(autoAwardsMap));
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('kpi-rank-updated'));
+      }
+    } catch {}
+
+    return finalStats;
+  }, [staffProfiles, requests, orders, invoiceRequests, kpiMonth]);
+
+  // Lọc danh sách KPI theo phòng ban và từ khóa tìm kiếm
+  const filteredKpiStats = useMemo(() => {
+    return kpiStats.filter(item => {
+      if (kpiDept !== 'all' && item.department !== kpiDept) return false;
+      if (kpiSearch.trim()) {
+        const q = kpiSearch.trim().toLowerCase();
+        const nameMatch = item.staff.full_name.toLowerCase().includes(q);
+        const emailMatch = (item.staff.email || '').toLowerCase().includes(q);
+        if (!nameMatch && !emailMatch) return false;
+      }
+      return true;
+    });
+  }, [kpiStats, kpiDept, kpiSearch]);
+
+  // Phân nhóm hiển thị theo từng phòng ban
+  const kpiDepartmentGroups = useMemo(() => {
+    const groups: { department: string; items: typeof filteredKpiStats; isSalesDept: boolean }[] = [];
+    const deptMap: Record<string, typeof filteredKpiStats> = {};
+
+    filteredKpiStats.forEach(item => {
+      const dept = item.department;
+      if (!deptMap[dept]) deptMap[dept] = [];
+      deptMap[dept].push(item);
+    });
+
+    const sortedDepts = Object.keys(deptMap).sort((a, b) => {
+      const aIsPkd = a.toLowerCase().includes('pkd') || a.toLowerCase().includes('kinh doanh');
+      const bIsPkd = b.toLowerCase().includes('pkd') || b.toLowerCase().includes('kinh doanh');
+      if (aIsPkd && !bIsPkd) return -1;
+      if (!aIsPkd && bIsPkd) return 1;
+      return a.localeCompare(b, 'vi');
+    });
+
+    sortedDepts.forEach(dept => {
+      groups.push({
+        department: dept,
+        items: deptMap[dept],
+        isSalesDept: dept.toLowerCase().includes('pkd') || dept.toLowerCase().includes('kinh doanh')
+      });
+    });
+
+    return groups;
+  }, [filteredKpiStats]);
+
   // Default select first item if none selected
   useEffect(() => {
     if (filtered.length > 0 && (!selectedId || !filtered.some(r => r.id === selectedId))) {
@@ -350,18 +662,409 @@ export const HRPanel: React.FC<HRPanelProps> = ({
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#f8fafc', overflow: 'hidden', padding: isMobile ? '8px' : '16px 24px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#f8fafc', overflow: 'hidden', padding: isMobile ? '8px' : '16px 24px', gap: '12px' }}>
       
-      {/* ── MAIN WORKSPACE MASTER-DETAIL ── */}
-      <div style={{ 
-        flex: 1, 
-        overflow: 'hidden', 
-        display: isMobile ? 'flex' : 'grid', 
-        flexDirection: isMobile ? 'column' : 'row',
-        gridTemplateColumns: isMobile ? '1fr' : '1.5fr 1fr', 
-        gap: isMobile ? '12px' : '20px', 
-        minHeight: 0 
+      {/* ── TOP SWITCHER: DANH SÁCH ĐƠN vs BẢNG VÀNG THI ĐUA KPI ── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        background: '#ffffff', borderRadius: '14px', padding: '6px 10px',
+        border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+        flexShrink: 0, flexWrap: 'wrap', gap: '8px'
       }}>
+        <div style={{ display: 'flex', gap: '4px', background: '#f1f5f9', padding: '3px', borderRadius: '10px' }}>
+          <button
+            onClick={() => setSubView('requests')}
+            style={{
+              padding: '6px 14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+              fontSize: '12.5px', fontWeight: subView === 'requests' ? 700 : 500,
+              background: subView === 'requests' ? '#ffffff' : 'transparent',
+              color: subView === 'requests' ? '#0f766e' : '#64748b',
+              boxShadow: subView === 'requests' ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
+              display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.15s'
+            }}
+          >
+            <CalendarDays size={15} />
+            <span>Danh sách đơn phép</span>
+            <span style={{ fontSize: '10.5px', background: subView === 'requests' ? '#ccfbf1' : '#e2e8f0', color: subView === 'requests' ? '#0f766e' : '#64748b', padding: '1px 6px', borderRadius: '999px', fontWeight: 700 }}>
+              {visibleRequests.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setSubView('kpi')}
+            style={{
+              padding: '6px 14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+              fontSize: '12.5px', fontWeight: subView === 'kpi' ? 700 : 500,
+              background: subView === 'kpi' ? 'linear-gradient(135deg, #f59e0b, #d97706)' : 'transparent',
+              color: subView === 'kpi' ? '#ffffff' : '#b45309',
+              boxShadow: subView === 'kpi' ? '0 2px 8px rgba(245, 158, 11, 0.3)' : 'none',
+              display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.15s'
+            }}
+          >
+            <Trophy size={15} />
+            <span>Bảng Vàng Thi Đua KPI</span>
+            <span style={{ fontSize: '10px', background: subView === 'kpi' ? 'rgba(255,255,255,0.25)' : '#fef3c7', color: subView === 'kpi' ? '#ffffff' : '#b45309', padding: '1px 6px', borderRadius: '999px', fontWeight: 800 }}>
+              Mới 🏆
+            </span>
+          </button>
+        </div>
+
+        {subView === 'kpi' && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            {/* Lọc Tháng */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#64748b' }}>Tháng:</span>
+              <select
+                value={kpiMonth}
+                onChange={e => setKpiMonth(e.target.value)}
+                style={{
+                  padding: '5px 10px', borderRadius: '8px', border: '1px solid #cbd5e1',
+                  fontSize: '12px', fontWeight: 700, background: '#fff', color: '#0f172a', outline: 'none'
+                }}
+              >
+                {availableKpiMonths.map(m => (
+                  <option key={m} value={m}>
+                    📅 Tháng {m.split('-')[1]}/{m.split('-')[0]}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Lọc Phòng Ban */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ fontSize: '11.5px', fontWeight: 600, color: '#64748b' }}>Phòng ban:</span>
+              <select
+                value={kpiDept}
+                onChange={e => setKpiDept(e.target.value)}
+                style={{
+                  padding: '5px 8px', borderRadius: '8px', border: '1px solid #cbd5e1',
+                  fontSize: '12px', background: '#fff', color: '#0f172a', outline: 'none'
+                }}
+              >
+                <option value="all">Tất cả ({kpiStaffProfiles.length})</option>
+                {availableDepts.map(d => (
+                  <option key={d} value={d}>{d}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Tìm kiếm */}
+            <div style={{ position: 'relative', width: isMobile ? '110px' : '140px' }}>
+              <Search size={13} style={{ position: 'absolute', left: '8px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+              <input
+                value={kpiSearch}
+                onChange={e => setKpiSearch(e.target.value)}
+                placeholder="Tìm bạn..."
+                style={{
+                  width: '100%', padding: '5px 8px 5px 26px', borderRadius: '8px',
+                  border: '1px solid #cbd5e1', fontSize: '12px', background: '#fff', outline: 'none'
+                }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── SUB VIEW 2: BẢNG VÀNG THI ĐUA & THỐNG KÊ KPI CHUYÊN CẦN (CHIA THEO PHÒNG KINH DOANH) ── */}
+      {subView === 'kpi' ? (
+        <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', minHeight: 0 }}>
+          
+          {/* Thanh phân nhóm nhanh theo từng Phòng Kinh Doanh */}
+          <div style={{
+            display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap',
+            background: '#ffffff', padding: '10px 14px', borderRadius: '12px',
+            border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
+          }}>
+            <span style={{ fontSize: '12px', fontWeight: 700, color: '#475569', display: 'flex', alignItems: 'center', gap: '5px', marginRight: '4px' }}>
+              <Users size={14} /> Phân nhóm:
+            </span>
+
+            <button
+              onClick={() => setKpiDept('all')}
+              style={{
+                padding: '5px 12px', borderRadius: '8px', border: '1px solid',
+                borderColor: kpiDept === 'all' ? '#0f766e' : '#cbd5e1',
+                background: kpiDept === 'all' ? '#0f766e' : '#fff',
+                color: kpiDept === 'all' ? '#fff' : '#475569',
+                fontSize: '12px', fontWeight: 700, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: '5px', transition: 'all 0.15s'
+              }}
+            >
+              🏢 Tất cả phòng ban
+              <span style={{
+                fontSize: '10px', padding: '1px 6px', borderRadius: '999px',
+                background: kpiDept === 'all' ? 'rgba(255,255,255,0.25)' : '#f1f5f9',
+                color: kpiDept === 'all' ? '#fff' : '#64748b'
+              }}>
+                {kpiStaffProfiles.length}
+              </span>
+            </button>
+
+            {availableDepts.map(d => {
+              const count = kpiStaffProfiles.filter(s => s.department?.trim() === d).length;
+              const isSelected = kpiDept === d;
+              const isPkd = d.toLowerCase().includes('pkd') || d.toLowerCase().includes('kinh doanh');
+              return (
+                <button
+                  key={d}
+                  onClick={() => setKpiDept(d)}
+                  style={{
+                    padding: '5px 12px', borderRadius: '8px', border: '1px solid',
+                    borderColor: isSelected ? (isPkd ? '#d97706' : '#0f766e') : '#cbd5e1',
+                    background: isSelected ? (isPkd ? 'linear-gradient(135deg, #f59e0b, #d97706)' : '#0f766e') : '#fff',
+                    color: isSelected ? '#fff' : '#475569',
+                    fontSize: '12px', fontWeight: 700, cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: '5px', transition: 'all 0.15s',
+                    boxShadow: isSelected && isPkd ? '0 2px 6px rgba(245, 158, 11, 0.25)' : 'none'
+                  }}
+                >
+                  {isPkd ? '🚗' : '💼'} {d}
+                  <span style={{
+                    fontSize: '10px', padding: '1px 6px', borderRadius: '999px',
+                    background: isSelected ? 'rgba(255,255,255,0.25)' : '#f1f5f9',
+                    color: isSelected ? '#fff' : '#64748b'
+                  }}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* DANH SÁCH BẢNG THI ĐUA CHIA THEO TỪNG PHÒNG KINH DOANH */}
+          {kpiDepartmentGroups.length === 0 ? (
+            <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '40px 20px', textAlign: 'center', color: '#94a3b8' }}>
+              <Users size={36} style={{ marginBottom: '8px', opacity: 0.5 }} />
+              <div style={{ fontWeight: 600, fontSize: '13.5px' }}>Không có dữ liệu nhân sự phù hợp với bộ lọc hiện tại.</div>
+            </div>
+          ) : (
+            kpiDepartmentGroups.map(group => {
+              const top1 = group.items.find(i => i.rankInDept === 1);
+
+              return (
+                <div key={group.department} style={{
+                  background: '#ffffff', borderRadius: '16px',
+                  border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                  overflow: 'hidden', display: 'flex', flexDirection: 'column'
+                }}>
+                  {/* Header của phòng ban */}
+                  <div style={{
+                    padding: '14px 18px', borderBottom: '1px solid #e2e8f0',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    flexWrap: 'wrap', gap: '10px',
+                    background: group.isSalesDept ? 'linear-gradient(to right, #fffbeb, #fef3c7)' : '#f8fafc'
+                  }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 800, color: group.isSalesDept ? '#92400e' : '#0f172a' }}>
+                          {group.isSalesDept ? '🚗' : '🏢'} {group.department}
+                        </h3>
+                        <span style={{
+                          fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '999px',
+                          background: group.isSalesDept ? '#fef3c7' : '#e2e8f0',
+                          color: group.isSalesDept ? '#b45309' : '#475569',
+                          border: `1px solid ${group.isSalesDept ? '#fde68a' : '#cbd5e1'}`
+                        }}>
+                          {group.items.length} nhân sự
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '12px', color: '#64748b', display: 'block', marginTop: '3px' }}>
+                        Tiêu chuẩn: Tối đa 100đ chuyên cần. <strong>Trùng điểm xét Đơn XHĐ ➔ Trùng đơn XHĐ xét Đơn Cọc</strong>.
+                      </span>
+                    </div>
+
+                    {top1 && top1.score > 0 && group.isSalesDept && (
+                      <div style={{
+                        display: 'flex', alignItems: 'center', gap: '8px',
+                        background: '#ffffff', padding: '6px 12px', borderRadius: '10px',
+                        border: '1px solid #fde68a', boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
+                      }}>
+                        <span style={{ fontSize: '20px', lineHeight: 1 }}>🥇</span>
+                        <div>
+                          <span style={{ fontSize: '10px', color: '#b45309', fontWeight: 800, textTransform: 'uppercase', display: 'block' }}>
+                            Quán quân {group.department}
+                          </span>
+                          <strong style={{ fontSize: '13px', color: '#0f172a' }}>{top1.staff.full_name}</strong>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bảng Chi Tiết Của Phòng Ban Này */}
+                  <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '760px' }}>
+                      <thead>
+                        <tr style={{ background: '#f8fafc', borderBottom: '1px solid #cbd5e1', fontSize: '11.5px', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                          <th style={{ padding: '10px 14px', width: '50px', textAlign: 'center' }}>Top</th>
+                          <th style={{ padding: '10px 14px' }}>Nhân viên</th>
+                          <th style={{ padding: '10px 14px' }}>Phòng ban</th>
+                          <th style={{ padding: '10px 14px', textAlign: 'center' }}>Nghỉ phép</th>
+                          <th style={{ padding: '10px 14px', textAlign: 'center' }}>Đi trễ</th>
+                          <th style={{ padding: '10px 14px', textAlign: 'center' }} title="Số lượng đơn hàng đã Xuất Hóa Đơn trong tháng (tiêu chí phụ khi trùng điểm chuyên cần)">Đơn XHĐ 🚗</th>
+                          <th style={{ padding: '10px 14px', textAlign: 'center' }} title="Số lượng đơn cọc phát sinh trong tháng (tiêu chí phụ khi trùng cả điểm chuyên cần và đơn XHĐ)">Đơn Cọc 📝</th>
+                          <th style={{ padding: '10px 14px', textAlign: 'center' }}>Điểm chuyên cần</th>
+                          <th style={{ padding: '10px 14px', textAlign: 'center' }}>Xếp hạng</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {group.items.map(item => {
+                          const isTop1 = item.rankInDept === 1 && item.currentAward === 'gold';
+                          const isTop2 = item.rankInDept === 2 && item.currentAward === 'silver';
+                          const isTop3 = item.rankInDept === 3 && item.currentAward === 'bronze';
+
+                          return (
+                            <tr
+                              key={item.staff.id}
+                              style={{
+                                borderBottom: '1px solid #f1f5f9',
+                                background: isTop1 ? '#fffbeb' : isTop2 ? '#f8fafc' : isTop3 ? '#fff7ed' : '#ffffff',
+                                transition: 'background 0.15s'
+                              }}
+                            >
+                              {/* Thứ tự trong phòng ban */}
+                              <td style={{ padding: '12px 14px', textAlign: 'center', fontWeight: 800 }}>
+                                {isTop1 ? (
+                                  <span style={{ fontSize: '18px' }}>🥇</span>
+                                ) : isTop2 ? (
+                                  <span style={{ fontSize: '18px' }}>🥈</span>
+                                ) : isTop3 ? (
+                                  <span style={{ fontSize: '18px' }}>🥉</span>
+                                ) : (
+                                  <span style={{ color: '#94a3b8', fontSize: '13px' }}>#{item.rankInDept}</span>
+                                )}
+                              </td>
+
+                              {/* Nhân viên */}
+                              <td style={{ padding: '12px 14px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                  <div style={{
+                                    width: '34px', height: '34px', borderRadius: '50%',
+                                    background: isTop1 ? '#f59e0b' : '#e2e8f0',
+                                    color: isTop1 ? '#fff' : '#475569',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    fontWeight: 700, fontSize: '13px'
+                                  }}>
+                                    {item.staff.full_name.charAt(0).toUpperCase()}
+                                  </div>
+                                  <div>
+                                    <strong style={{ fontSize: '13.5px', color: '#0f172a', display: 'block' }}>
+                                      {item.staff.full_name}
+                                    </strong>
+                                    <span style={{ fontSize: '11.5px', color: '#64748b' }}>
+                                      {item.staff.email || 'Chưa có email'}
+                                    </span>
+                                  </div>
+                                </div>
+                              </td>
+
+                              {/* Phòng ban */}
+                              <td style={{ padding: '12px 14px' }}>
+                                <span style={{ fontSize: '12px', color: '#334155', fontWeight: 600 }}>
+                                  {item.department}
+                                </span>
+                              </td>
+
+                              {/* Nghỉ phép */}
+                              <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                                <span style={{
+                                  padding: '2px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: 700,
+                                  background: item.leaveDays === 0 ? '#f0fdf4' : '#fff1f2',
+                                  color: item.leaveDays === 0 ? '#16a34a' : '#e11d48'
+                                }}>
+                                  {item.leaveDays} ngày
+                                </span>
+                              </td>
+
+                              {/* Đi trễ */}
+                              <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                                <span style={{
+                                  padding: '2px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: 700,
+                                  background: item.lateCount === 0 ? '#f0fdf4' : '#fef3c7',
+                                  color: item.lateCount === 0 ? '#16a34a' : '#b45309'
+                                }}>
+                                  {item.lateCount} lần
+                                </span>
+                              </td>
+
+                              {/* Đơn XHĐ */}
+                              <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                                <span style={{
+                                  display: 'inline-flex', alignItems: 'center', gap: '3px',
+                                  padding: '2px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: 800,
+                                  background: item.xhdCount > 0 ? '#eff6ff' : '#f8fafc',
+                                  color: item.xhdCount > 0 ? '#2563eb' : '#94a3b8',
+                                  border: `1px solid ${item.xhdCount > 0 ? '#bfdbfe' : '#e2e8f0'}`
+                                }}
+                                title={`Số lượng đơn hàng đã Xuất Hóa Đơn trong tháng ${kpiMonth}: ${item.xhdCount} xe`}
+                                >
+                                  🚗 {item.xhdCount} đơn
+                                </span>
+                              </td>
+
+                              {/* Đơn Cọc */}
+                              <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                                <span style={{
+                                  display: 'inline-flex', alignItems: 'center', gap: '3px',
+                                  padding: '2px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: 800,
+                                  background: item.depositCount > 0 ? '#f0fdf4' : '#f8fafc',
+                                  color: item.depositCount > 0 ? '#16a34a' : '#94a3b8',
+                                  border: `1px solid ${item.depositCount > 0 ? '#bbf7d0' : '#e2e8f0'}`
+                                }}
+                                title={`Số lượng đơn cọc phát sinh trong tháng ${kpiMonth}: ${item.depositCount} hợp đồng`}
+                                >
+                                  📝 {item.depositCount} đơn
+                                </span>
+                              </td>
+
+                              {/* Điểm chuyên cần */}
+                              <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                                <strong style={{
+                                  fontSize: '14px',
+                                  color: item.score >= 95 ? '#16a34a' : item.score >= 80 ? '#0284c7' : '#e11d48'
+                                }}>
+                                  {item.score} đ
+                                </strong>
+                              </td>
+
+                              {/* Xếp hạng */}
+                              <td style={{ padding: '12px 14px', textAlign: 'center' }}>
+                                {item.currentAward ? (
+                                  <span style={{
+                                    display: 'inline-flex', alignItems: 'center', gap: '5px',
+                                    padding: '4px 12px', borderRadius: '999px', fontSize: '12px', fontWeight: 800,
+                                    background: item.currentAward === 'gold' ? '#fef3c7' : item.currentAward === 'silver' ? '#f1f5f9' : '#ffedd5',
+                                    color: item.currentAward === 'gold' ? '#b45309' : item.currentAward === 'silver' ? '#475569' : '#9a3412',
+                                    border: `1px solid ${item.currentAward === 'gold' ? '#fde68a' : item.currentAward === 'silver' ? '#cbd5e1' : '#fed7aa'}`,
+                                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                                  }}>
+                                    {item.currentAward === 'gold' ? '🥇 Hạng Vàng' : item.currentAward === 'silver' ? '🥈 Hạng Bạc' : '🥉 Hạng Đồng'}
+                                  </span>
+                                ) : (
+                                  <span style={{ fontSize: '12px', color: '#94a3b8' }}>—</span>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      ) : (
+        /* ── MAIN WORKSPACE MASTER-DETAIL ── */
+        <div style={{ 
+          flex: 1, 
+          overflow: 'hidden', 
+          display: isMobile ? 'flex' : 'grid', 
+          flexDirection: isMobile ? 'column' : 'row',
+          gridTemplateColumns: isMobile ? '1fr' : '1.5fr 1fr', 
+          gap: isMobile ? '12px' : '20px', 
+          minHeight: 0 
+        }}>
         
         {/* LEFT COLUMN: REQUEST LIST TABLE */}
         {(!isMobile || mobileView === 'list') && (
@@ -690,6 +1393,7 @@ export const HRPanel: React.FC<HRPanelProps> = ({
       )}
 
       </div>
+      )}
 
       {/* ── MODALS ── */}
       {showSubmit && (

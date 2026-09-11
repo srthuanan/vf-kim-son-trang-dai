@@ -294,6 +294,8 @@ button:disabled {
   border-style: solid;
   border-color: transparent transparent #e2e8f0 transparent;
 }
+
+.custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -313,6 +315,8 @@ button:disabled {
 .folder-item:hover {
   background-color: #f8fafc !important;
 }
+
+.auth-brand h1 {
   font-weight: 800;
   color: #0f172a;
   letter-spacing: -0.03em;
@@ -7355,3 +7359,25 @@ td small {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes slideUpToast {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes kpiGoldShimmer {
+  0% { filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4)); }
+  50% { filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.85)); }
+  100% { filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4)); }
+}
+
+.kpi-gold-glow {
+  animation: kpiGoldShimmer 3s ease-in-out infinite;
+}
+

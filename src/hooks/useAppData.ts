@@ -344,6 +344,16 @@ export function useAppData() {
       )
       .on(
         'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'yeucauxhd' },
+        (payload) => {
+          loadWorkspace({ showLoading: false });
+          if (payload.new) {
+            window.dispatchEvent(new CustomEvent('new-invoice-request', { detail: payload.new }));
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
         { event: '*', schema: 'public', table: 'yeucauxhd' },
         triggerReload
       )

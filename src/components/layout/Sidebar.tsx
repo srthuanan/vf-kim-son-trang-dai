@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { LogOut, LockKeyhole, User, Calculator, type LucideIcon } from 'lucide-react';
 import { TabKey, getVisibleTabs, roleLabels } from '../../constants';
 import { ProfileRow } from '../../types';
@@ -11,6 +11,7 @@ interface SidebarProps {
   profile: ProfileRow | null;
   visibleTabs: { key: TabKey; label: string; icon: LucideIcon }[];
   userEmail?: string;
+  pendingInvoicesCount?: number;
   onSignOut: () => void;
   onChangePassword: () => void;
   onEditProfile: () => void;
@@ -439,10 +440,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
   profile,
   visibleTabs,
   userEmail,
+  pendingInvoicesCount = 0,
   onSignOut
 }) => {
   const tabs = visibleTabs.length ? visibleTabs : getVisibleTabs(profile?.role ?? 'sales');
   const isMidAutumn = isMidAutumnSeason();
+
+  const currentMonthKey = useMemo(() => new Date().toISOString().substring(0, 7), []);
+  const [localRank, setLocalRank] = useState<'gold' | 'silver' | 'bronze' | null>(null);
+
+  useEffect(() => {
+    const checkLocalRank = () => {
+      if (!profile?.id) return;
+      try {
+        const raw = localStorage.getItem(`kpi_awards_${currentMonthKey}`);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed[profile.id]?.rank) {
+            setLocalRank(parsed[profile.id].rank);
+          }
+        }
+      } catch {}
+    };
+    checkLocalRank();
+    window.addEventListener('kpi-rank-updated', checkLocalRank);
+    return () => window.removeEventListener('kpi-rank-updated', checkLocalRank);
+  }, [profile?.id, currentMonthKey]);
+
+  const effectiveRank = profile?.kpi_rank || localRank;
 
   return (
     <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''} ${isMidAutumn ? 'sidebar-midautumn-art' : ''}`}>
@@ -614,7 +639,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <Icon size={19} strokeWidth={isActive ? 2.5 : 2} />
               <span style={{ flex: 1, textAlign: 'left' }}>{tab.label}</span>
-
+              {tab.key === 'invoices' && pendingInvoicesCount > 0 && (
+                <span
+                  style={{
+                    background: isActive ? '#fff' : '#ef4444',
+                    color: isActive ? '#dc2626' : '#fff',
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    padding: '2px 7px',
+                    borderRadius: '12px',
+                    minWidth: '20px',
+                    textAlign: 'center',
+                    lineHeight: '1.3',
+                    boxShadow: isActive 
+                      ? '0 2px 6px rgba(0,0,0,0.15)' 
+                      : '0 2px 8px rgba(239, 68, 68, 0.45)',
+                    animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    letterSpacing: '0.01em'
+                  }}
+                  title={`${pendingInvoicesCount} yêu cầu xuất hóa đơn đang chờ duyệt`}
+                >
+                  {pendingInvoicesCount > 99 ? '99+' : pendingInvoicesCount}
+                </span>
+              )}
             </button>
           );
         })}
@@ -647,11 +694,45 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
           )}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {profile?.full_name ?? userEmail ?? 'Người dùng'}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {profile?.full_name ?? userEmail ?? 'Người dùng'}
+              </div>
+              {effectiveRank && (
+                <span
+                  style={{
+                    fontSize: '11px',
+                    lineHeight: 1,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.15))'
+                  }}
+                  title={`Danh hiệu thi đua ${effectiveRank === 'gold' ? 'Hạng Vàng 🥇' : effectiveRank === 'silver' ? 'Hạng Bạc 🥈' : 'Hạng Đồng 🥉'}${profile?.kpi_month ? ` (${profile.kpi_month})` : ''}`}
+                >
+                  {effectiveRank === 'gold' ? '🥇' : effectiveRank === 'silver' ? '🥈' : '🥉'}
+                </span>
+              )}
             </div>
-            <div style={{ fontSize: '11px', fontWeight: 600, color: isMidAutumn ? '#d97706' : '#0284c7', marginTop: '1px' }}>
-              <span>{profile ? roleLabels[profile.role] : 'Hỗ Trợ Web'}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '1px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: isMidAutumn ? '#d97706' : '#0284c7' }}>
+                {profile ? roleLabels[profile.role] : 'Hỗ Trợ Web'}
+              </span>
+              {effectiveRank && (
+                <span style={{
+                  fontSize: '9.5px',
+                  fontWeight: 800,
+                  padding: '1px 5px',
+                  borderRadius: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  background: effectiveRank === 'gold' ? '#fef3c7' : effectiveRank === 'silver' ? '#f1f5f9' : '#ffedd5',
+                  color: effectiveRank === 'gold' ? '#b45309' : effectiveRank === 'silver' ? '#475569' : '#9a3412',
+                  border: `1px solid ${effectiveRank === 'gold' ? '#fde68a' : effectiveRank === 'silver' ? '#cbd5e1' : '#fed7aa'}`
+                }}>
+                  {effectiveRank === 'gold' ? 'Top 1 Vàng' : effectiveRank === 'silver' ? 'Top Bạc' : 'Top Đồng'}
+                </span>
+              )}
             </div>
           </div>
         </div>
