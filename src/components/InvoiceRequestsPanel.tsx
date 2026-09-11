@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Search, CheckCircle2, XCircle, Clock, ExternalLink, CheckSquare, FilePlus2, User, Car, CreditCard, FileText, HelpCircle, ArrowLeft, Eye, ShieldCheck, ClipboardCheck, Info, Mail, RefreshCw, X, Trash2, Download, RotateCcw } from 'lucide-react';
+import { Search, CheckCircle2, XCircle, Clock, ExternalLink, CheckSquare, FilePlus2, User, Car, CreditCard, FileText, HelpCircle, ArrowLeft, Eye, ShieldCheck, ClipboardCheck, Info, Mail, RefreshCw, X, Trash2, Download, RotateCcw, ZoomIn, ZoomOut, RotateCw, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { YeucauxhdRow, Order } from '../types';
 import { copyToClipboard } from '../utils/clipboard';
 import * as apiService from '../services/apiService';
@@ -85,6 +85,23 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
   const [bulkStatus, setBulkStatus] = useState<string>('');
   const [isSplitView, setIsSplitView] = useState(true);
   const [activeDocKey, setActiveDocKey] = useState<'url_de_nghi_xhd' | 'url_hop_dong' | 'url_hoa_don_da_xuat' | 'ghi_chu_ai'>('url_hop_dong');
+  const [lightboxImages, setLightboxImages] = useState<string[] | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number>(0);
+  const [lightboxZoom, setLightboxZoom] = useState<number>(1);
+  const [lightboxRotation, setLightboxRotation] = useState<number>(0);
+
+  const openLightbox = (images: string[], index: number) => {
+    setLightboxImages(images);
+    setLightboxIndex(index);
+    setLightboxZoom(1);
+    setLightboxRotation(0);
+  };
+
+  const closeLightbox = () => {
+    setLightboxImages(null);
+    setLightboxZoom(1);
+    setLightboxRotation(0);
+  };
 
   const getActiveDocUrl = (req: YeucauxhdRow) => {
     return req[activeDocKey];
@@ -326,10 +343,10 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
   return (
     <div className="orders-modular-workspace" style={{ height: '100%', flex: 1, display: 'flex', flexDirection: 'column', background: '#fff', borderRadius: '16px', border: '1px solid #e2e8f0', minHeight: 0, position: 'relative', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.02)' }}>
       
-      {/* TOOLBAR */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: '1px solid #e2e8f0' }}>
-        {/* FOLDERS - MINIMAL PREMIUM STYLE */}
-        <div className="custom-scrollbar" style={{ display: 'flex', gap: '4px', overflowX: 'auto', flex: 1, minWidth: '300px' }}>
+      {/* TOOLBAR - COMPACT SLEEK DESIGN */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', borderBottom: '1px solid #e2e8f0', background: '#fafbfc' }}>
+        {/* FOLDERS - COMPACT STYLE */}
+        <div className="custom-scrollbar" style={{ display: 'flex', gap: '2px', overflowX: 'auto', flex: 1, minWidth: '280px', alignItems: 'center' }}>
           {folders.map(folder => {
             const isActive = selectedFolder === folder.id;
             return (
@@ -337,23 +354,25 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
                 key={folder.id}
                 onClick={() => setSelectedFolder(folder.id)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 14px', borderRadius: '20px',
+                  display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '4px 10px', borderRadius: '16px',
                   border: 'none',
                   background: isActive ? '#0f172a' : 'transparent',
                   color: isActive ? '#fff' : '#64748b',
-                  fontSize: '13px', fontWeight: isActive ? 600 : 500, whiteSpace: 'nowrap', transition: 'all 0.2s',
-                  cursor: 'pointer'
+                  fontSize: '11.5px', fontWeight: isActive ? 700 : 500, whiteSpace: 'nowrap', transition: 'all 0.15s ease',
+                  cursor: 'pointer',
+                  height: '28px'
                 }}
                 className={isActive ? '' : 'hover-bg-slate'}
               >
-                <folder.icon size={14} style={{ opacity: isActive ? 1 : 0.7 }} />
+                <folder.icon size={12} style={{ opacity: isActive ? 1 : 0.7 }} />
                 <span>{folder.label}</span>
                 {folder.count > 0 && (
                   <span style={{ 
-                    fontSize: '11px', fontWeight: 700, 
-                    background: isActive ? 'rgba(255,255,255,0.2)' : '#e2e8f0', 
+                    fontSize: '10px', fontWeight: 800, 
+                    background: isActive ? 'rgba(255,255,255,0.22)' : '#e2e8f0', 
                     color: isActive ? '#fff' : '#475569', 
-                    padding: '2px 8px', borderRadius: '12px' 
+                    padding: '1px 6px', borderRadius: '10px',
+                    lineHeight: '1.2'
                   }}>
                     {folder.count}
                   </span>
@@ -362,21 +381,22 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
             );
           })}
         </div>
-        {/* RIGHT CONTROLS */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+
+        {/* RIGHT CONTROLS - COMPACT */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
           <select
             value={monthFilter}
             onChange={(e) => setMonthFilter(e.target.value)}
             style={{
-              fontSize: '12px',
-              border: '1px solid #047857',
-              borderRadius: '20px',
-              height: '34px',
-              minWidth: '160px',
+              fontSize: '11.5px',
+              border: '1px solid #059669',
+              borderRadius: '16px',
+              height: '28px',
+              minWidth: '140px',
               background: '#ecfdf5',
-              color: '#047857',
+              color: '#065f46',
               outline: 'none',
-              padding: '0 12px',
+              padding: '0 8px',
               fontWeight: 700,
               cursor: 'pointer'
             }}
@@ -386,7 +406,7 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
               const c = requests.filter(r => extractMonthKey(r) === m).length;
               return (
                 <option key={m} value={m}>
-                  📅 {formatMonthDisplay(m)} ({c} hồ sơ)
+                  📅 {formatMonthDisplay(m)} ({c})
                 </option>
               );
             })}
@@ -397,26 +417,27 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
               className="ghost-button"
               onClick={handleExportRequests}
               style={{
-                height: '34px', padding: '0 12px', borderRadius: '20px', fontSize: '13px', fontWeight: 600, gap: '6px',
-                color: '#10b981', background: '#f8fafc', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center'
+                height: '28px', padding: '0 10px', borderRadius: '16px', fontSize: '11.5px', fontWeight: 600, gap: '4px',
+                color: '#059669', background: '#fff', border: '1px solid #d1fae5', display: 'inline-flex', alignItems: 'center', cursor: 'pointer'
               }}
               title="Xuất danh sách yêu cầu ra file Excel"
             >
-              <Download size={14} />
+              <Download size={12} />
               <span className="hide-on-mobile">Xuất Excel</span>
             </button>
           )}
-          {/* SEARCH - MINIMAL */}
-          <div style={{ position: 'relative', width: isMobile ? '100%' : '260px' }}>
-            <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+
+          {/* SEARCH - COMPACT */}
+          <div style={{ position: 'relative', width: isMobile ? '100%' : '200px' }}>
+            <Search size={12} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
             <input 
               type="text" 
-              placeholder="Tìm kiếm mã ĐH, khách hàng, VIN..." 
+              placeholder="Tìm kiếm..." 
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              style={{ width: '100%', padding: '8px 12px 8px 32px', borderRadius: '20px', border: '1px solid #e2e8f0', fontSize: '13px', background: '#f8fafc', outline: 'none', color: '#0f172a', transition: 'all 0.2s' }}
-              onFocus={(e) => { e.target.style.background = '#fff'; e.target.style.borderColor = '#cbd5e1'; e.target.style.boxShadow = '0 0 0 3px rgba(241, 245, 249, 1)'; }}
-              onBlur={(e) => { e.target.style.background = '#f8fafc'; e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = 'none'; }}
+              style={{ width: '100%', padding: '4px 10px 4px 28px', height: '28px', borderRadius: '16px', border: '1px solid #e2e8f0', fontSize: '11.5px', background: '#fff', outline: 'none', color: '#0f172a', transition: 'all 0.15s ease' }}
+              onFocus={(e) => { e.target.style.borderColor = '#94a3b8'; e.target.style.boxShadow = '0 0 0 2px rgba(226, 232, 240, 0.8)'; }}
+              onBlur={(e) => { e.target.style.borderColor = '#e2e8f0'; e.target.style.boxShadow = 'none'; }}
             />
           </div>
         </div>
@@ -744,24 +765,140 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
                 {/* SPLIT PREVIEW */}
                 {isSplitView && (
                   <div style={{ flex: '1.4', background: '#fff', borderLeft: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                    <div style={{ height: '44px', padding: '0 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '8px', background: '#fff' }}>
-                      <TabButton label="Bộ HS XHĐ" active={activeDocKey === 'url_hop_dong'} onClick={() => setActiveDocKey('url_hop_dong')} />
-                      <TabButton label="Chuyển đổi xanh" active={activeDocKey === 'url_de_nghi_xhd'} onClick={() => setActiveDocKey('url_de_nghi_xhd')} />
-                      <TabButton label="Ảnh giao dịch" active={activeDocKey === 'ghi_chu_ai'} onClick={() => setActiveDocKey('ghi_chu_ai')} />
-                      <TabButton label="Hóa đơn" active={activeDocKey === 'url_hoa_don_da_xuat'} onClick={() => setActiveDocKey('url_hoa_don_da_xuat')} />
-                    </div>
-                    <div style={{ flex: 1, background: '#f1f5f9', overflow: 'hidden' }}>
+                    {/* Header Tabs với chỉ báo file và công cụ nhanh */}
+                    {(() => {
+                      const hasHopDong = Boolean(getRequestDocUrl(selectedRequest, 'url_hop_dong'));
+                      const hasCdx = Boolean(getRequestDocUrl(selectedRequest, 'url_de_nghi_xhd'));
+                      const transDocUrl = getRequestDocUrl(selectedRequest, 'ghi_chu_ai');
+                      const transImages = transDocUrl ? transDocUrl.split(',').map(s => s.trim()).filter(Boolean) : [];
+                      const hasTrans = transImages.length > 0;
+                      const hasHoaDon = Boolean(getRequestDocUrl(selectedRequest, 'url_hoa_don_da_xuat'));
+                      const currentDocUrl = getRequestDocUrl(selectedRequest, activeDocKey);
+
+                      return (
+                        <div style={{ height: '44px', padding: '0 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff', gap: '8px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', overflowX: 'auto', scrollbarWidth: 'none' }}>
+                            {hasHopDong && (
+                              <TabButton 
+                                label="Bộ HS XHĐ" 
+                                active={activeDocKey === 'url_hop_dong'} 
+                                hasFile={true}
+                                onClick={() => setActiveDocKey('url_hop_dong')} 
+                              />
+                            )}
+                            {hasCdx && (
+                              <TabButton 
+                                label="Chuyển đổi xanh" 
+                                active={activeDocKey === 'url_de_nghi_xhd'} 
+                                hasFile={true}
+                                onClick={() => setActiveDocKey('url_de_nghi_xhd')} 
+                              />
+                            )}
+                            {hasTrans && (
+                              <TabButton 
+                                label="Ảnh giao dịch" 
+                                active={activeDocKey === 'ghi_chu_ai'} 
+                                hasFile={true}
+                                count={transImages.length}
+                                onClick={() => setActiveDocKey('ghi_chu_ai')} 
+                              />
+                            )}
+                            {hasHoaDon && (
+                              <TabButton 
+                                label="Hóa đơn" 
+                                active={activeDocKey === 'url_hoa_don_da_xuat'} 
+                                hasFile={true}
+                                onClick={() => setActiveDocKey('url_hoa_don_da_xuat')} 
+                              />
+                            )}
+                            {!hasHopDong && !hasCdx && !hasTrans && !hasHoaDon && (
+                              <span style={{ fontSize: '11.5px', color: '#94a3b8', fontStyle: 'italic', padding: '4px 8px' }}>
+                                Chưa đính kèm tài liệu nào
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Nút mở tab mới khi có file */}
+                          {currentDocUrl && activeDocKey !== 'ghi_chu_ai' && (
+                            <button
+                              onClick={() => window.open(currentDocUrl, '_blank')}
+                              title="Mở file trong tab mới"
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                padding: '4px 8px',
+                                borderRadius: '6px',
+                                border: '1px solid #e2e8f0',
+                                background: '#f8fafc',
+                                color: '#475569',
+                                fontSize: '11px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                flexShrink: 0
+                              }}
+                            >
+                              <ExternalLink size={12} />
+                              <span>Mở tab mới</span>
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })()}
+
+                    <div style={{ flex: 1, background: '#f1f5f9', overflow: 'hidden', position: 'relative' }}>
                       {(() => {
                         const docUrl = getRequestDocUrl(selectedRequest, activeDocKey);
 
                         if (docUrl) {
                           if (activeDocKey === 'ghi_chu_ai') {
-                            const images = docUrl.split(',');
+                            const images = docUrl.split(',').map(s => s.trim()).filter(Boolean);
                             return (
-                              <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto', height: '100%' }}>
-                                {images.map((imgUrl, i) => (
-                                  <img key={i} src={imgUrl} alt={`Ảnh giao dịch ${i+1}`} onClick={() => window.open(imgUrl, '_blank')} style={{ width: '100%', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', cursor: 'pointer' }} title="Bấm để xem ảnh lớn" />
-                                ))}
+                              <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto', height: '100%' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#475569' }}>
+                                    Danh sách {images.length} ảnh giao dịch (Bấm ảnh để phóng to/xoay)
+                                  </span>
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '14px' }}>
+                                  {images.map((imgUrl, i) => (
+                                    <div 
+                                      key={i} 
+                                      onClick={() => openLightbox(images, i)}
+                                      style={{
+                                        position: 'relative',
+                                        borderRadius: '10px',
+                                        overflow: 'hidden',
+                                        background: '#fff',
+                                        border: '1px solid #e2e8f0',
+                                        boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+                                        cursor: 'pointer',
+                                        transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-2px)';
+                                        e.currentTarget.style.boxShadow = '0 6px 14px rgba(0,0,0,0.1)';
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'none';
+                                        e.currentTarget.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)';
+                                      }}
+                                    >
+                                      <img 
+                                        src={imgUrl} 
+                                        alt={`Ảnh giao dịch ${i+1}`} 
+                                        style={{ width: '100%', height: '180px', objectFit: 'cover', display: 'block' }} 
+                                        loading="lazy"
+                                      />
+                                      <div style={{ padding: '8px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#ffffff', borderTop: '1px solid #f1f5f9' }}>
+                                        <span style={{ fontSize: '11px', fontWeight: 700, color: '#334155' }}>Ảnh #{i + 1}</span>
+                                        <span style={{ fontSize: '11px', color: '#0284c7', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '3px' }}>
+                                          <Maximize2 size={11} /> Xem lớn
+                                        </span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             );
                           }
@@ -779,6 +916,179 @@ export const InvoiceRequestsPanel: React.FC<InvoiceRequestsPanelProps> = ({
                   </div>
                 )}
               </div>
+
+              {/* LIGHTBOX MODAL PHÓNG TO VÀ XOAY ẢNH GIAO DỊCH */}
+              {lightboxImages && (
+                <div 
+                  style={{
+                    position: 'fixed',
+                    inset: 0,
+                    zIndex: 9999,
+                    background: 'rgba(15, 23, 42, 0.92)',
+                    backdropFilter: 'blur(8px)',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                  onClick={closeLightbox}
+                >
+                  {/* Top bar điều khiển */}
+                  <div 
+                    style={{
+                      height: '56px',
+                      padding: '0 20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      background: 'rgba(0,0,0,0.4)',
+                      borderBottom: '1px solid rgba(255,255,255,0.1)',
+                      color: '#fff',
+                      zIndex: 2
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div style={{ fontSize: '13px', fontWeight: 700 }}>
+                      Ảnh {lightboxIndex + 1} / {lightboxImages.length}
+                    </div>
+
+                    {/* Toolbar: Zoom In, Zoom Out, Rotate, Open in tab, Close */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <button
+                        onClick={() => setLightboxZoom(prev => Math.max(0.5, prev - 0.25))}
+                        title="Thu nhỏ (-)"
+                        style={{ background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', width: '34px', height: '34px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                      >
+                        <ZoomOut size={16} />
+                      </button>
+                      <button
+                        onClick={() => setLightboxZoom(prev => Math.min(3, prev + 0.25))}
+                        title="Phóng to (+)"
+                        style={{ background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', width: '34px', height: '34px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                      >
+                        <ZoomIn size={16} />
+                      </button>
+                      <button
+                        onClick={() => setLightboxRotation(prev => (prev + 90) % 360)}
+                        title="Xoay ảnh 90°"
+                        style={{ background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', width: '34px', height: '34px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                      >
+                        <RotateCw size={16} />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setLightboxZoom(1);
+                          setLightboxRotation(0);
+                        }}
+                        title="Đặt lại"
+                        style={{ background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', padding: '0 10px', height: '34px', borderRadius: '8px', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+                      >
+                        Mặc định
+                      </button>
+                      <button
+                        onClick={() => window.open(lightboxImages[lightboxIndex], '_blank')}
+                        title="Mở tab mới"
+                        style={{ background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff', width: '34px', height: '34px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                      >
+                        <ExternalLink size={16} />
+                      </button>
+                      <button
+                        onClick={closeLightbox}
+                        title="Đóng (ESC)"
+                        style={{ background: '#ef4444', border: 'none', color: '#fff', width: '34px', height: '34px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', marginLeft: '8px' }}
+                      >
+                        <X size={18} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Vùng hiển thị ảnh trung tâm */}
+                  <div 
+                    style={{
+                      flex: 1,
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden',
+                      padding: '24px'
+                    }}
+                  >
+                    {/* Nút Previous ảnh */}
+                    {lightboxImages.length > 1 && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setLightboxIndex(prev => (prev - 1 + lightboxImages.length) % lightboxImages.length);
+                          setLightboxZoom(1);
+                          setLightboxRotation(0);
+                        }}
+                        style={{
+                          position: 'absolute',
+                          left: '20px',
+                          zIndex: 3,
+                          width: '44px',
+                          height: '44px',
+                          borderRadius: '50%',
+                          background: 'rgba(0,0,0,0.6)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          color: '#fff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <ChevronLeft size={24} />
+                      </button>
+                    )}
+
+                    {/* Ảnh chính có zoom & xoay */}
+                    <img 
+                      src={lightboxImages[lightboxIndex]} 
+                      alt={`Ảnh ${lightboxIndex + 1}`}
+                      onClick={(e) => e.stopPropagation()}
+                      style={{
+                        maxWidth: '90%',
+                        maxHeight: '82vh',
+                        objectFit: 'contain',
+                        borderRadius: '8px',
+                        transform: `scale(${lightboxZoom}) rotate(${lightboxRotation}deg)`,
+                        transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                        cursor: lightboxZoom > 1 ? 'grab' : 'default'
+                      }}
+                    />
+
+                    {/* Nút Next ảnh */}
+                    {lightboxImages.length > 1 && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setLightboxIndex(prev => (prev + 1) % lightboxImages.length);
+                          setLightboxZoom(1);
+                          setLightboxRotation(0);
+                        }}
+                        style={{
+                          position: 'absolute',
+                          right: '20px',
+                          zIndex: 3,
+                          width: '44px',
+                          height: '44px',
+                          borderRadius: '50%',
+                          background: 'rgba(0,0,0,0.6)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          color: '#fff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <ChevronRight size={24} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>Chọn một yêu cầu để xem chi tiết</div>
@@ -842,14 +1152,50 @@ const ActionButton = ({ label, icon: Icon, color, onClick, loading, isFullWidth 
   </button>
 );
 
-const TabButton = ({ label, active, onClick }: any) => (
+const TabButton = ({ label, active, onClick, hasFile = false, count = 0 }: any) => (
   <button
     onClick={onClick}
     style={{
-      padding: '4px 10px', borderRadius: '6px', border: '1px solid', borderColor: active ? '#0284c7' : '#e2e8f0',
-      background: active ? '#0284c715' : '#fff', color: active ? '#0284c7' : '#64748b', fontSize: '11px', fontWeight: 800, cursor: 'pointer'
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '6px',
+      padding: '5px 12px',
+      borderRadius: '6px',
+      border: '1px solid',
+      borderColor: active ? '#0284c7' : '#e2e8f0',
+      background: active ? '#0284c715' : '#fff',
+      color: active ? '#0284c7' : hasFile ? '#334155' : '#94a3b8',
+      fontSize: '11px',
+      fontWeight: 800,
+      cursor: 'pointer',
+      transition: 'all 0.15s ease'
     }}
   >
-    {label}
+    {/* Chấm tròn báo trạng thái file */}
+    <span
+      style={{
+        width: '6px',
+        height: '6px',
+        borderRadius: '50%',
+        background: hasFile ? '#10b981' : '#cbd5e1',
+        boxShadow: hasFile ? '0 0 6px rgba(16, 185, 129, 0.4)' : 'none'
+      }}
+    />
+    <span>{label}</span>
+    {/* Huy hiệu đếm số lượng nếu có */}
+    {count > 0 && (
+      <span
+        style={{
+          padding: '1px 5px',
+          borderRadius: '10px',
+          background: active ? '#0284c7' : '#f1f5f9',
+          color: active ? '#fff' : '#64748b',
+          fontSize: '10px',
+          fontWeight: 700
+        }}
+      >
+        {count}
+      </span>
+    )}
   </button>
 );
