@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { HrLeaveRequestRow, ProfileRow, Order, YeucauxhdRow } from '../types';
 import * as apiService from '../services/apiService';
+import { MultiavatarView } from '../utils/avatarUtils';
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -938,13 +939,34 @@ export const HRPanel: React.FC<HRPanelProps> = ({
                               <td style={{ padding: '12px 14px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                   <div style={{
-                                    width: '34px', height: '34px', borderRadius: '50%',
-                                    background: isTop1 ? '#f59e0b' : '#e2e8f0',
-                                    color: isTop1 ? '#fff' : '#475569',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontWeight: 700, fontSize: '13px'
+                                    width: '36px',
+                                    height: '36px',
+                                    borderRadius: '50%',
+                                    padding: isTop1 || isTop2 || isTop3 ? '2px' : '0',
+                                    background: isTop1
+                                      ? 'linear-gradient(135deg, #f59e0b, #fef08a, #d97706)'
+                                      : isTop2
+                                      ? 'linear-gradient(135deg, #94a3b8, #f8fafc, #64748b)'
+                                      : isTop3
+                                      ? 'linear-gradient(135deg, #ea580c, #fed7aa, #9a3412)'
+                                      : '#e2e8f0',
+                                    boxShadow: isTop1 ? '0 2px 6px rgba(217, 119, 6, 0.35)' : 'none',
+                                    flexShrink: 0,
+                                    position: 'relative'
                                   }}>
-                                    {item.staff.full_name.charAt(0).toUpperCase()}
+                                    <MultiavatarView
+                                      seed={item.staff.id || item.staff.email || item.staff.full_name}
+                                      size="100%"
+                                      style={{ background: '#ffffff' }}
+                                    />
+                                    {isTop1 && (
+                                      <span style={{
+                                        position: 'absolute', top: '-6px', right: '-4px', fontSize: '11px',
+                                        filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))'
+                                      }}>
+                                        👑
+                                      </span>
+                                    )}
                                   </div>
                                   <div>
                                     <strong style={{ fontSize: '13.5px', color: '#0f172a', display: 'block' }}>
@@ -1169,15 +1191,14 @@ export const HRPanel: React.FC<HRPanelProps> = ({
                         }}
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', minWidth: 0 }}>
-                          <div style={{ 
-                            width: '34px', height: '34px', borderRadius: '50%', 
-                            background: isSelected ? '#0f766e' : '#f1f5f9', 
-                            color: isSelected ? '#ffffff' : '#475569',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontWeight: 700, fontSize: '13px', flexShrink: 0
-                          }}>
-                            {initial}
-                          </div>
+                          <MultiavatarView
+                            seed={req.requester_username || req.requester_name}
+                            size={34}
+                            style={{
+                              background: '#ffffff',
+                              border: isSelected ? '2px solid #0f766e' : '1px solid #e2e8f0'
+                            }}
+                          />
 
                           <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
@@ -1247,14 +1268,15 @@ export const HRPanel: React.FC<HRPanelProps> = ({
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ 
-                      width: '44px', height: '44px', borderRadius: '50%', 
-                      background: '#ffffff', color: '#0f766e', display: 'flex', 
-                      alignItems: 'center', justifyContent: 'center', fontSize: '18px', 
-                      fontWeight: 700, flexShrink: 0
-                    }}>
-                      {selectedReq.requester_name.trim().charAt(0).toUpperCase()}
-                    </div>
+                    <MultiavatarView
+                      seed={selectedReq.requester_username || selectedReq.requester_name}
+                      size={46}
+                      style={{
+                        background: '#ffffff',
+                        border: '2px solid rgba(255,255,255,0.85)',
+                        boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                      }}
+                    />
                     <div>
                       <h3 style={{ margin: 0, fontSize: '17px', fontWeight: 700, color: '#ffffff' }}>{selectedReq.requester_name}</h3>
                       <span style={{ fontSize: '12px', color: '#ccfbf1' }}>{selectedReq.requester_username}</span>

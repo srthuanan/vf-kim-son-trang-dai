@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { LogOut, LockKeyhole, User, Calculator, type LucideIcon } from 'lucide-react';
 import { TabKey, getVisibleTabs, roleLabels } from '../../constants';
 import { ProfileRow } from '../../types';
+import { getUserSessionAvatar, refreshUserSessionAvatar } from '../../utils/avatarUtils';
 
 interface SidebarProps {
   activeTab: TabKey;
@@ -448,6 +449,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const currentMonthKey = useMemo(() => new Date().toISOString().substring(0, 7), []);
   const [localRank, setLocalRank] = useState<'gold' | 'silver' | 'bronze' | null>(null);
+  const [avatarCounter, setAvatarCounter] = useState(0);
+
+  const userAvatarSvg = useMemo(() => {
+    return getUserSessionAvatar(profile?.id || userEmail || 'user', profile?.full_name);
+  }, [profile?.id, profile?.full_name, userEmail, avatarCounter]);
+
+  const handleRefreshAvatar = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    refreshUserSessionAvatar(profile?.id || userEmail || 'user', profile?.full_name);
+    setAvatarCounter(c => c + 1);
+  };
 
   useEffect(() => {
     const checkLocalRank = () => {
@@ -467,7 +479,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return () => window.removeEventListener('kpi-rank-updated', checkLocalRank);
   }, [profile?.id, currentMonthKey]);
 
-  const effectiveRank = profile?.kpi_rank || localRank;
+  const isDemoAccount = Boolean(
+    profile?.full_name?.toLowerCase().includes('hỗ trợ web') ||
+    profile?.full_name?.toLowerCase().includes('hỗ trợ web')
+  );
+  const effectiveRank = profile?.kpi_rank || localRank || (isDemoAccount ? 'gold' : null);
 
   return (
     <aside className={`sidebar ${sidebarOpen ? 'sidebar-open' : ''} ${isMidAutumn ? 'sidebar-midautumn-art' : ''}`}>
@@ -675,14 +691,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         )}
 
-        {/* User Profile Card */}
+        {/* User Profile Card - Hoàn Toàn Không Khung Không Nền (Nền Trong Suốt Tự Nhiên) */}
         <div 
           style={{ 
             display: 'flex', 
             alignItems: 'center', 
-            gap: '12px', 
+            gap: '11px', 
             padding: '10px 12px', 
-            position: 'relative'
+            position: 'relative',
+            background: 'transparent',
+            border: 'none',
+            boxShadow: 'none'
           }}
         >
           {isMidAutumn && (
@@ -693,44 +712,151 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <SvgMidAutumnBoy />
             </div>
           )}
+
+          {/* Avatar với 3D Halo Ring và Vương miện Hoàng Gia (Multiavatar Vector) */}
+          <div 
+            onClick={handleRefreshAvatar}
+            title="Nhấp để đổi diện mạo avatar mới 🎲"
+            style={{
+              position: 'relative',
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              padding: effectiveRank ? '2px' : '0',
+              background: effectiveRank === 'gold'
+                ? 'linear-gradient(135deg, #f59e0b, #fef08a, #d97706)'
+                : effectiveRank === 'silver'
+                ? 'linear-gradient(135deg, #94a3b8, #f8fafc, #64748b)'
+                : effectiveRank === 'bronze'
+                ? 'linear-gradient(135deg, #ea580c, #fed7aa, #9a3412)'
+                : '#e2e8f0',
+              boxShadow: effectiveRank === 'gold'
+                ? '0 3px 8px rgba(217, 119, 6, 0.35)'
+                : effectiveRank === 'silver'
+                ? '0 3px 8px rgba(71, 85, 105, 0.25)'
+                : effectiveRank === 'bronze'
+                ? '0 3px 8px rgba(194, 65, 12, 0.25)'
+                : 'none',
+              flexShrink: 0,
+              cursor: 'pointer',
+              transition: 'transform 0.15s ease'
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.06)'; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
+          >
+            <div 
+              className="multiavatar-box"
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                overflow: 'hidden',
+                background: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              dangerouslySetInnerHTML={{ __html: userAvatarSvg }}
+            />
+
+            {/* Vương miện đính trên Avatar */}
+            {effectiveRank === 'gold' && (
+              <span style={{
+                position: 'absolute',
+                top: '-8px',
+                right: '-5px',
+                fontSize: '13px',
+                filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.25))',
+                transform: 'rotate(12deg)',
+                userSelect: 'none'
+              }}>
+                👑
+              </span>
+            )}
+            {effectiveRank === 'silver' && (
+              <span style={{
+                position: 'absolute',
+                top: '-7px',
+                right: '-4px',
+                fontSize: '12px',
+                filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.25))',
+                userSelect: 'none'
+              }}>
+                🥈
+              </span>
+            )}
+            {effectiveRank === 'bronze' && (
+              <span style={{
+                position: 'absolute',
+                top: '-7px',
+                right: '-4px',
+                fontSize: '12px',
+                filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.25))',
+                userSelect: 'none'
+              }}>
+                🥉
+              </span>
+            )}
+          </div>
+
+          {/* Thông tin nhân sự & Thẻ danh hiệu 3D Capsule */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px', marginBottom: '2px' }}>
+              <div style={{
+                fontSize: '13.5px',
+                fontWeight: 800,
+                color: '#0f172a',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}>
                 {profile?.full_name ?? userEmail ?? 'Người dùng'}
               </div>
               {effectiveRank && (
                 <span
                   style={{
-                    fontSize: '11px',
+                    fontSize: '12px',
                     lineHeight: 1,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
                     filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.15))'
                   }}
-                  title={`Danh hiệu thi đua ${effectiveRank === 'gold' ? 'Hạng Vàng 🥇' : effectiveRank === 'silver' ? 'Hạng Bạc 🥈' : 'Hạng Đồng 🥉'}${profile?.kpi_month ? ` (${profile.kpi_month})` : ''}`}
+                  title={`Danh hiệu thi đua ${effectiveRank === 'gold' ? 'Hạng Vàng 🥇' : effectiveRank === 'silver' ? 'Hạng Bạc 🥈' : 'Hạng Đồng 🥉'}`}
                 >
                   {effectiveRank === 'gold' ? '🥇' : effectiveRank === 'silver' ? '🥈' : '🥉'}
                 </span>
               )}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '1px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 600, color: isMidAutumn ? '#d97706' : '#0284c7' }}>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+              <span style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: effectiveRank === 'gold' ? '#92400e' : effectiveRank === 'silver' ? '#475569' : effectiveRank === 'bronze' ? '#9a3412' : (isMidAutumn ? '#d97706' : '#0284c7')
+              }}>
                 {profile ? roleLabels[profile.role] : 'Hỗ Trợ Web'}
               </span>
+
               {effectiveRank && (
                 <span style={{
-                  fontSize: '9.5px',
-                  fontWeight: 800,
-                  padding: '1px 5px',
-                  borderRadius: '6px',
+                  fontSize: '9px',
+                  fontWeight: 900,
+                  padding: '1.5px 7px',
+                  borderRadius: '999px',
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
-                  background: effectiveRank === 'gold' ? '#fef3c7' : effectiveRank === 'silver' ? '#f1f5f9' : '#ffedd5',
-                  color: effectiveRank === 'gold' ? '#b45309' : effectiveRank === 'silver' ? '#475569' : '#9a3412',
-                  border: `1px solid ${effectiveRank === 'gold' ? '#fde68a' : effectiveRank === 'silver' ? '#cbd5e1' : '#fed7aa'}`
+                  background: effectiveRank === 'gold'
+                    ? 'linear-gradient(135deg, #f59e0b, #d97706)'
+                    : effectiveRank === 'silver'
+                    ? 'linear-gradient(135deg, #64748b, #475569)'
+                    : 'linear-gradient(135deg, #ea580c, #c2410c)',
+                  color: '#ffffff',
+                  boxShadow: effectiveRank === 'gold'
+                    ? '0 2px 6px rgba(217, 119, 6, 0.4)'
+                    : effectiveRank === 'silver'
+                    ? '0 2px 6px rgba(71, 85, 105, 0.35)'
+                    : '0 2px 6px rgba(194, 65, 12, 0.35)',
+                  lineHeight: 1.3
                 }}>
-                  {effectiveRank === 'gold' ? 'Top 1 Vàng' : effectiveRank === 'silver' ? 'Top 2 Bạc' : 'Top 3 Đồng'}
+                  {effectiveRank === 'gold' ? '✦ TOP 1 VÀNG' : effectiveRank === 'silver' ? '✦ TOP 2 BẠC' : '✦ TOP 3 ĐỒNG'}
                 </span>
               )}
             </div>

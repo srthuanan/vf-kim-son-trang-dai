@@ -57,6 +57,12 @@ button:disabled {
   opacity: 0.62;
 }
 
+.multiavatar-box svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
 .app-shell {
   display: flex;
   width: 100%;
