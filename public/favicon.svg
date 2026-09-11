@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <!-- Vàng kim rực rỡ cho vầng trăng Trung Thu -->
+    <linearGradient id="fav-moon-bright" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#fef08a"/>
+      <stop offset="40%" stopColor="#f59e0b"/>
+      <stop offset="100%" stopColor="#d97706"/>
+    </linearGradient>
+
+    <!-- Bạc sáng bóng cho mặt sáng của cánh chữ V -->
+    <linearGradient id="fav-wing-bright" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#ffffff"/>
+      <stop offset="45%" stopColor="#f1f5f9"/>
+      <stop offset="85%" stopColor="#cbd5e1"/>
+      <stop offset="100%" stopColor="#94a3b8"/>
+    </linearGradient>
+
+    <!-- Mặt tương phản của cánh chữ V -->
+    <linearGradient id="fav-wing-contrast" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stopColor="#e2e8f0"/>
+      <stop offset="50%" stopColor="#64748b"/>
+      <stop offset="100%" stopColor="#334155"/>
+    </linearGradient>
+
+    <!-- Màu xanh VinFast Electric Blue cho cánh trong -->
+    <linearGradient id="fav-inner-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#38bdf8"/>
+      <stop offset="50%" stopColor="#0284c7"/>
+      <stop offset="100%" stopColor="#0369a1"/>
+    </linearGradient>
+
+    <filter id="fav-pop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0f172a" floodOpacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- 1. VẦNG TRĂNG VÀNG KHUYẾT TRUNG THU (SÁNG RỰC RỠ, KHÔNG NỀN ĐEN) -->
+  <path
+    d="M 26,8 C 12,14 6,28 7,42 C 9,49 14,56 22,59 C 14,53 11,43 12,34 C 12,23 17,14 27,9 Z"
+    fill="url(#fav-moon-bright)"
+  />
+  <circle cx="8" cy="18" r="3.5" fill="#f59e0b"/>
+  <circle cx="8" cy="18" r="1.5" fill="#ffffff"/>
+
+  <!-- 2. CÁNH CHIM VINFAST CHỮ "V" TO RÕ, NỔI BẬT TRÊN TAB TRÌNH DUYỆT -->
+  <g filter="url(#fav-pop-shadow)">
+    <!-- Cánh trái ngoài (mặt sáng) -->
+    <path 
+      d="M 32,58 L 5,14 Q 18,15 25,27 L 32,44 Z" 
+      fill="url(#fav-wing-bright)" 
+      stroke="#1e293b" 
+      stroke-width="1.2"
+      stroke-linejoin="round"
+    />
+    <!-- Cánh phải ngoài (mặt tối) -->
+    <path 
+      d="M 32,58 L 59,14 Q 46,15 39,27 L 32,44 Z" 
+      fill="url(#fav-wing-contrast)" 
+      stroke="#1e293b" 
+      stroke-width="1.2"
+      stroke-linejoin="round"
+    />
+    <!-- Sống gờ kim loại nổi chính giữa -->
+    <line x1="32" y1="44" x2="32" y2="58" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/>
+
+    <!-- Cánh phụ lõm sâu màu xanh VinFast -->
+    <path 
+      d="M 32,50 L 12,22 Q 21,23 27,31 L 32,40 L 37,31 Q 43,23 52,22 L 32,50 Z" 
+      fill="url(#fav-inner-cyan)" 
+      stroke="#0f172a" 
+      stroke-width="1"
+      stroke-linejoin="round"
+    />
+    <path d="M 32,50 L 32,40" stroke="#ffffff" stroke-width="1.4"/>
+  </g>
+</svg>

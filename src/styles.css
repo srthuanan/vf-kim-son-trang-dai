@@ -103,6 +103,161 @@ button:disabled {
   letter-spacing: -0.02em;
 }
 
+/* ===== MID-AUTUMN AUTH SCREEN ACCENTS ===== */
+.auth-shell-midautumn {
+  background: 
+    radial-gradient(ellipse at 82% 15%, rgba(254, 240, 138, 0.32) 0%, transparent 55%),
+    radial-gradient(ellipse at 12% 12%, rgba(253, 230, 138, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 85%, rgba(251, 191, 36, 0.16) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(254, 249, 195, 0.22) 0%, transparent 70%),
+    #faf8f5 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-card-midautumn {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.03),
+    0 24px 50px -12px rgba(217, 119, 6, 0.18),
+    0 0 0 1px rgba(251, 191, 36, 0.2) !important;
+  position: relative;
+  z-index: 2;
+}
+
+.auth-card-midautumn:hover {
+  border-color: rgba(245, 158, 11, 0.5) !important;
+}
+
+.auth-submit-midautumn {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(251, 191, 36, 0.4) !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.25), 0 0 12px rgba(245, 158, 11, 0.15) !important;
+  transition: all 0.25s ease !important;
+}
+
+.auth-submit-midautumn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
+  border-color: #f59e0b !important;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.3), 0 0 18px rgba(245, 158, 11, 0.35) !important;
+  transform: translateY(-1px);
+}
+
+@keyframes maAscendFloat {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.85; }
+  50% { transform: translateY(-24px) rotate(2deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 0.85; }
+}
+
+@keyframes maFireflyGlow {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.ma-lantern-ascend-1 {
+  animation: maAscendFloat 6.5s ease-in-out infinite;
+}
+
+.ma-lantern-ascend-2 {
+  animation: maAscendFloat 7.8s ease-in-out infinite 1.5s;
+}
+
+.ma-firefly-1 {
+  animation: maFireflyGlow 3.2s ease-in-out infinite;
+}
+
+.ma-firefly-2 {
+  animation: maFireflyGlow 4.5s ease-in-out infinite 1s;
+}
+
+@keyframes maSwayLanternLeft {
+  0%, 100% { transform: rotate(3deg); }
+  50% { transform: rotate(-3.5deg); }
+}
+
+@keyframes maSwayLanternRight {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(4deg); }
+}
+
+.ma-sway-lantern-1 {
+  transform-origin: top center;
+  animation: maSwayLanternLeft 3.6s ease-in-out infinite;
+}
+
+.ma-sway-lantern-2 {
+  transform-origin: top center;
+  animation: maSwayLanternRight 4.2s ease-in-out infinite;
+}
+
+/* Split Panel Luxury Showcase cho mùa Trung Thu */
+.auth-card-split {
+  display: flex !important;
+  flex-direction: row;
+  width: 100%;
+  max-width: 860px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(245, 158, 11, 0.28) !important;
+  box-shadow: 
+    0 20px 50px -12px rgba(15, 23, 42, 0.12),
+    0 12px 30px -8px rgba(217, 119, 6, 0.15),
+    0 0 0 1px rgba(251, 191, 36, 0.2) !important;
+}
+
+.auth-split-art {
+  flex: 0 0 46%;
+  min-height: 520px;
+  position: relative;
+  background: #090d16;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.auth-split-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 44px 48px;
+  background: #ffffff;
+}
+
+@media (max-width: 820px) {
+  .auth-card-split {
+    flex-direction: column !important;
+    max-width: 480px !important;
+  }
+  .auth-split-art {
+    flex: none !important;
+    height: 220px !important;
+    padding: 24px 20px !important;
+  }
+  .auth-split-form {
+    padding: 32px 24px !important;
+  }
+}
+
+@keyframes mbBoyBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3.5px) rotate(1deg); }
+}
+
+.mb-boy-body {
+  animation: mbBoyBounce 2.5s ease-in-out infinite;
+  transform-origin: 38px 115px;
+}
+
 /* Redesigned Invoice Layout Utilities */
 .hidden-mobile {
   display: flex !important;
@@ -248,18 +403,312 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #0f172a;
   color: #ffffff;
-  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.25);
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(15,23,42,0.18);
 }
 
 .brand-icon {
   width: 22px;
   height: 22px;
+}
+
+/* ===== MID-AUTUMN FESTIVAL ANIMATED LOGO ===== */
+.brand-mark-midautumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 16px;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brand-mark-midautumn:hover {
+  transform: scale(1.08) rotate(-1deg);
+}
+
+@keyframes maMoonBreath {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 7px rgba(245, 158, 11, 0.65)) drop-shadow(0 0 16px rgba(251, 191, 36, 0.35));
+  }
+  50% {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 13px rgba(245, 158, 11, 0.95)) drop-shadow(0 0 24px rgba(251, 191, 36, 0.6));
+  }
+}
+
+@keyframes maLanternSway {
+  0% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
+  100% { transform: rotate(-7deg); }
+}
+
+@keyframes maCloudDrift1 {
+  0% { transform: translateX(-8px); opacity: 0.7; }
+  50% { transform: translateX(8px); opacity: 0.95; }
+  100% { transform: translateX(-8px); opacity: 0.7; }
+}
+
+@keyframes maCloudDrift2 {
+  0% { transform: translateX(6px); opacity: 0.5; }
+  50% { transform: translateX(-6px); opacity: 0.8; }
+  100% { transform: translateX(6px); opacity: 0.5; }
+}
+
+@keyframes maGoldShine {
+  0% { transform: translateX(-120%) translateY(-120%) rotate(45deg); }
+  22% { transform: translateX(150%) translateY(150%) rotate(45deg); }
+  100% { transform: translateX(150%) translateY(150%) rotate(45deg); }
+}
+
+@keyframes maTwinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes maRabbitEar {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-8deg); }
+  60% { transform: rotate(6deg); }
+}
+
+@keyframes maCandleGlow {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.ma-anim-moon { transform-origin: 50px 50px; animation: maMoonBreath 4s ease-in-out infinite; }
+.ma-anim-lantern { transform-origin: 78px 6px; animation: maLanternSway 3.2s ease-in-out infinite; }
+.ma-anim-cloud1 { animation: maCloudDrift1 7.5s ease-in-out infinite; }
+.ma-anim-cloud2 { animation: maCloudDrift2 9s ease-in-out infinite; }
+.ma-anim-shine { animation: maGoldShine 4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+.ma-anim-star1 { transform-origin: 22px 24px; animation: maTwinkle 2.6s ease-in-out infinite; }
+.ma-anim-star2 { transform-origin: 82px 30px; animation: maTwinkle 3.2s ease-in-out infinite 1s; }
+.ma-anim-ear { transform-origin: 74px 65px; animation: maRabbitEar 4s ease-in-out infinite; }
+.ma-anim-candle { transform-origin: 78px 24px; animation: maCandleGlow 1.6s ease-in-out infinite; }
+
+/* Mid-Autumn Sidebar Menu and Card Accents */
+.nav-item-midautumn-active {
+  background: rgba(251, 191, 36, 0.08) !important;
+  color: #92400e !important;
+  border-color: transparent !important;
+  border-left: 3px solid #f59e0b !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  padding-left: calc(var(--nav-px, 14px) - 3px) !important;
+}
+
+.user-card-midautumn {
+  background: linear-gradient(135deg, #fffbeb 0%, #f8fafc 100%) !important;
+  border: 1px solid #fde68a !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12) !important;
+  position: relative;
+}
+
+.user-card-midautumn:hover {
+  border-color: #f59e0b !important;
+}
+
+@keyframes maFloatRabbit {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.rabbit-peeking {
+  animation: maFloatRabbit 3s ease-in-out infinite;
+}
+
+/* Bức Tranh Nền Động Trung Thu Toàn Diện Cho Sidebar */
+.sidebar-midautumn-art {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 52%, #fffdf8 72%, #fef9e7 100%) !important;
+  border-right: 1px solid rgba(245, 158, 11, 0.22) !important;
+  box-shadow: 4px 0 20px rgba(245, 158, 11, 0.04) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Bay thẳng lên — linear để không giật, không dừng */
+@keyframes maRiseSky {
+  0%   { transform: translateY(30px); }
+  100% { transform: translateY(-360px); }
+}
+
+/* Đong đưa ngang — sine tự nhiên */
+@keyframes maSwayX1 {
+  0%, 100% { margin-left: 0px; }
+  25%       { margin-left: 7px; }
+  75%       { margin-left: -6px; }
+}
+@keyframes maSwayX2 {
+  0%, 100% { margin-left: 0px; }
+  30%       { margin-left: -8px; }
+  70%       { margin-left: 5px; }
+}
+@keyframes maSwayX3 {
+  0%, 100% { margin-left: 0px; }
+  40%       { margin-left: 6px; }
+  80%       { margin-left: -5px; }
+}
+
+/* Fade: hiện ra nhanh, ở lâu, mờ dần phần cuối */
+@keyframes maFadeLantern {
+  0%   { opacity: 0; }
+  6%   { opacity: 0.9; }
+  75%  { opacity: 0.85; }
+  92%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.ma-lantern-ascend-1 {
+  animation:
+    maRiseSky    18s linear infinite,
+    maSwayX1     4.5s ease-in-out infinite,
+    maFadeLantern 18s linear infinite;
+}
+
+.ma-lantern-ascend-2 {
+  animation:
+    maRiseSky    22s linear infinite 5s,
+    maSwayX2     5.5s ease-in-out infinite 5s,
+    maFadeLantern 22s linear infinite 5s;
+}
+
+.ma-lantern-ascend-3 {
+  animation:
+    maRiseSky    19s linear infinite 10s,
+    maSwayX3     4s ease-in-out infinite 10s,
+    maFadeLantern 19s linear infinite 10s;
+}
+
+@keyframes maFirefly {
+  0%, 100% {
+    transform: translate(0, 0) scale(0.8);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(6px, -10px) scale(1.25);
+    opacity: 1;
+  }
+}
+
+.ma-firefly-1 {
+  animation: maFirefly 3.5s ease-in-out infinite;
+}
+
+.ma-firefly-2 {
+  animation: maFirefly 4.5s ease-in-out infinite 1s;
+}
+
+.ma-firefly-3 {
+  animation: maFirefly 5s ease-in-out infinite 2s;
+}
+
+/* Dây Lồng Đèn Trung Thu Đa Sắc (Mid-Autumn Multi-Lantern Garland) */
+@keyframes maGarlandSway1 {
+  0% { transform: rotate(-3.5deg); }
+  50% { transform: rotate(3deg); }
+  100% { transform: rotate(-3.5deg); }
+}
+
+@keyframes maGarlandSway2 {
+  0% { transform: rotate(3.2deg); }
+  50% { transform: rotate(-2.8deg); }
+  100% { transform: rotate(3.2deg); }
+}
+
+@keyframes maGarlandSway3 {
+  0% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(3.5deg); }
+  100% { transform: rotate(-2.5deg); }
+}
+
+@keyframes maGarlandSway4 {
+  0% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+  100% { transform: rotate(3deg); }
+}
+
+@keyframes maGarlandSway5 {
+  0% { transform: rotate(-3.2deg); }
+  50% { transform: rotate(2.5deg); }
+  100% { transform: rotate(-3.2deg); }
+}
+
+@keyframes maLightTwinkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.ma-lantern-garland-wrapper {
+  position: relative;
+  height: 54px;
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ma-lantern-garland-svg {
+  width: 100%;
+  height: 54px;
+  overflow: visible;
+  display: block;
+}
+
+.ma-sway-node-1 { transform-origin: 24px 9px; animation: maGarlandSway1 3.8s ease-in-out infinite; }
+.ma-sway-node-2 { transform-origin: 24px 9px; animation: maGarlandSway2 4.3s ease-in-out infinite; }
+.ma-sway-node-3 { transform-origin: 24px 9px; animation: maGarlandSway3 4.8s ease-in-out infinite; }
+.ma-sway-node-4 { transform-origin: 24px 9px; animation: maGarlandSway4 3.5s ease-in-out infinite; }
+.ma-sway-node-5 { transform-origin: 24px 10px; animation: maGarlandSway5 4.1s ease-in-out infinite; }
+.ma-sway-node-6 { transform-origin: 24px 9px; animation: maGarlandSway1 4.6s ease-in-out infinite; }
+.ma-sway-node-7 { transform-origin: 24px 9px; animation: maGarlandSway2 3.7s ease-in-out infinite; }
+.ma-sway-node-8 { transform-origin: 24px 9px; animation: maGarlandSway3 4.4s ease-in-out infinite; }
+.ma-sway-node-9 { transform-origin: 24px 9px; animation: maGarlandSway4 4.0s ease-in-out infinite; }
+
+.ma-twinkle-1 { animation: maLightTwinkle 2.4s ease-in-out infinite; }
+.ma-twinkle-2 { animation: maLightTwinkle 3.1s ease-in-out infinite 0.7s; }
+.ma-twinkle-3 { animation: maLightTwinkle 2.8s ease-in-out infinite 1.4s; }
+
+.ma-lantern-garland-wrapper:hover [class*="ma-sway-node-"] {
+  animation-duration: 2.2s;
+}
+
+.ma-lantern-garland-wrapper .ma-garland-tooltip {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px) scale(0.96);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fef08a;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(245, 158, 11, 0.25);
+  z-index: 1050;
+  text-align: center;
+}
+
+.ma-lantern-garland-wrapper:hover .ma-garland-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
 }
 
 .brand-text {
@@ -269,20 +718,21 @@ button:disabled {
 }
 
 .brand-title {
-  font-size: 16px;
-  font-weight: 900;
+  font-size: 13px;
+  font-weight: 700;
   color: #0f172a;
-  letter-spacing: -0.3px;
-  line-height: 1.1;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .brand-subtitle {
-  font-size: 10.5px;
-  font-weight: 800;
-  color: #0284c7;
-  letter-spacing: 0.12em;
+  font-size: 8.5px;
+  font-weight: 500;
+  color: #94a3b8;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .nav-list {
