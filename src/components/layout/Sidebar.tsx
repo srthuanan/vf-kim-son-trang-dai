@@ -730,7 +730,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   color: effectiveRank === 'gold' ? '#b45309' : effectiveRank === 'silver' ? '#475569' : '#9a3412',
                   border: `1px solid ${effectiveRank === 'gold' ? '#fde68a' : effectiveRank === 'silver' ? '#cbd5e1' : '#fed7aa'}`
                 }}>
-                  {effectiveRank === 'gold' ? 'Top 1 Vàng' : effectiveRank === 'silver' ? 'Top Bạc' : 'Top Đồng'}
+                  {effectiveRank === 'gold' ? 'Top 1 Vàng' : effectiveRank === 'silver' ? 'Top 2 Bạc' : 'Top 3 Đồng'}
                 </span>
               )}
             </div>

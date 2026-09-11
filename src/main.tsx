@@ -56,6 +56,7 @@ import {
 } from './constants';
 
 import './styles.css';
+import { computeKpiAwards } from './utils/kpiRankUtils';
 
 function App() {
   const {
@@ -234,6 +235,21 @@ function App() {
       return s === 'chờ phê duyệt' || r.status === 'pending';
     }).length;
   }, [invoiceRequests]);
+
+  // Tự động tính toán & đồng bộ danh hiệu thi đua KPI theo thời gian thực cho Sidebar
+  useEffect(() => {
+    if (!profiles || !profiles.length) return;
+    try {
+      const now = new Date();
+      const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      const ordersToUse = allOrders.length ? allOrders : orders;
+      const awards = computeKpiAwards(profiles, hrLeaveRequests, ordersToUse, invoiceRequests, currentMonthKey);
+      localStorage.setItem(`kpi_awards_${currentMonthKey}`, JSON.stringify(awards));
+      window.dispatchEvent(new CustomEvent('kpi-rank-updated'));
+    } catch (e) {
+      console.error('Lỗi tính KPI tự động:', e);
+    }
+  }, [profiles, hrLeaveRequests, orders, allOrders, invoiceRequests]);
 
   // Realtime Toast Alert khi có Yêu cầu XHĐ mới
   const [invoiceToast, setInvoiceToast] = useState<{
