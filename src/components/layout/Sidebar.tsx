@@ -653,8 +653,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               title={tab.label}
               style={{ display: 'flex', alignItems: 'center', position: 'relative' }}
             >
-              <Icon size={19} strokeWidth={isActive ? 2.5 : 2} />
-              <span style={{ flex: 1, textAlign: 'left' }}>{tab.label}</span>
+              <Icon size={18} strokeWidth={isActive ? 2.6 : 2.2} />
+              <span style={{ flex: 1, textAlign: 'left', fontWeight: 'inherit', fontSize: 'inherit' }}>{tab.label}</span>
               {tab.key === 'invoices' && pendingInvoicesCount > 0 && (
                 <span
                   style={{
