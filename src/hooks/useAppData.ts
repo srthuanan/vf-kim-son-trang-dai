@@ -48,11 +48,37 @@ export function useAppData() {
     let active = true;
     if (!supabase) return;
 
-    supabase.auth.getSession().then(({ data }) => {
+    const checkDeployAndSession = async () => {
+      // Mỗi lần có bản deploy mới -> Bắt buộc người dùng đăng nhập lại
+      const currentBuildTime = typeof __APP_BUILD_TIME__ !== 'undefined' ? __APP_BUILD_TIME__ : 'dev';
+      const lastDeployTime = localStorage.getItem('vf_last_deploy_time');
+
+      if (lastDeployTime && lastDeployTime !== currentBuildTime) {
+        localStorage.setItem('vf_last_deploy_time', currentBuildTime);
+        if (supabase) {
+          try {
+            await supabase.auth.signOut();
+          } catch {}
+        }
+        if (!active) return;
+        setSession(null);
+        setProfile(null);
+        setAuthReady(true);
+        return;
+      }
+
+      if (!lastDeployTime) {
+        localStorage.setItem('vf_last_deploy_time', currentBuildTime);
+      }
+
+      if (!supabase) return;
+      const { data } = await supabase.auth.getSession();
       if (!active) return;
       setSession(data.session);
       setAuthReady(true);
-    });
+    };
+
+    checkDeployAndSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
       setSession(nextSession);

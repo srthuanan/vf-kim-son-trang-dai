@@ -1,7 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LockKeyhole, AlertTriangle, CheckCircle2, Mail, ArrowLeft, Loader2 } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
 import { isMidAutumnSeason } from './layout/Sidebar';
+
+const MID_AUTUMN_SLIDES = [
+  {
+    src: '/mid-autumn-art-1.jpg',
+    badge: 'TẾT TRUNG THU ĐOÀN VIÊN',
+    icon: '🏮',
+    title: '✦ Đoàn Viên Thưởng Nguyệt ✦',
+    subtitle: 'Vạn Dặm Bình An · VinFast Kim Sơn Trảng Dài'
+  },
+  {
+    src: '/mid-autumn-art-2.jpg',
+    badge: 'CUNG TRĂNG HẰNG NGA',
+    icon: '🌕',
+    title: '✦ Nguyệt Quế Tỏa Sáng ✦',
+    subtitle: 'Thu Phong Gửi Phúc · Vạn Sự Cát Tường'
+  },
+  {
+    src: '/mid-autumn-art-3.jpg',
+    badge: 'RƯỚC ĐÈN PHỐ CỔ',
+    icon: '⭐',
+    title: '✦ Đèn Sao Sáng Lối ✦',
+    subtitle: 'Hội Ngộ Đêm Rằm · Rạng Rỡ Niềm Vui'
+  },
+  {
+    src: '/mid-autumn-art-4.jpg',
+    badge: 'MÚA LÂN KHAI LỘC',
+    icon: '🦁',
+    title: '✦ Tiếng Trống Rộn Rã ✦',
+    subtitle: 'Đón Lộc Khai Xuân · Đồng Hành Bứt Phá'
+  }
+];
 
 export const AuthScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +42,16 @@ export const AuthScreen: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
   const isMidAutumn = isMidAutumnSeason();
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  // Tự động chuyển đổi slide ảnh sau mỗi 5 giây
+  useEffect(() => {
+    if (!isMidAutumn) return;
+    const timer = setInterval(() => {
+      setCurrentSlideIndex(prev => (prev + 1) % MID_AUTUMN_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isMidAutumn]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -255,54 +296,133 @@ export const AuthScreen: React.FC = () => {
       {/* ── CARD ĐĂNG NHẬP CHÍNH (SPLIT DUAL-PANEL KHI MÙA TRUNG THU) ── */}
       {isMidAutumn ? (
         <section className="auth-card auth-card-split">
-          {/* ══════ CỘT TRÁI: BỨC TRANH NGHỆ THUẬT TRUNG THU 3D ══════ */}
+          {/* ══════ CỘT TRÁI: BỨC TRANH NGHỆ THUẬT TRUNG THU 3D ĐỔI ẢNH TỰ ĐỘNG ══════ */}
           <div className="auth-split-art" style={{ position: 'relative', overflow: 'hidden', padding: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            {/* Ảnh minh họa 3D sắc nét cao cấp */}
-            <img 
-              src="/mid-autumn-art.jpg" 
-              alt="Tết Trung Thu VinFast Kim Sơn Trảng Dài" 
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center top'
-              }} 
-            />
+            {/* Bộ sưu tập 4 bức tranh nghệ thuật với hiệu ứng chuyển cảnh mềm mại */}
+            {MID_AUTUMN_SLIDES.map((slide, idx) => {
+              const isCurrent = currentSlideIndex === idx;
+              return (
+                <div
+                  key={slide.src}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    opacity: isCurrent ? 1 : 0,
+                    transform: isCurrent ? 'scale(1)' : 'scale(1.04)',
+                    transition: 'opacity 1.2s ease-in-out, transform 4.5s ease-out',
+                    pointerEvents: 'none',
+                    zIndex: 1
+                  }}
+                >
+                  <img 
+                    src={slide.src} 
+                    alt={slide.title} 
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center top'
+                    }} 
+                  />
+                </div>
+              );
+            })}
 
             {/* Lớp phủ chuyển màu gradient dịu mắt để tôn chữ và huy hiệu */}
             <div 
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(180deg, rgba(10, 15, 30, 0.45) 0%, rgba(10, 15, 30, 0.05) 40%, rgba(10, 15, 30, 0.2) 70%, rgba(10, 15, 30, 0.85) 100%)',
-                pointerEvents: 'none'
+                background: 'linear-gradient(180deg, rgba(10, 15, 30, 0.48) 0%, rgba(10, 15, 30, 0.05) 35%, rgba(10, 15, 30, 0.2) 65%, rgba(10, 15, 30, 0.92) 100%)',
+                pointerEvents: 'none',
+                zIndex: 2
               }} 
             />
 
-            {/* 1. Header: Huy hiệu Đoàn Viên */}
-            <div style={{ position: 'relative', zIndex: 2, padding: '24px 20px 0', width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 18px', borderRadius: '999px', background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(251, 191, 36, 0.6)', backdropFilter: 'blur(10px)', boxShadow: '0 4px 16px rgba(0,0,0,0.35)' }}>
-                <span style={{ fontSize: '13px' }}>🏮</span>
+            {/* 1. Header: Huy hiệu Đoàn Viên đổi theo từng tranh */}
+            <div style={{ position: 'relative', zIndex: 3, padding: '24px 20px 0', width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 18px',
+                borderRadius: '999px',
+                background: 'rgba(15, 23, 42, 0.7)',
+                border: '1px solid rgba(251, 191, 36, 0.65)',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+                transition: 'all 0.5s ease'
+              }}>
+                <span style={{ fontSize: '13px' }}>{MID_AUTUMN_SLIDES[currentSlideIndex].icon}</span>
                 <span style={{ fontSize: '11px', fontWeight: 800, color: '#fef08a', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                  TẾT TRUNG THU ĐOÀN VIÊN
+                  {MID_AUTUMN_SLIDES[currentSlideIndex].badge}
                 </span>
                 <span style={{ fontSize: '13px' }}>🥮</span>
               </div>
             </div>
 
-            {/* 2. Khoảng trống trung tâm để chiêm ngưỡng trăng rằm, cậu bé và thỏ ngọc */}
-            <div style={{ flex: 1 }} />
+            {/* 2. Khoảng trống trung tâm */}
+            <div style={{ flex: 1, position: 'relative', zIndex: 3 }} />
 
-            {/* 3. Footer: Khung thư pháp dát vàng trang trọng */}
-            <div style={{ position: 'relative', zIndex: 2, padding: '20px 24px 24px', width: '100%', textAlign: 'center', backdropFilter: 'blur(4px)', background: 'linear-gradient(to top, rgba(10, 15, 30, 0.92), rgba(10, 15, 30, 0.3) 80%, transparent)' }}>
-              <p style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 800, color: '#fef08a', letterSpacing: '0.12em', fontFamily: 'serif', textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
-                ✦ Đoàn Viên Thưởng Nguyệt ✦
+            {/* 3. Footer: Khung thư pháp dát vàng trang trọng & thanh điều hướng dot */}
+            <div style={{
+              position: 'relative',
+              zIndex: 3,
+              padding: '16px 20px 20px',
+              width: '100%',
+              textAlign: 'center',
+              backdropFilter: 'blur(6px)',
+              background: 'linear-gradient(to top, rgba(10, 15, 30, 0.95), rgba(10, 15, 30, 0.35) 80%, transparent)'
+            }}>
+              <p style={{
+                margin: '0 0 4px 0',
+                fontSize: '15px',
+                fontWeight: 800,
+                color: '#fef08a',
+                letterSpacing: '0.12em',
+                fontFamily: 'serif',
+                textShadow: '0 2px 8px rgba(0,0,0,0.85)',
+                transition: 'all 0.4s ease'
+              }}>
+                {MID_AUTUMN_SLIDES[currentSlideIndex].title}
               </p>
-              <p style={{ margin: 0, fontSize: '12px', color: '#fed7aa', letterSpacing: '0.04em', opacity: 0.95, textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
-                Vạn Dặm Bình An &middot; VinFast Kim Sơn Trảng Dài
+              <p style={{
+                margin: '0 0 10px 0',
+                fontSize: '12px',
+                color: '#fed7aa',
+                letterSpacing: '0.04em',
+                opacity: 0.95,
+                textShadow: '0 1px 4px rgba(0,0,0,0.85)',
+                transition: 'all 0.4s ease'
+              }}>
+                {MID_AUTUMN_SLIDES[currentSlideIndex].subtitle}
               </p>
+
+              {/* Các chấm điều hướng chuyển ảnh mượt mà */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                {MID_AUTUMN_SLIDES.map((_, idx) => {
+                  const isActive = currentSlideIndex === idx;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setCurrentSlideIndex(idx)}
+                      title={`Xem bức tranh ${idx + 1}`}
+                      style={{
+                        width: isActive ? '20px' : '6px',
+                        height: '6px',
+                        borderRadius: '999px',
+                        border: 'none',
+                        background: isActive ? 'linear-gradient(90deg, #fbbf24, #f59e0b)' : 'rgba(255, 255, 255, 0.35)',
+                        boxShadow: isActive ? '0 0 8px rgba(251, 191, 36, 0.8)' : 'none',
+                        cursor: 'pointer',
+                        transition: 'all 0.35s ease',
+                        padding: 0
+                      }}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
 
