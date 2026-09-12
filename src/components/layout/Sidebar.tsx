@@ -684,13 +684,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </nav>
 
       <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', borderTop: isMidAutumn ? '1px solid rgba(245, 158, 11, 0.25)' : '1px solid #f1f5f9', paddingTop: '14px', position: 'relative', zIndex: 1 }}>
-        {/* Festive Lantern Garland SVG during Mid-Autumn */}
-        {isMidAutumn && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '-4px 0 -2px 0' }}>
-            <SvgLanternGarland />
-          </div>
-        )}
-
         {/* User Profile Card - Hoàn Toàn Không Khung Không Nền (Nền Trong Suốt Tự Nhiên) */}
         <div 
           style={{ 
@@ -704,15 +697,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             boxShadow: 'none'
           }}
         >
-          {isMidAutumn && (
-            <div 
-              style={{ position: 'absolute', top: '-52px', right: '-4px', pointerEvents: 'none', zIndex: 10 }} 
-              title="Chúc Tết Trung Thu! 🏮🐰"
-            >
-              <SvgMidAutumnBoy />
-            </div>
-          )}
-
           {/* Avatar với 3D Halo Ring và Vương miện Hoàng Gia (Multiavatar Vector) */}
           <div 
             onClick={handleRefreshAvatar}
