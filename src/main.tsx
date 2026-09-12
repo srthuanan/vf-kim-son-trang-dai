@@ -542,7 +542,7 @@ function App() {
           </button>
         )}
 
-        <div className="main-content">
+        <div className={`main-content ${activeTab === 'dashboard' ? 'dashboard-view' : ''}`}>
           <Suspense fallback={panelFallback}>
             {/* Render Tab Component */}
             {activeTab === 'dashboard' && (
@@ -552,6 +552,15 @@ function App() {
                 auditLogs={auditLogs}
                 currentProfile={profile}
                 staffProfiles={profiles}
+                inventory={inventory}
+                invoiceRequests={invoiceRequests}
+                pendingInvoicesCount={pendingInvoicesCount}
+                onNavigateTab={(tab, orderStatus) => {
+                  if (orderStatus) {
+                    setStatus(orderStatus as any);
+                  }
+                  setActiveTab(tab);
+                }}
               />
             )}
 

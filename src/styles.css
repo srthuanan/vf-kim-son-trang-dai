@@ -7018,17 +7018,6 @@ td small {
     overflow: hidden !important;
   }
 
-  /* Make the Dashboard tab content scrollable internally so the page doesn't scroll */
-  .dashboard-shell {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 18px !important;
-    flex: 1 !important;
-    overflow-y: auto !important;
-    padding-right: 4px !important;
-    min-height: 0 !important;
-  }
-
   /* Force Staff and Pricing panels to occupy exactly 100% height and overflow internally */
   .staff-panel,
   .pricing-shell {
@@ -7060,6 +7049,25 @@ td small {
 .main-content:has(.pricing-shell) {
   overflow-y: auto !important;
   overflow-x: hidden !important;
+}
+
+/* ── DASHBOARD REDESIGN: Allow natural auto-height layout & smooth scrolling ─── */
+.main-content.dashboard-view,
+.main-content:has(.dashboard-shell) {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.dashboard-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  width: 100% !important;
+  min-height: unset !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding-bottom: 50px !important;
+  flex: unset !important;
 }
 
 .pricing-shell {
