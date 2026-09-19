@@ -1,23 +1,38 @@
+import fs from 'fs';
 import { execSync } from 'child_process';
 
-const TARGET_PROJECTS = [
-  { name: 'vf-kim-son-trang-dai', url: 'https://vf-kim-son-trang-dai-amber.vercel.app' },
-  { name: 'ordermanagement', url: 'https://ordermanagement-three.vercel.app' }
-];
+const TARGET_PROJECT = 'vf-kim-son-trang-dai';
+const EXPECTED_PROJECT_ID = 'prj_4hofLfPVMKzHj3n4WznmXaTX2YFO';
+const PROJECT_JSON_PATH = '.vercel/project.json';
 
-console.log('--- [DUAL-VERCEL DEPLOY GUARD] DEPLOY ĐỒNG THỜI CẢ 2 LINK ---');
+console.log('--- [VERCEL DEPLOY GUARD] KIỂM TRA DỰ ÁN TRƯỚC KHI DEPLOY ---');
 
-for (const p of TARGET_PROJECTS) {
-  console.log(`\n--------------------------------------------------`);
-  console.log(`[Deploy Guard] 1. Liên kết Vercel tới: ${p.name}`);
-  execSync(`npx vercel link --project ${p.name} --yes`, { stdio: 'inherit' });
-  
-  console.log(`[Deploy Guard] 2. Deploy Production cho: ${p.name} (${p.url})`);
-  execSync('npx vercel --prod --yes', { stdio: 'inherit' });
-  console.log(`[Deploy Guard] ✓ Hoàn tất deploy cho: ${p.url}`);
+let needRelink = false;
+
+if (!fs.existsSync(PROJECT_JSON_PATH)) {
+  console.log(`[Guard] Chưa có file cấu hình Vercel, đang liên kết tới: ${TARGET_PROJECT}`);
+  needRelink = true;
+} else {
+  try {
+    const config = JSON.parse(fs.readFileSync(PROJECT_JSON_PATH, 'utf8'));
+    if (config.projectName !== TARGET_PROJECT || (EXPECTED_PROJECT_ID && config.projectId !== EXPECTED_PROJECT_ID)) {
+      console.warn(`\n[Guard] ⚠️ PHÁT HIỆN LIÊN KẾT NHẦM DỰ ÁN: '${config.projectName}' (ID: ${config.projectId})`);
+      console.log(`[Guard] Đang tự động sửa lại về đúng '${TARGET_PROJECT}'...\n`);
+      needRelink = true;
+    } else {
+      console.log(`[Guard] ✓ Dự án chính xác: ${config.projectName} (${config.projectId})`);
+    }
+  } catch (err) {
+    console.error('[Guard] Lỗi đọc .vercel/project.json:', err);
+    needRelink = true;
+  }
 }
 
-console.log('\n==================================================');
-console.log('✓ TẤT CẢ CÁC LINK ĐÃ ĐƯỢC CẬP NHẬT ĐỒNG BỘ THÀNH CÔNG:');
-TARGET_PROJECTS.forEach(p => console.log(`  ➔ ${p.url}`));
-console.log('==================================================\n');
+if (needRelink) {
+  execSync(`npx vercel link --project ${TARGET_PROJECT} --yes`, { stdio: 'inherit' });
+  console.log(`[Guard] ✓ Đã khôi phục liên kết chuẩn tới ${TARGET_PROJECT}.`);
+}
+
+console.log(`[Guard] Bắt đầu deploy Production cho ${TARGET_PROJECT}...`);
+execSync('npx vercel --prod --yes', { stdio: 'inherit' });
+console.log('\n[Guard] ✓ Deploy thành công lên: https://vf-kim-son-trang-dai-amber.vercel.app\n');
