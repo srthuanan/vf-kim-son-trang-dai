@@ -587,7 +587,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   {/* Cánh phải ngoài (mặt tối tạo chiều sâu khối) */}
                   <path d="M 23,41 L 42,10 Q 35,11 29,19 L 23,31 Z" fill="url(#vf-no-bg-dark)" />
                   {/* Sống gờ nổi kim loại ở giữa */}
-                  <line x1="23" y1="31" x2="23,41" stroke="#ffffff" strokeWidth="1" strokeLinecap="round" />
+                  <line x1="23" y1="31" x2="23" y2="41" stroke="#ffffff" strokeWidth="1" strokeLinecap="round" />
                   {/* Đường viền sắc cạnh mép ngoài */}
                   <path d="M 4,10 L 23,41" stroke="#ffffff" strokeWidth="0.6" opacity="0.85" />
                   <path d="M 42,10 L 23,41" stroke="#334155" strokeWidth="0.5" opacity="0.6" />

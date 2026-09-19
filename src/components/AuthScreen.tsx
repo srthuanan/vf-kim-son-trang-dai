@@ -554,7 +554,7 @@ export const AuthScreen: React.FC = () => {
                     <g className="vf-anim-wing-pure" filter="url(#split-vf-shadow)">
                       <path d="M 23,41 L 4,10 Q 11,11 17,19 L 23,31 Z" fill="url(#split-vf-silver)" />
                       <path d="M 23,41 L 42,10 Q 35,11 29,19 L 23,31 Z" fill="url(#split-vf-dark)" />
-                      <line x1="23" y1="31" x2="23,41" stroke="#ffffff" strokeWidth="1" strokeLinecap="round" />
+                      <line x1="23" y1="31" x2="23" y2="41" stroke="#ffffff" strokeWidth="1" strokeLinecap="round" />
                       <path d="M 4,10 L 23,41" stroke="#ffffff" strokeWidth="0.6" opacity="0.85" />
                       <path d="M 23,36 L 9,15 Q 15,16 19,22 L 23,28 L 27,22 Q 31,16 37,15 L 23,36 Z" fill="url(#split-vf-blue)" />
                       <path d="M 23,36 L 23,28" stroke="#bae6fd" strokeWidth="0.8" />
