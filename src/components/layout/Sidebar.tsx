@@ -24,15 +24,6 @@ interface SidebarProps {
  * Khi hết thời gian này, toàn bộ giao diện sẽ TỰ ĐỘNG trở về bình thường 100%.
  */
 export const isMidAutumnSeason = (): boolean => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1; // 1-12
-  const date = now.getDate();
-
-  if (year === 2026) {
-    if (month === 9) return true; // Toàn bộ tháng 9
-    if (month === 10 && date <= 5) return true; // Đến hết ngày 05/10
-  }
   return false;
 };
 

@@ -2,9 +2,9 @@ import React from 'react';
 import { PackageCheck, X, Clock, FilePlus2, LocateFixed, Search, Filter, RotateCcw, ArrowLeft, Edit, Trash2, Download } from 'lucide-react';
 import { InventoryItem, VehicleLocationRow } from '../types';
 import { stockTone } from '../constants';
-import { VehicleLocationMapPanel } from './VehicleLocationMapPanel';
 import { EditVehicleModal } from './modals/EditVehicleModal';
 import * as apiService from '../services/apiService';
+import { matchInventoryWithQuery } from '../utils/searchUtils';
 import * as XLSX from 'xlsx';
 
 interface InventoryPanelProps {
@@ -66,18 +66,8 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
   const isFilteringHeld = statusFilter.includes('Đang giữ');
 
   const queryMatchedItems = React.useMemo(() => {
-    const query = searchText.trim().toLowerCase();
-    if (!query) return items;
-    return items.filter((item) =>
-      item.vin.toLowerCase().includes(query) ||
-      item.line.toLowerCase().includes(query) ||
-      item.version.toLowerCase().includes(query) ||
-      item.exterior.toLowerCase().includes(query) ||
-      item.interior.toLowerCase().includes(query) ||
-      item.location?.toLowerCase().includes(query) ||
-      item.holder?.toLowerCase().includes(query) ||
-      item.engineNo?.toLowerCase().includes(query)
-    );
+    if (!searchText.trim()) return items;
+    return items.filter((item) => matchInventoryWithQuery(item, searchText));
   }, [items, searchText]);
 
   const unpairedCount = React.useMemo(() => queryMatchedItems.filter((i) => i.status === 'Chưa ghép').length, [queryMatchedItems]);
@@ -88,11 +78,6 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
     if (statusFilter === 'all') return queryMatchedItems;
     return queryMatchedItems.filter((item) => item.status === statusFilter);
   }, [queryMatchedItems, statusFilter]);
-
-  const visibleVehicleLocations = React.useMemo(() => {
-    const visibleVinSet = new Set(visibleItems.map((item) => item.vin.trim().toUpperCase()));
-    return vehicleLocations.filter((location) => visibleVinSet.has(location.vin.trim().toUpperCase()));
-  }, [vehicleLocations, visibleItems]);
 
   const selectedItem = React.useMemo(
     () => visibleItems.find((item) => item.vin === selectedVin) ?? visibleItems[0] ?? null,
@@ -580,31 +565,7 @@ export const InventoryPanel: React.FC<InventoryPanelProps> = ({
           </div>
         ) : null}
 
-        {/* Right Area (Visual & GPS Widget) */}
-        <div className="inventory-visual-side">
-          <div className="mini-map-widget-container">
-            <div className="mini-map-widget-header">
-              <h4>
-                <LocateFixed size={15} style={{ color: '#10b981' }} />
-                Theo dõi GPS Live
-              </h4>
-              <span style={{ fontSize: '11px', fontWeight: 700, color: '#10b981', background: '#ecfdf5', padding: '2px 8px', borderRadius: '12px' }}>
-                {visibleVehicleLocations.length} Trạm
-              </span>
-            </div>
-            <VehicleLocationMapPanel
-              locations={visibleVehicleLocations}
-              inventoryItems={visibleItems}
-              highlightedVin={highlightedVin}
-              isWidget={true}
-            />
-          </div>
 
-          <div className="visual-side-tip">
-            <h5>💡 Thao tác nhanh</h5>
-            <p>Bấm vào số VIN của các xe có nhãn "GPS LIVE" màu xanh để bản đồ tự động cuộn và phóng to vị trí bãi đỗ của xe đó.</p>
-          </div>
-        </div>
 
       </div>
 

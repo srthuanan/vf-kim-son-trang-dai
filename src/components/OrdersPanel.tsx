@@ -10,6 +10,7 @@ import { InlineOrderEditForm } from './InlineOrderEditForm';
 import * as XLSX from 'xlsx';
 import { extractMonthKey, formatMonthDisplay, getDefaultCurrentMonth } from '../utils/dateUtils';
 import { updateDeliveryDocs } from '../services/apiService';
+import { matchOrderWithQuery } from '../utils/searchUtils';
 
 const viDateTimeFormatter = new Intl.DateTimeFormat('vi-VN', {
   day: '2-digit',
@@ -358,15 +359,29 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   }, [availableMonths]);
 
   const displayOrders = useMemo(() => {
-    let list = orders;
-    if (staffFilter !== 'Tất cả') {
-      list = list.filter(o => o.staff === staffFilter);
+    // Nếu có từ khóa tìm kiếm, tìm kiếm trên toàn bộ allOrders (xuyên suốt các tháng)
+    let pool = orders;
+    if (query.trim() && allOrders && allOrders.length > 0) {
+      pool = allOrders.filter((order) => {
+        const matchesStatus =
+          status === 'Tất cả' ||
+          (status === 'Nợ hồ sơ' && Boolean(order.docDebtLevel && order.docDebtLevel !== 'clean' && !order.hoSoGiaoXe?.da_thu_du)) ||
+          order.status === status ||
+          (status === 'Chờ xử lý' && ['Chờ phê duyệt', 'Đã phê duyệt', 'Yêu cầu bổ sung', 'Đã bổ sung', 'Chờ ký hóa đơn'].includes(order.status));
+        return matchesStatus && matchOrderWithQuery(order, query);
+      });
     }
-    if (monthFilter !== 'all') {
-      list = list.filter(o => extractMonthKey(o) === monthFilter);
+
+    let list = pool;
+    if (staffFilter !== 'Tất cả') {
+      list = list.filter((o) => o.staff === staffFilter);
+    }
+    // Nếu không tìm kiếm từ khóa thì áp dụng lọc tháng như bình thường
+    if (!query.trim() && monthFilter !== 'all') {
+      list = list.filter((o) => extractMonthKey(o) === monthFilter);
     }
     return list;
-  }, [orders, staffFilter, monthFilter]);
+  }, [orders, allOrders, query, status, staffFilter, monthFilter]);
 
   useEffect(() => {
     if (!displayOrders.length) {
@@ -385,23 +400,13 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
   const queryMatchedOrders = useMemo(() => {
     let base = allOrders && allOrders.length > 0 ? allOrders : orders;
     if (staffFilter !== 'Tất cả') {
-      base = base.filter(o => o.staff === staffFilter);
+      base = base.filter((o) => o.staff === staffFilter);
     }
-    if (monthFilter !== 'all') {
-      base = base.filter(o => extractMonthKey(o) === monthFilter);
+    if (!query.trim() && monthFilter !== 'all') {
+      base = base.filter((o) => extractMonthKey(o) === monthFilter);
     }
-    const normQuery = query.trim().toLowerCase();
-    if (!normQuery) return base;
-    return base.filter(order => (
-      order.id.toLowerCase().includes(normQuery) ||
-      order.customer.toLowerCase().includes(normQuery) ||
-      (order.phone && order.phone.includes(normQuery)) ||
-      (order.vin && order.vin.toLowerCase().includes(normQuery)) ||
-      order.line.toLowerCase().includes(normQuery) ||
-      order.version.toLowerCase().includes(normQuery) ||
-      order.exterior.toLowerCase().includes(normQuery) ||
-      order.interior.toLowerCase().includes(normQuery)
-    ));
+    if (!query.trim()) return base;
+    return base.filter((order) => matchOrderWithQuery(order, query));
   }, [allOrders, orders, query, staffFilter, monthFilter]);
 
   const totalOrders = queryMatchedOrders.length;

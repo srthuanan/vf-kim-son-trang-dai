@@ -5830,12 +5830,13 @@ td small {
 .inventory-modular-workspace {
   flex: 1;
   min-height: 0;
-  display: grid;
-  grid-template-columns: 1fr 380px; /* Fixed width for map */
+  display: flex;
+  flex-direction: column;
   gap: 16px;
   align-items: stretch;
   overflow: hidden;
   padding: 4px;
+  width: 100%;
 }
 
 .inventory-data-side {

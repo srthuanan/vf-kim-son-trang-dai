@@ -9,6 +9,7 @@ import { useAppData } from './hooks/useAppData';
 import { useOrderOperations } from './hooks/useOrderOperations';
 import { TabKey } from './constants';
 import { InventoryItem, Order, OrderStatus, YeucauxhdRow, ProfileRow } from './types';
+import { matchOrderWithQuery } from './utils/searchUtils';
 
 // Giao diện Layout
 import { Sidebar } from './components/layout/Sidebar';
@@ -186,19 +187,7 @@ function App() {
         
       if (!matchesStatus) return false;
 
-      const normQuery = query.trim().toLowerCase();
-      if (!normQuery) return true;
-
-      return (
-        order.id.toLowerCase().includes(normQuery) ||
-        order.customer.toLowerCase().includes(normQuery) ||
-        order.phone.includes(normQuery) ||
-        order.vin.toLowerCase().includes(normQuery) ||
-        order.line.toLowerCase().includes(normQuery) ||
-        order.version.toLowerCase().includes(normQuery) ||
-        order.exterior.toLowerCase().includes(normQuery) ||
-        order.interior.toLowerCase().includes(normQuery)
-      );
+      return matchOrderWithQuery(order, query);
     });
     
     // SLA Warning: Đưa các đơn cảnh báo (chậm XHĐ hoặc quá hạn nợ hồ sơ) lên đầu
