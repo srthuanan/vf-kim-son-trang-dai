@@ -124,9 +124,24 @@ export function isInvoiceFromSept2026(invoiceDateStr?: string | null): boolean {
 export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRow>, invoiceMap?: Map<string, any>): Order {
   const customer = customerMap.get(row.ten_khach_hang.toLowerCase());
   const normalized = row.ket_qua.trim().toLowerCase();
-  const status: Order['status'] = normalized.includes('hủy')
-    ? 'Đã hủy'
-    : normalized.includes('xuất hóa đơn')
+  const invReq = invoiceMap?.get(row.so_don_hang);
+
+  // Cơ chế tự động đồng bộ trạng thái đơn hàng theo yêu cầu xuất hóa đơn
+  let status: Order['status'];
+  if (normalized.includes('hủy')) {
+    status = 'Đã hủy';
+  } else if (invReq && invReq.status === 'pending') {
+    status = 'Chờ phê duyệt';
+  } else if (invReq && (invReq.status === 'completed' || invReq.trang_thai_xu_ly === 'Đã xuất hóa đơn')) {
+    status = 'Đã xuất hóa đơn';
+  } else if (invReq && invReq.trang_thai_xu_ly === 'Chờ ký hóa đơn') {
+    status = 'Chờ ký hóa đơn';
+  } else if (invReq && invReq.status === 'rejected') {
+    status = 'Yêu cầu bổ sung';
+  } else if (invReq && invReq.status === 'approved' && invReq.trang_thai_xu_ly === 'Đã phê duyệt') {
+    status = 'Đã phê duyệt';
+  } else {
+    status = normalized.includes('xuất hóa đơn')
       ? 'Đã xuất hóa đơn'
       : normalized.includes('chờ phê duyệt')
         ? 'Chờ phê duyệt'
@@ -141,6 +156,7 @@ export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRo
                 : normalized.includes('đã ghép')
                   ? 'Đã ghép'
                   : 'Chưa ghép';
+  }
 
   let pairedDays: number | undefined = undefined;
   const isWarning = (() => {
@@ -254,27 +270,33 @@ export function mapOrderRow(row: DonhangRow, customerMap: Map<string, CustomerRo
   };
 }
 
-export function mapKhoxeRows(rows: KhoxeRow[]): InventoryItem[] {
-  return rows.map((row) => ({
-    vin: row.vin,
-    line: row.dong_xe,
-    version: row.phien_ban || row.dong_xe,
-    exterior: row.ngoai_that || 'Chưa có màu',
-    interior: row.noi_that || 'Chưa có nội thất',
-    status: row.trang_thai as InventoryItem['status'],
-    holder: row.nguoi_giu_xe ?? '',
-    holderUsername: row.username_giu_xe ?? '',
-    holdExpiry: row.thoi_gian_het_han_giu ?? '',
-    location: row.vi_tri ?? '',
-    engineNo: row.so_may ?? '',
-    latitude: row.latitude ?? null,
-    longitude: row.longitude ?? null,
-    is_extension_requested: row.is_extension_requested || false,
-    extension_reason: row.extension_reason ?? null,
-    extension_evidence_url: row.extension_evidence_url ?? null,
-    extension_count: row.extension_count || 0,
-    ma_dms: row.ma_dms ?? null
-  }));
+export function mapKhoxeRows(rows: KhoxeRow[], orderVinMap?: Map<string, { staff?: string | null; id?: string | null }>): InventoryItem[] {
+  return rows.map((row) => {
+    const cleanVin = (row.vin || '').trim().toUpperCase();
+    const pairedOrder = cleanVin ? orderVinMap?.get(cleanVin) : undefined;
+    const isPairedWithActiveOrder = Boolean(pairedOrder);
+
+    return {
+      vin: row.vin,
+      line: row.dong_xe,
+      version: row.phien_ban || row.dong_xe,
+      exterior: row.ngoai_that || 'Chưa có màu',
+      interior: row.noi_that || 'Chưa có nội thất',
+      status: (isPairedWithActiveOrder ? 'Đã ghép' : (row.trang_thai as InventoryItem['status'])),
+      holder: row.nguoi_giu_xe || pairedOrder?.staff || '',
+      holderUsername: row.username_giu_xe ?? '',
+      holdExpiry: row.thoi_gian_het_han_giu ?? '',
+      location: row.vi_tri ?? '',
+      engineNo: row.so_may ?? '',
+      latitude: row.latitude ?? null,
+      longitude: row.longitude ?? null,
+      is_extension_requested: row.is_extension_requested || false,
+      extension_reason: row.extension_reason ?? null,
+      extension_evidence_url: row.extension_evidence_url ?? null,
+      extension_count: row.extension_count || 0,
+      ma_dms: row.ma_dms ?? null
+    };
+  });
 }
 
 type VehicleLocationDbRow = {

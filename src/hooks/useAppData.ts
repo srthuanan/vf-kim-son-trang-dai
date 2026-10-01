@@ -279,8 +279,16 @@ export function useAppData() {
           ? staffDirectory.filter((item) => (item.role === 'sales' && item.manager_id === profileData.id) || item.id === profileData.id)
           : staffDirectory.filter((item) => item.id === profileData.id);
 
+      // Tự động lập bản đồ các xe đang được ghép trong các đơn hàng còn hiệu lực
+      const orderVinMap = new Map<string, { staff?: string | null; id?: string | null }>();
+      mappedOrders.forEach((o) => {
+        if (o.vin && o.status !== 'Đã hủy' && o.status !== 'Đã xuất hóa đơn') {
+          orderVinMap.set(o.vin.trim().toUpperCase(), { staff: o.staff, id: o.id });
+        }
+      });
+
       setOrders(visibleOrders);
-      setInventory(apiService.mapKhoxeRows(inventoryResult.data));
+      setInventory(apiService.mapKhoxeRows(inventoryResult.data, orderVinMap));
       setVehicleLocations(
         locationsResult.error || !locationsResult.data
           ? []
@@ -405,8 +413,19 @@ export function useAppData() {
       )
       .subscribe();
 
+    const handleVisibilityOrFocus = () => {
+      if (document.visibilityState === 'visible') {
+        loadWorkspace({ showLoading: false });
+      }
+    };
+
+    window.addEventListener('focus', handleVisibilityOrFocus);
+    document.addEventListener('visibilitychange', handleVisibilityOrFocus);
+
     return () => {
       supabase?.removeChannel(channel);
+      window.removeEventListener('focus', handleVisibilityOrFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityOrFocus);
     };
   }, [session, loadWorkspace]);
 
