@@ -472,7 +472,7 @@ export function useOrderOperations({
     }
   }
 
-  async function handleUpdateOrder(input: UpdateOrderInput) {
+  async function handleUpdateOrder(input: UpdateOrderInput): Promise<{ success: boolean; error?: string }> {
     setIsUpdatingOrder(true);
     try {
       const { data, error } = await apiService.updateOrderDetails(input, currentUsername, canOverrideHeldVehicle);
@@ -480,7 +480,7 @@ export function useOrderOperations({
         setSyncState('error');
         setSyncMessage(`Không thể cập nhật đơn ${input.orderId}: ${error.message}`);
         setIsUpdatingOrder(false);
-        return false;
+        return { success: false, error: error.message };
       }
 
       await loadWorkspace({ showLoading: false });
@@ -489,10 +489,13 @@ export function useOrderOperations({
         setSyncMessage(`Đã cập nhật đơn ${input.orderId} và tự ghép VIN ${data.vin}.`);
       }
       setIsUpdatingOrder(false);
-      return true;
-    } catch {
+      return { success: true };
+    } catch (err: any) {
+      const msg = err?.message || 'Lỗi không xác định khi cập nhật đơn hàng';
+      setSyncState('error');
+      setSyncMessage(`Không thể cập nhật đơn ${input.orderId}: ${msg}`);
       setIsUpdatingOrder(false);
-      return false;
+      return { success: false, error: msg };
     }
   }
 

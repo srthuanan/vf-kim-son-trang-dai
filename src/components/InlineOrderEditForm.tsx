@@ -12,9 +12,10 @@ export interface InlineOrderEditFormProps {
   order: Order;
   isSubmitting: boolean;
   onCancel: () => void;
-  onSubmit: (input: UpdateOrderInput) => Promise<boolean>;
+  onSubmit: (input: UpdateOrderInput) => Promise<boolean | { success: boolean; error?: string }>;
   vehicleConfigs: VehicleConfigRow[];
   staffNames: string[];
+  existingOrderIds?: string[];
 }
 
 function toDateInput(value: string | null | undefined) {
@@ -38,7 +39,8 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
   onCancel,
   onSubmit,
   vehicleConfigs,
-  staffNames
+  staffNames,
+  existingOrderIds
 }) => {
   const { vehicleLines, versionsMap, defaultExteriors, defaultInteriors } = React.useMemo(
     () => parseVehicleConfigs(vehicleConfigs),
@@ -172,11 +174,17 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
       setError('Vui lòng nhập đầy đủ thông tin bắt buộc.');
       return;
     }
+
+    const trimmedNewId = newOrderId.trim();
+    if (trimmedNewId !== order.id && existingOrderIds && existingOrderIds.some((id) => id.trim().toLowerCase() === trimmedNewId.toLowerCase())) {
+      setError(`Số hồ sơ "${trimmedNewId}" đã tồn tại trên hệ thống. Vui lòng nhập số hồ sơ khác.`);
+      return;
+    }
     setError('');
 
-    const ok = await onSubmit({
+    const res = await onSubmit({
       orderId: order.id,
-      newOrderId: newOrderId.trim(),
+      newOrderId: trimmedNewId,
       customer: customer.trim(),
       line,
       version,
@@ -203,8 +211,12 @@ export const InlineOrderEditForm: React.FC<InlineOrderEditFormProps> = ({
       maAmis
     });
 
-    if (ok) onCancel();
-    else setError('Không thể lưu thay đổi đơn hàng.');
+    const ok = typeof res === 'boolean' ? res : res?.success;
+    if (ok) {
+      onCancel();
+    } else {
+      setError(typeof res === 'object' && res?.error ? res.error : 'Không thể lưu thay đổi đơn hàng.');
+    }
   }
 
   return (

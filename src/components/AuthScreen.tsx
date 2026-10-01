@@ -255,7 +255,7 @@ export const AuthScreen: React.FC = () => {
 
           {/* Dải mây ngũ sắc lượn nhẹ quanh đèn ông sao */}
           <div style={{ position: 'absolute', top: '16%', left: '2%', width: '220px', opacity: 0.45, pointerEvents: 'none' }} className="ma-anim-cloud1">
-            <svg viewBox="0 0 160 40" width="100%" height="auto">
+            <svg viewBox="0 0 160 40" width="100%" style={{ height: 'auto' }}>
               <path d="M10 25 Q35 10 70 20 Q105 8 140 22 Q155 30 130 32 Q60 32 10 25 Z" fill="#fed7aa" opacity="0.6" />
             </svg>
           </div>

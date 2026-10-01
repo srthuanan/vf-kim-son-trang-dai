@@ -105,7 +105,7 @@ interface OrdersPanelProps {
   onInvoiceOrder: (order: Order) => void;
   onCancelOrderSubmit: (orderId: string, note: string, unmatchType: string, needDate?: string) => Promise<{ success: boolean; error?: string }>;
   onEditOrder?: (order: Order) => void; // Made optional since we use inline now
-  onUpdateOrder: (input: UpdateOrderInput) => Promise<boolean>;
+  onUpdateOrder: (input: UpdateOrderInput) => Promise<boolean | { success: boolean; error?: string }>;
   onSelectPolicy: (order: Order) => void;
   showStaffColumn?: boolean;
   isAdmin?: boolean;
@@ -833,15 +833,18 @@ export const OrdersPanel: React.FC<OrdersPanelProps> = ({
 
                       {isEditingInline ? (
                         <InlineOrderEditForm
+                          key={selectedOrder.id}
                           order={selectedOrder}
+                          existingOrderIds={orders.map((o) => o.id)}
                           isSubmitting={isUpdatingOrder}
                           vehicleConfigs={vehicleConfigs}
                           staffNames={dynamicStaffNames}
                           onCancel={() => setIsEditingInline(false)}
                           onSubmit={async (input) => {
-                            const ok = await onUpdateOrder(input);
+                            const res = await onUpdateOrder(input);
+                            const ok = typeof res === 'boolean' ? res : res?.success;
                             if (ok) setIsEditingInline(false);
-                            return ok;
+                            return res;
                           }}
                         />
                       ) : (

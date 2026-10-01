@@ -14,7 +14,7 @@ interface EditOrderModalProps {
   order: Order;
   isSubmitting: boolean;
   onClose: () => void;
-  onSubmit: (input: UpdateOrderInput) => Promise<boolean>;
+  onSubmit: (input: UpdateOrderInput) => Promise<boolean | { success: boolean; error?: string }>;
   vehicleConfigs: VehicleConfigRow[];
 }
 
@@ -183,7 +183,7 @@ export const EditOrderModal: React.FC<EditOrderModalProps> = ({
     }
     setError('');
 
-    const ok = await onSubmit({
+    const res = await onSubmit({
       orderId: order.id,
       customer: customer.trim(),
       line,
@@ -211,8 +211,12 @@ export const EditOrderModal: React.FC<EditOrderModalProps> = ({
       maAmis
     });
 
-    if (ok) onClose();
-    else setError('Không thể lưu thay đổi đơn hàng.');
+    const ok = typeof res === 'boolean' ? res : res?.success;
+    if (ok) {
+      onClose();
+    } else {
+      setError(typeof res === 'object' && res?.error ? res.error : 'Không thể lưu thay đổi đơn hàng.');
+    }
   }
 
   return (

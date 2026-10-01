@@ -862,8 +862,21 @@ export const updateOrderDetails = async (
     }
   }
 
-  if (input.newOrderId && input.newOrderId !== input.orderId) {
-    updateData.so_don_hang = input.newOrderId.trim();
+  if (input.newOrderId && input.newOrderId.trim() !== input.orderId) {
+    const trimmedNewId = input.newOrderId.trim();
+    const { data: existingCheck } = await supabase
+      .from('donhang')
+      .select('so_don_hang')
+      .eq('so_don_hang', trimmedNewId)
+      .maybeSingle();
+
+    if (existingCheck) {
+      return {
+        data: null,
+        error: new Error(`Số hồ sơ "${trimmedNewId}" đã tồn tại trên hệ thống. Vui lòng chọn số hồ sơ khác.`)
+      };
+    }
+    updateData.so_don_hang = trimmedNewId;
   }
 
   if (criticalChanged) {
@@ -878,6 +891,17 @@ export const updateOrderDetails = async (
     .update(updateData)
     .eq('so_don_hang', input.orderId);
   if (updateError) {
+    if (
+      (updateError as any).code === '23505' ||
+      updateError.message?.includes('duplicate key') ||
+      updateError.message?.includes('already exists') ||
+      (updateError as any).details?.includes('already exists')
+    ) {
+      return {
+        data: null,
+        error: new Error(`Số hồ sơ "${input.newOrderId?.trim() || input.orderId}" đã tồn tại trên hệ thống. Vui lòng kiểm tra lại.`)
+      };
+    }
     return { data: null, error: updateError };
   }
 
